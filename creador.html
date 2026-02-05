@@ -2,88 +2,123 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Creador de CV Pro | Julio</title>
+    <title>Generador de CV Profesional</title>
     <style>
-        :root { --main-color: #1a73e8; }
-        body { font-family: 'Segoe UI', sans-serif; display: flex; gap: 20px; padding: 20px; background: #f0f2f5; }
-        .panel-izq { width: 35%; background: white; padding: 20px; border-radius: 12px; shadow: 0 4px 10px rgba(0,0,0,0.1); height: 90vh; overflow-y: auto; }
-        .panel-der { width: 65%; background: white; padding: 40px; border-radius: 5px; min-height: 800px; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-        input, textarea { width: 100%; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        label { font-weight: bold; font-size: 0.8rem; display: block; margin-top: 10px; }
-        .colores { display: flex; gap: 10px; margin-bottom: 20px; }
-        .btn-color { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; cursor: pointer; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
-        /* Estilos del CV Dinámico */
-        .cv-header { text-align: center; border-bottom: 3px solid var(--main-color); padding-bottom: 15px; margin-bottom: 20px; }
-        .cv-nombre { margin: 0; color: var(--main-color); text-transform: uppercase; font-size: 2rem; }
-        .seccion-titulo { background: var(--main-color); color: white; padding: 8px 15px; font-weight: bold; margin-top: 25px; border-radius: 4px; }
-        .btn-print { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        :root { --main-color: #2c3e50; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; background: #f0f2f5; }
+        
+        /* Panel de Control - No se imprime */
+        .panel-izq { width: 350px; background: #fff; padding: 20px; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+        
+        /* Hoja de CV - Lo que se imprime */
+        .panel-der { flex-grow: 1; display: flex; justify-content: center; padding: 40px; }
+        .hoja-a4 { width: 210mm; min-height: 297mm; background: white; padding: 50px; box-sizing: border-box; box-shadow: 0 0 15px rgba(0,0,0,0.3); }
+
+        /* Estilos del CV */
+        .cv-header { display: flex; align-items: center; border-bottom: 3px solid var(--main-color); padding-bottom: 20px; margin-bottom: 25px; }
+        .foto-espacio { width: 120px; height: 140px; border: 1px solid #ddd; margin-right: 30px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fafafa; }
+        .foto-espacio img { width: 100%; height: 100%; object-fit: cover; }
+        .info-header h1 { margin: 0; color: var(--main-color); font-size: 26px; text-transform: uppercase; }
+        .info-header p { margin: 5px 0; color: #555; font-size: 14px; }
+
+        .seccion-titulo { background: var(--main-color); color: white; padding: 8px 15px; font-weight: bold; margin-top: 25px; border-radius: 2px; font-size: 16px; }
+        .item { margin: 15px 0; }
+        .item-tit { font-weight: bold; display: block; color: #333; }
+        .item-sub { color: #666; font-size: 13px; font-style: italic; }
+
+        input, textarea { width: 100%; margin-bottom: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+        .btn-print { background: #28a745; color: white; border: none; padding: 15px; width: 100%; cursor: pointer; font-weight: bold; font-size: 16px; border-radius: 5px; }
+
+        @media print {
+            .panel-izq { display: none; }
+            body { background: white; }
+            .panel-der { padding: 0; }
+            .hoja-a4 { box-shadow: none; width: 100%; margin: 0; }
+        }
     </style>
 </head>
 <body>
 
 <div class="panel-izq">
-    <h1>🚀 CONFIGURA TU CV</h1>
-    
-    <label>Color del Diseño:</label>
-    <div class="colores">
-        <div class="btn-color" style="background: #1a73e8;" onclick="cambiarColor('#1a73e8')"></div>
-        <div class="btn-color" style="background: #2c3e50;" onclick="cambiarColor('#2c3e50')"></div>
-        <div class="btn-color" style="background: #e67e22;" onclick="cambiarColor('#e67e22')"></div>
-        <div class="btn-color" style="background: #27ae60;" onclick="cambiarColor('#27ae60')"></div>
-    </div>
+    <h2 style="color: var(--main-color)">⚙️ Editor de CV</h2>
+    <label>Subir Fotografía:</label>
+    <input type="file" accept="image/*" onchange="subirFoto(event)">
 
     <label>Nombre Completo:</label>
-    <input type="text" id="inNombre" placeholder="Ej: Franklin Huicho Pariona" oninput="dibujar()">
+    <input type="text" id="inNombre" value="FRANKLIN HUICHO PARIONA" oninput="actualizar()">
     
-    <label>Celular:</label>
-    <input type="text" id="inCel" placeholder="Ej: 910457625" oninput="dibujar()">
+    <label>Teléfono:</label>
+    <input type="text" id="inTel" value="910457625" oninput="actualizar()">
+
+    <label>DNI:</label>
+    <input type="text" id="inDNI" value="72523903" oninput="actualizar()">
+
+    <label>Dirección:</label>
+    <input type="text" id="inDir" value="C.P. Independencia, Colcabamba" oninput="actualizar()">
 
     <label>Perfil Profesional:</label>
-    <textarea id="inPerfil" rows="3" oninput="dibujar()"></textarea>
+    <textarea id="inPerfil" rows="5" oninput="actualizar()">Profesional Técnico en Producción Agropecuaria con experiencia operativa en el sector construcción. Especialista en control de calidad en procesos constructivos y manejo de estructuras.</textarea>
 
-    <label>Último Trabajo (Empresa y Cargo):</label>
-    <input type="text" id="inTrabajo" placeholder="Ej: Consorcio Legion - Operario" oninput="dibujar()">
+    <label>Experiencia Laboral:</label>
+    <textarea id="inExp" rows="4" oninput="actualizar()">CONSORCIO LEGION (2023) - Operario en Área de Estructura y Control de Calidad.</textarea>
 
-    <label>Estudios (Instituto/Carrera):</label>
-    <input type="text" id="inEstudios" placeholder="Ej: I.E.S.T.P. Colcabamba - Agropecuaria" oninput="dibujar()">
-
-    <label>Habilidades (Separadas por comas):</label>
-    <input type="text" id="inHabs" placeholder="Ej: Estructuras, Calidad, Viveros" oninput="dibujar()">
-
-    <button class="btn-print" onclick="window.print()">🖨️ DESCARGAR PDF / IMPRIMIR</button>
+    <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR AHORA</button>
 </div>
 
-<div class="panel-der" id="hoja">
-    <div class="cv-header">
-        <h1 class="cv-nombre" id="outNombre">NOMBRE COMPLETO</h1>
-        <p id="outCel">Teléfono: ---------</p>
+<div class="panel-der">
+    <div class="hoja-a4">
+        <div class="cv-header">
+            <div class="foto-espacio">
+                <img id="outFoto" src="https://via.placeholder.com/120x140?text=FOTO" alt="Foto">
+            </div>
+            <div class="info-header">
+                <h1 id="outNombre">FRANKLIN HUICHO PARIONA</h1>
+                <p><strong>DNI:</strong> <span id="outDNI">72523903</span></p>
+                <p><strong>Tel:</strong> <span id="outTel">910457625</span></p>
+                <p><strong>Ubicación:</strong> <span id="outDir">C.P. Independencia, Colcabamba</span></p>
+            </div>
+        </div>
+
+        <div class="seccion-titulo">PERFIL PROFESIONAL</div>
+        <div class="item" id="outPerfil">Profesional Técnico en Producción Agropecuaria con experiencia operativa en el sector construcción. Especialista en control de calidad en procesos constructivos y manejo de estructuras.</div>
+
+        <div class="seccion-titulo">EXPERIENCIA LABORAL</div>
+        <div class="item">
+            <span class="item-tit" id="outExp">CONSORCIO LEGION - Operario de Estructura</span>
+            <span class="item-sub">Julio 2023 - Diciembre 2023</span>
+            <p style="font-size: 13px;">Proyecto: Creación del servicio de atención integral al adulto mayor en Colcabamba.</p>
+        </div>
+
+        <div class="seccion-titulo">FORMACIÓN ACADÉMICA</div>
+        <div class="item">
+            <span class="item-tit">I.E.S.T.P. "COLCABAMBA"</span>
+            <span class="item-sub">Título: Profesional Técnico en Producción Agropecuaria (2016)</span>
+        </div>
+
+        <div class="seccion-titulo">CERTIFICACIONES</div>
+        <div class="item">
+            <p>• Certificado Modular N° 04: Producción de Plantas en Viveros (145 horas).</p>
+        </div>
     </div>
-
-    <div class="seccion-titulo">RESUMEN PROFESIONAL</div>
-    <p id="outPerfil">Tu descripción aparecerá aquí...</p>
-
-    <div class="seccion-titulo">EXPERIENCIA LABORAL</div>
-    <p id="outTrabajo">---------</p>
-
-    <div class="seccion-titulo">EDUCACIÓN Y TÍTULOS</div>
-    <p id="outEstudios">---------</p>
-
-    <div class="seccion-titulo">HABILIDADES TÉCNICAS</div>
-    <p id="outHabs">---------</p>
 </div>
 
 <script>
-    function cambiarColor(color) {
-        document.documentElement.style.setProperty('--main-color', color);
+    function actualizar() {
+        document.getElementById('outNombre').innerText = document.getElementById('inNombre').value.toUpperCase();
+        document.getElementById('outDNI').innerText = document.getElementById('inDNI').value;
+        document.getElementById('outTel').innerText = document.getElementById('inTel').value;
+        document.getElementById('outDir').innerText = document.getElementById('inDir').value;
+        document.getElementById('outPerfil').innerText = document.getElementById('inPerfil').value;
+        document.getElementById('outExp').innerText = document.getElementById('inExp').value;
     }
 
-    function dibujar() {
-        document.getElementById('outNombre').innerText = document.getElementById('inNombre').value.toUpperCase() || "NOMBRE COMPLETO";
-        document.getElementById('outCel').innerText = "Celular: " + document.getElementById('inCel').value;
-        document.getElementById('outPerfil').innerText = document.getElementById('inPerfil').value;
-        document.getElementById('outTrabajo').innerText = document.getElementById('inTrabajo').value;
-        document.getElementById('outEstudios').innerText = document.getElementById('inEstudios').value;
-        document.getElementById('outHabs').innerText = document.getElementById('inHabs').value;
+    function subirFoto(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('outFoto');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
     }
 </script>
 
