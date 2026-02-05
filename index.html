@@ -2,104 +2,149 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CV Profesional - Franklin Huicho</title>
+    <title>CV Moderno 2026 - Franklin Huicho</title>
     <style>
-        :root { --main-color: #2c3e50; --secondary-color: #1a73e8; }
-        body { font-family: 'Arial', sans-serif; margin: 0; display: flex; background: #f4f4f4; }
-        .panel-izq { width: 300px; background: #fff; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
-        .panel-der { margin-left: 320px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .hoja { width: 210mm; background: white; padding: 60px; box-sizing: border-box; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        :root { --sidebar-bg: #2c3e50; --accent-color: #3498db; --text-dark: #333; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; display: flex; background: #e0e0e0; }
         
-        .cv-header { display: flex; border-bottom: 4px solid var(--main-color); padding-bottom: 20px; margin-bottom: 30px; }
-        .foto { width: 130px; height: 160px; border: 2px solid #ddd; margin-right: 30px; background: #eee; }
-        .foto img { width: 100%; height: 100%; object-fit: cover; }
-        .info-h h1 { margin: 0; font-size: 28px; color: var(--main-color); }
+        /* Panel de Edición */
+        .no-print-panel { width: 300px; background: #fff; padding: 20px; height: 100vh; position: fixed; box-shadow: 2px 0 10px rgba(0,0,0,0.2); overflow-y: auto; z-index: 100; }
+        .btn-main { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         
-        .titulo-seccion { background: var(--main-color); color: white; padding: 10px; margin-top: 30px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .sub { font-weight: bold; color: var(--secondary-color); margin-top: 15px; display: block; }
-        p, li { font-size: 14px; line-height: 1.6; color: #444; }
+        /* Estructura de la Hoja */
+        .cv-container { margin-left: 320px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .hoja-a4 { width: 210mm; min-height: 297mm; background: white; display: flex; box-shadow: 0 0 20px rgba(0,0,0,0.3); margin-bottom: 30px; position: relative; overflow: hidden; }
+
+        /* Columna Lateral (Sidebar) */
+        .sidebar { width: 35%; background: var(--sidebar-bg); color: white; padding: 40px 20px; text-align: center; }
+        .foto-perfil { width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--accent-color); margin: 0 auto 20px; overflow: hidden; background: #eee; }
+        .foto-perfil img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar h2 { font-size: 18px; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 30px; text-transform: uppercase; }
+        .sidebar-info { text-align: left; font-size: 13px; line-height: 1.8; margin-top: 15px; }
+
+        /* Columna Principal */
+        .main-content { width: 65%; padding: 50px 40px; color: var(--text-dark); }
+        .nombre-header h1 { font-size: 35px; margin: 0; color: var(--sidebar-bg); }
+        .nombre-header h3 { font-size: 18px; margin: 5px 0; color: var(--accent-color); font-weight: 400; }
         
+        .seccion-v2 { margin-top: 30px; }
+        .seccion-v2 h2 { font-size: 20px; color: var(--sidebar-bg); border-left: 5px solid var(--accent-color); padding-left: 15px; text-transform: uppercase; }
+        .exp-item { margin-bottom: 20px; }
+        .exp-tit { font-weight: bold; font-size: 16px; display: block; }
+        .exp-fecha { color: var(--accent-color); font-size: 13px; font-weight: bold; }
+        
+        .barra-hab { background: #eee; border-radius: 10px; height: 8px; margin-top: 5px; width: 100%; }
+        .nivel-hab { background: var(--accent-color); height: 100%; border-radius: 10px; }
+
         @media print {
-            .panel-izq { display: none; }
-            .panel-der { margin-left: 0; padding: 0; }
-            .hoja { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
+            .no-print-panel { display: none; }
+            .cv-container { margin-left: 0; padding: 0; }
+            .hoja-a4 { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
+            body { background: white; }
         }
     </style>
 </head>
 <body>
 
-<div class="panel-izq">
-    <h3>⚙️ Personalizar CV</h3>
-    <label>Subir Foto:</label>
-    <input type="file" onchange="document.getElementById('imgFoto').src = window.URL.createObjectURL(this.files[0])">
-    <br><br>
-    <button style="background: #28a745; color: white; padding: 15px; border: none; width: 100%; cursor: pointer; font-weight: bold;" onclick="window.print()">🖨️ IMPRIMIR / GUARDAR PDF</button>
+<div class="no-print-panel">
+    <h3>🚀 DISEÑO MODERNO</h3>
+    <label>Cambiar Foto:</label>
+    <input type="file" onchange="document.getElementById('outImg').src = window.URL.createObjectURL(this.files[0])">
+    
+    <p style="font-size: 12px; color: #666; margin-top: 20px;">Este diseño está optimizado para 2 páginas con un estilo visual impactante.</p>
+    
+    <button class="btn-main" onclick="window.print()">📥 DESCARGAR / IMPRIMIR</button>
 </div>
 
-<div class="panel-der">
-    <div class="hoja">
-        <div class="cv-header">
-            <div class="foto"><img id="imgFoto" src="https://via.placeholder.com/130x160" alt="Foto"></div>
-            <div class="info-h">
-                <h1>FRANKLIN HUICHO PARIONA</h1>
-                <p><strong>DNI:</strong> 72523903 | <strong>Tel:</strong> 910457625</p>
-                <p><strong>Ubicación:</strong> C.P. Independencia, Colcabamba, Tayacaja</p>
-                <p><strong>E-mail:</strong> franklin.huicho@email.com</p>
+<div class="cv-container">
+    <div class="hoja-a4">
+        <div class="sidebar">
+            <div class="foto-perfil">
+                <img id="outImg" src="https://via.placeholder.com/150" alt="Foto">
+            </div>
+            <h2>Contacto</h2>
+            <div class="sidebar-info">
+                📍 Colcabamba, Tayacaja<br>
+                📞 910457625<br>
+                🆔 DNI: 72523903<br>
+                📧 franklin.hp@email.com
+            </div>
+
+            <h2>Habilidades</h2>
+            <div class="sidebar-info">
+                Control de Calidad
+                <div class="barra-hab"><div class="nivel-hab" style="width: 95%;"></div></div>
+                Manejo de Estructuras
+                <div class="barra-hab"><div class="nivel-hab" style="width: 90%;"></div></div>
+                SST y Seguridad
+                <div class="barra-hab"><div class="nivel-hab" style="width: 85%;"></div></div>
+                Producción Agrícola
+                <div class="barra-hab"><div class="nivel-hab" style="width: 100%;"></div></div>
             </div>
         </div>
+        
+        <div class="main-content">
+            <div class="nombre-header">
+                <h1>FRANKLIN <br><strong>HUICHO PARIONA</strong></h1>
+                <h3>Profesional Técnico en Producción Agropecuaria</h3>
+            </div>
 
-        <div class="titulo-seccion">Perfil Profesional</div>
-        <p>Profesional Técnico en Producción Agropecuaria egresado del I.E.S.T.P. Colcabamba. Cuento con sólida experiencia operativa en el sector construcción, especializándome en el control de calidad de procesos constructivos y manejo de estructuras de acero. Capacidad demostrada para trabajar bajo normas de seguridad (SST) y en entornos de alta exigencia operativa.</p>
+            <div class="seccion-v2">
+                <h2>Perfil Profesional</h2>
+                <p>Especialista técnico con amplia experiencia operativa en el sector construcción y agropecuario. Enfocado en el cumplimiento estricto de normas de calidad y seguridad industrial. Capacidad de liderazgo en campo y manejo de proyectos de infraestructura social.</p>
+            </div>
 
-        <div class="titulo-seccion">Experiencia Laboral Detallada</div>
-        <span class="sub">CONSORCIO LEGION | Operario de Estructuras y Control de Calidad</span>
-        <p><em>Periodo: 17/07/2023 – 14/12/2023</em></p>
-        <ul>
-            <li>Supervisión técnica en el proyecto: "Atención integral al adulto mayor en Colcabamba".</li>
-            <li>Habilitación y montaje de estructuras metálicas siguiendo especificaciones de planos.</li>
-            <li>Control de calidad en el vaciado de concreto y verificación de plomos en columnas.</li>
-            <li>Reporte de avances diarios al ingeniero residente y cumplimiento de charlas de seguridad.</li>
-        </ul>
-
-        <div class="titulo-seccion">Formación Académica</div>
-        <span class="sub">I.E.S.T.P. "COLCABAMBA"</span>
-        <p><strong>Título:</strong> Profesional Técnico en Producción Agropecuaria (Egreso 2016).</p>
-        <p><strong>Especialidad Modular:</strong> Producción de Plantas en Viveros (145 Horas lectivas).</p>
+            <div class="seccion-v2">
+                <h2>Experiencia Laboral</h2>
+                <div class="exp-item">
+                    <span class="exp-tit">CONSORCIO LEGION</span>
+                    <span class="exp-fecha">Julio 2023 - Diciembre 2023</span>
+                    <p><strong>Operario de Estructuras y Control de Calidad:</strong> Responsable de la supervisión de procesos constructivos en el proyecto del Adulto Mayor en Colcabamba. Verificación de planos y seguridad de obra.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="hoja">
-        <div class="titulo-seccion">Habilidades y Competencias Técnicas</div>
-        <div style="display: flex; justify-content: space-between;">
-            <div style="width: 45%;">
-                <span class="sub">Construcción Civil</span>
-                <ul>
-                    <li>Lectura de planos estructurales.</li>
-                    <li>Control de mezclas y dosificación.</li>
-                    <li>Seguridad y salud en el trabajo (SST).</li>
-                </ul>
+    <div class="hoja-a4">
+        <div class="sidebar" style="background: #34495e;">
+            <h2>Idiomas</h2>
+            <div class="sidebar-info">
+                Español (Nativo)<br>
+                Quechua (Fluido)
             </div>
-            <div style="width: 45%;">
-                <span class="sub">Sector Agropecuario</span>
-                <ul>
-                    <li>Gestión de viveros y propagación.</li>
-                    <li>Manejo de sistemas de riego.</li>
-                    <li>Sanidad vegetal y control de plagas.</li>
-                </ul>
+            
+            <h2>Software</h2>
+            <div class="sidebar-info">
+                Microsoft Office<br>
+                Herramientas de Gestión
             </div>
         </div>
 
-        <div class="titulo-seccion">Logros Clave</div>
-        <ul>
-            <li>Cumplimiento al 100% de los estándares de calidad en el proyecto del Adulto Mayor en Colcabamba sin reportes de fallas estructurales.</li>
-            <li>Certificación exitosa del módulo técnico N° 04 con calificación sobresaliente en el I.E.S.T.P. Colcabamba.</li>
-        </ul>
+        <div class="main-content">
+            <div class="seccion-v2">
+                <h2>Educación</h2>
+                <div class="exp-item">
+                    <span class="exp-tit">I.E.S.T.P. "COLCABAMBA"</span>
+                    <span class="exp-fecha">2014 - 2016</span>
+                    <p>Título Profesional Técnico en Producción Agropecuaria.</p>
+                </div>
+            </div>
 
-        <div class="titulo-seccion">Referencias Profesionales</div>
-        <p><strong>Ing. Residente de Obra</strong><br>Consorcio Legion - Proyecto Adulto Mayor Colcabamba.<br><em>Contacto disponible previa entrevista.</em></p>
-        <p><strong>Dirección Académica</strong><br>Instituto de Educación Superior Tecnológico Público Colcabamba.<br><em>Tel: (Consultar en oficina central).</em></p>
+            <div class="seccion-v2">
+                <h2>Certificaciones Especializadas</h2>
+                <div class="exp-item">
+                    <span class="exp-tit">Certificado Modular N° 04</span>
+                    <p>Producción de Plantas en Viveros (145 horas). Instituto Superior Tecnológico Público Colcabamba.</p>
+                </div>
+            </div>
 
-        <div class="titulo-seccion">Disponibilidad</div>
-        <p><strong>INMEDIATA</strong> para traslados y trabajos bajo régimen en cualquier zona del país.</p>
+            <div class="seccion-v2" style="margin-top: 50px; border: 2px dashed #ccc; padding: 20px;">
+                <h2 style="border:none">Referencias</h2>
+                <p><strong>Ingeniería Residente</strong><br>Consorcio Legion - Obra Adulto Mayor.<br>Contacto directo bajo solicitud del reclutador.</p>
+            </div>
+            
+            <p style="margin-top: 100px; text-align: center; font-weight: bold; color: var(--accent-color);">DISPONIBILIDAD INMEDIATA</p>
+        </div>
     </div>
 </div>
 
