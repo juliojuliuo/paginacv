@@ -2,172 +2,224 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Creador de CV Inteligente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de CV Profesional | Julio</title>
     <style>
-        :root { --gris-cv: #6d6e71; --azul-cv: #1b4b8a; }
-        body { font-family: 'Arial', sans-serif; margin: 0; display: flex; background: #f0f2f5; }
+        :root { --gris-cv: #6d6e71; --azul-cv: #1b4b8a; --bg-editor: #f8f9fa; }
         
-        /* PANEL DE CONTROL */
-        .panel-control { width: 380px; background: #fff; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 4px 0 10px rgba(0,0,0,0.1); z-index: 100; border-right: 2px solid #ddd; }
-        label { font-weight: bold; font-size: 11px; display: block; margin-top: 12px; color: #333; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
-        .btn-add { background: var(--azul-cv); color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; margin-top: 10px; }
-        .btn-print { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 25px; }
-
-        /* VISTA PREVIA */
-        .preview { margin-left: 400px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .hoja { width: 210mm; min-height: 297mm; background: white; display: flex; box-shadow: 0 0 20px rgba(0,0,0,0.2); margin-bottom: 20px; }
-
-        /* Columna Gris */
-        .col-gris { width: 35%; background: var(--gris-cv); color: white; padding: 40px 20px; box-sizing: border-box; }
-        .foto-circulo { width: 140px; height: 140px; border-radius: 50%; border: 4px solid white; margin: 0 auto 20px; overflow: hidden; background: #eee; }
-        .foto-circulo img { width: 100%; height: 100%; object-fit: cover; }
-        .side-titulo { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 25px; font-size: 13px; letter-spacing: 1px; }
-        .side-info { font-size: 12.5px; margin-top: 8px; line-height: 1.4; word-wrap: break-word; }
-
-        /* Columna Blanca */
-        .col-blanca { width: 65%; padding: 50px 35px; box-sizing: border-box; overflow: hidden; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Helvetica', Arial, sans-serif; margin: 0; display: flex; background: #e9ecef; }
         
-        /* AJUSTE DEL NOMBRE */
-        .nombre-contenedor { 
-            width: 100%; 
-            min-height: 80px; 
-            display: flex; 
-            align-items: center;
+        /* PANEL DE CONTROL (IZQUIERDA) */
+        .panel-control { 
+            width: 400px; 
+            background: #ffffff; 
+            padding: 25px; 
+            height: 100vh; 
+            overflow-y: auto; 
+            position: fixed; 
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1); 
+            z-index: 1000; 
         }
+        .panel-control h2 { color: var(--azul-cv); margin-bottom: 20px; font-size: 22px; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        label { font-weight: bold; font-size: 11px; display: block; margin-top: 15px; color: #444; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: var(--bg-editor); transition: 0.3s; }
+        input:focus, textarea:focus { border-color: var(--azul-cv); outline: none; background: #fff; }
+        
+        .btn-add { background: var(--azul-cv); color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer; margin-top: 12px; font-weight: bold; transition: 0.3s; }
+        .btn-add:hover { background: #153a6b; }
+        
+        .btn-print { background: #28a745; color: white; border: none; padding: 18px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 17px; margin-top: 30px; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); }
+        .btn-print:hover { background: #218838; transform: translateY(-2px); }
+
+        /* VISTA PREVIA (DERECHA) */
+        .preview-area { margin-left: 400px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        
+        .hoja { 
+            width: 210mm; 
+            min-height: 297mm; 
+            background: white; 
+            display: flex; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.15); 
+            position: relative; 
+            overflow: hidden;
+        }
+
+        /* COLUMNA LATERAL GRIS */
+        .sidebar { width: 35%; background: var(--gris-cv); color: white; padding: 40px 25px; word-wrap: break-word; }
+        .foto-box { width: 150px; height: 150px; border-radius: 50%; border: 4px solid white; margin: 0 auto 30px; overflow: hidden; background: #ddd; }
+        .foto-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .side-title { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 30px; font-size: 14px; letter-spacing: 1px; }
+        .side-content { font-size: 13px; margin-top: 10px; line-height: 1.6; }
+
+        /* COLUMNA PRINCIPAL */
+        .main-content { width: 65%; padding: 50px 40px; display: flex; flex-direction: column; }
+        
+        /* Ajuste del nombre a una línea */
         .nombre-cv { 
             color: #333; 
             font-weight: bold; 
-            line-height: 1; 
-            text-transform: uppercase;
+            text-transform: uppercase; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            font-size: clamp(18px, 3.5vw, 34px); 
+            margin: 0;
             width: 100%;
-            /* Aquí está el truco: */
-            font-size: clamp(20px, 4vw, 36px); 
-            word-break: break-word;
+        }
+        
+        .linea-decorativa { border-bottom: 6px solid var(--azul-cv); margin: 20px 0 30px; width: 100%; }
+        
+        .section-title { color: var(--azul-cv); font-weight: bold; text-transform: uppercase; font-size: 17px; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+        
+        /* Justificación del texto */
+        .text-justified { 
+            font-size: 14.5px; 
+            line-height: 1.6; 
+            color: #444; 
+            margin-top: 10px; 
+            text-align: justify; 
+            hyphens: auto;
         }
 
-        .linea-azul { border-bottom: 5px solid var(--azul-cv); margin: 15px 0 25px; width: 100%; }
-        .seccion-tit { color: var(--azul-cv); font-weight: bold; text-transform: uppercase; font-size: 16px; margin-top: 25px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .texto-cuerpo { font-size: 14px; line-height: 1.5; color: #444; margin-top: 8px; }
+        .exp-item { margin-bottom: 20px; }
+        .exp-item b { font-size: 15.5px; color: #000; display: block; margin-bottom: 4px; }
 
         @media print {
             .panel-control { display: none; }
-            .preview { margin-left: 0; padding: 0; }
-            .hoja { box-shadow: none; margin: 0; width: 100%; }
+            .preview-area { margin-left: 0; padding: 0; }
+            .hoja { box-shadow: none; margin: 0; width: 100%; border: none; }
+            body { background: white; }
         }
     </style>
 </head>
 <body>
 
 <div class="panel-control">
-    <h2>🚀 Creador Pro</h2>
+    <h2>🛠️ CONFIGURACIÓN CV</h2>
     
-    <label>Fotografía:</label>
-    <input type="file" accept="image/*" onchange="subirFoto(event)">
+    <label>Fotografía de Perfil:</label>
+    <input type="file" accept="image/*" onchange="previewImage(event)">
 
     <label>Nombre Completo:</label>
-    <input type="text" id="inNombre" value="FRANKLIN HUICHO PARIONA" oninput="upd()">
+    <input type="text" id="inNombre" value="FRANKLIN HUICHO PARIONA" oninput="update()">
 
-    <label>Dirección:</label>
-    <input type="text" id="inDir" value="C.P. Independencia, Colcabamba" oninput="upd()">
+    <label>Dirección Actual:</label>
+    <input type="text" id="inDir" value="C.P. Independencia, Colcabamba" oninput="update()">
 
-    <label>Teléfono:</label>
-    <input type="text" id="inTel" value="910457625" oninput="upd()">
+    <label>Teléfono Movil:</label>
+    <input type="text" id="inTel" value="910457625" oninput="update()">
 
-    <label>Correo:</label>
-    <input type="text" id="inEmail" value="franklin.huicho@email.com" oninput="upd()">
+    <label>Correo Electrónico:</label>
+    <input type="text" id="inEmail" value="franklin.huicho@email.com" oninput="update()">
 
     <label>Perfil Profesional:</label>
-    <textarea id="inPerfil" rows="4" oninput="upd()">Profesional Técnico en Producción Agropecuaria con amplia experiencia operativa...</textarea>
+    <textarea id="inPerfil" rows="5" oninput="update()">Profesional Técnico en Producción Agropecuaria con amplia experiencia operativa en el sector construcción. Especialista en control de calidad en procesos constructivos y manejo de estructuras, con alta capacidad de colaboración, puntualidad y responsabilidad.</textarea>
 
-    <label>Aptitudes (una por línea):</label>
-    <textarea id="inApt" rows="3" oninput="upd()">Responsabilidad&#10;Puntualidad&#10;Trabajo en equipo</textarea>
+    <label>Aptitudes (Una por línea):</label>
+    <textarea id="inApt" rows="4" oninput="update()">Responsabilidad&#10;Puntualidad&#10;Trabajo en Equipo&#10;Honestidad</textarea>
 
-    <label>Experiencia Laboral:</label>
-    <div id="contenedorExp">
-        <input type="text" placeholder="Empresa y Fecha" value="CONSORCIO LEGION (2023)" oninput="upd()">
-        <textarea placeholder="Tareas realizadas" oninput="upd()">Operario de Estructura y Control de Calidad.</textarea>
+    <label>Historial Laboral:</label>
+    <div id="expFields">
+        <input type="text" placeholder="Empresa y Fecha (Ej: CONSORCIO LEGION 2023)" value="CONSORCIO LEGION (2023)" oninput="update()">
+        <textarea placeholder="Descripción de logros y tareas" oninput="update()">Operario de Estructura y Control de Calidad en el Proceso Constructivo.</textarea>
     </div>
-    <button class="btn-add" onclick="nuevoCampo()">+ Añadir Experiencia</button>
+    <button class="btn-add" onclick="addWorkField()">+ AÑADIR OTRA EXPERIENCIA</button>
 
     <button class="btn-print" onclick="window.print()">📥 DESCARGAR CV (PDF)</button>
 </div>
 
-<div class="preview">
+<div class="preview-area">
     <div class="hoja">
-        <div class="col-gris">
-            <div class="foto-circulo"><img id="outFoto" src="https://via.placeholder.com/150" alt="Foto"></div>
+        <div class="sidebar">
+            <div class="foto-box"><img id="outFoto" src="https://via.placeholder.com/150" alt="Foto"></div>
             
-            <div class="side-titulo">Información</div>
-            <div class="side-info">
+            <div class="side-title">Contacto</div>
+            <div class="side-content">
                 📍 <span id="outDir">C.P. Independencia, Colcabamba</span><br><br>
                 📞 <span id="outTel">910457625</span><br><br>
                 📧 <span id="outEmail">franklin.huicho@email.com</span>
             </div>
 
-            <div class="side-titulo">Aptitudes</div>
-            <div class="side-info" id="outApt">• Responsabilidad<br>• Puntualidad</div>
+            <div class="side-title">Aptitudes</div>
+            <div class="side-content" id="outApt">
+                • Responsabilidad<br>• Puntualidad<br>• Trabajo en Equipo
+            </div>
         </div>
 
-        <div class="col-blanca">
-            <div class="nombre-contenedor">
-                <div class="nombre-cv" id="outNombre">FRANKLIN HUICHO PARIONA</div>
-            </div>
-            <div class="linea-azul"></div>
+        <div class="main-content">
+            <h1 class="nombre-cv" id="outNombre">FRANKLIN HUICHO PARIONA</h1>
+            <div class="linea-decorativa"></div>
 
-            <div class="seccion-tit">Perfil Profesional</div>
-            <div class="texto-cuerpo" id="outPerfil">Profesional técnico con experiencia...</div>
+            <div class="section-title">Perfil Profesional</div>
+            <div class="text-justified" id="outPerfil"></div>
 
-            <div class="seccion-tit">Historial Laboral</div>
+            <div class="section-title">Historial Laboral</div>
             <div id="outHist"></div>
         </div>
     </div>
 </div>
 
 <script>
-    function subirFoto(e) {
+    function previewImage(event) {
         var reader = new FileReader();
-        reader.onload = function(){ document.getElementById('outFoto').src = reader.result; }
-        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = function(){
+            var output = document.getElementById('outFoto');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
     }
 
-    function nuevoCampo() {
-        const div = document.getElementById('contenedorExp');
-        const nInput = document.createElement('input');
-        nInput.placeholder = "Empresa y Fecha";
-        nInput.oninput = upd;
-        const nText = document.createElement('textarea');
-        nText.placeholder = "Tareas realizadas";
-        nText.oninput = upd;
-        div.appendChild(nInput);
-        div.appendChild(nText);
+    function addWorkField() {
+        const container = document.getElementById('expFields');
+        const input = document.createElement('input');
+        input.placeholder = "Empresa y Fecha";
+        input.oninput = update;
+        const area = document.createElement('textarea');
+        area.placeholder = "Descripción de logros";
+        area.oninput = update;
+        container.appendChild(input);
+        container.appendChild(area);
     }
 
-    function upd() {
-        // Nombre con ajuste de tamaño automático
-        const nombre = document.getElementById('inNombre').value;
-        const outNom = document.getElementById('outNombre');
-        outNom.innerText = nombre.toUpperCase();
-
+    function update() {
+        // Nombre
+        document.getElementById('outNombre').innerText = document.getElementById('inNombre').value.toUpperCase();
+        
+        // Datos de Contacto
         document.getElementById('outDir').innerText = document.getElementById('inDir').value;
         document.getElementById('outTel').innerText = document.getElementById('inTel').value;
         document.getElementById('outEmail').innerText = document.getElementById('inEmail').value;
+        
+        // Perfil Profesional (Justificado)
         document.getElementById('outPerfil').innerText = document.getElementById('inPerfil').value;
 
-        let apts = document.getElementById('inApt').value.split('\n');
-        document.getElementById('outApt').innerHTML = apts.filter(a => a.trim() !== "").map(a => `• ${a}`).join('<br>');
+        // Aptitudes
+        let aptLines = document.getElementById('inApt').value.split('\n');
+        document.getElementById('outApt').innerHTML = aptLines
+            .filter(line => line.trim() !== "")
+            .map(line => `• ${line.trim()}`)
+            .join('<br>');
 
-        const inputs = document.querySelectorAll('#contenedorExp input');
-        const texts = document.querySelectorAll('#contenedorExp textarea');
+        // Experiencia Laboral (Justificado)
+        const inputs = document.querySelectorAll('#expFields input');
+        const texts = document.querySelectorAll('#expFields textarea');
         let html = '';
-        for(let i=0; i<inputs.length; i++) {
+        for(let i=0; i < inputs.length; i++) {
             if(inputs[i].value) {
-                html += `<div style="margin-bottom:15px"><b>${inputs[i].value}</b><p class="texto-cuerpo">${texts[i].value.replace(/\n/g, '<br>')}</p></div>`;
+                html += `<div class="exp-item">
+                            <b>${inputs[i].value.toUpperCase()}</b>
+                            <p class="text-justified">${texts[i].value.replace(/\n/g, '<br>')}</p>
+                         </div>`;
             }
         }
         document.getElementById('outHist').innerHTML = html;
     }
-    upd();
+
+    // Inicializar al cargar
+    window.onload = update;
 </script>
 
 </body>
