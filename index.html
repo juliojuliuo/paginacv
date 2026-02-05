@@ -2,97 +2,112 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Creador de CV Pro - Julio</title>
+    <title>Creador de CV Profesional - Julio</title>
     <style>
-        :root { --p-color: #2c3e50; --s-color: #d4af37; }
-        body { font-family: 'Inter', sans-serif; display: flex; background: #f4f4f4; margin: 0; }
-        .controles { width: 350px; background: white; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
-        .hoja-cont { margin-left: 370px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .hoja { width: 210mm; background: white; padding: 40px; box-sizing: border-box; box-shadow: 0 0 15px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        body { font-family: 'Segoe UI', sans-serif; display: flex; background: #f0f2f5; margin: 0; }
         
-        .seccion-btn { background: #e9ecef; padding: 10px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--p-color); }
-        button.add { background: var(--p-color); color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 5px; }
-        input, textarea { width: 100%; margin: 5px 0; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        /* Panel de Control */
+        .controles { width: 350px; background: #ffffff; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 2px 0 15px rgba(0,0,0,0.1); z-index: 100; }
+        .seccion-input { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #2c3e50; }
+        input, textarea { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
         
-        .cv-tit { background: var(--p-color); color: white; padding: 5px 15px; margin-top: 20px; text-transform: uppercase; font-weight: bold; }
-        .cv-item { margin: 10px 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        /* Botones */
+        .btn-add { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; }
+        .btn-print { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 20px; }
         
-        @media print { .controles { display: none; } .hoja-cont { margin-left: 0; } .hoja { box-shadow: none; } }
+        /* Hoja de CV (Estilo Anterior) */
+        .hoja-espacio { margin-left: 370px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .hoja { width: 210mm; min-height: 297mm; background: white; padding: 50px; box-sizing: border-box; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+        
+        .header-cv { background: #2c3e50; color: white; padding: 30px; text-align: center; border-radius: 4px; margin-bottom: 30px; }
+        .header-cv h1 { margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .seccion-titulo { border-bottom: 2px solid #2c3e50; color: #2c3e50; font-weight: bold; margin-top: 30px; padding-bottom: 5px; text-transform: uppercase; font-size: 18px; }
+        .dato-item { margin: 15px 0; line-height: 1.6; color: #333; }
+        .bold { font-weight: bold; color: #000; }
+
+        @media print {
+            .controles { display: none; }
+            .hoja-espacio { margin-left: 0; padding: 0; }
+            .hoja { box-shadow: none; margin: 0; width: 100%; }
+        }
     </style>
 </head>
 <body>
 
 <div class="controles">
-    <h3>🛠️ PANEL DE DATOS</h3>
+    <h2>📝 Editor de CV</h2>
     
-    <div class="seccion-btn">
-        <label>Nombre:</label>
+    <div class="seccion-input">
+        <label>Nombre Completo:</label>
         <input type="text" id="inNom" value="FRANKLIN HUICHO PARIONA" oninput="upd()">
     </div>
 
-    <div class="seccion-btn">
-        <label>💼 EXPERIENCIA LABORAL</label>
+    <div class="seccion-input">
+        <label>💼 Experiencia Laboral</label>
         <div id="listaExp">
-            <input type="text" placeholder="Empresa y Cargo" oninput="upd()">
+            <input type="text" placeholder="Empresa y Cargo" value="CONSORCIO LEGION - Operario de Estructuras" oninput="upd()">
         </div>
-        <button class="add" onclick="addInput('listaExp')">+ Añadir Experiencia</button>
+        <button class="btn-add" onclick="add('listaExp')">+ Añadir Trabajo</button>
     </div>
 
-    <div class="seccion-btn">
-        <label>📜 CAPACITACIONES / CURSOS</label>
+    <div class="seccion-input">
+        <label>📜 Capacitaciones</label>
         <div id="listaCap">
-            <input type="text" placeholder="Nombre del curso/certificación" oninput="upd()">
+            <input type="text" placeholder="Curso o Certificado" value="Producción de Plantas en Viveros (145 horas)" oninput="upd()">
         </div>
-        <button class="add" onclick="addInput('listaCap')">+ Añadir Capacitación</button>
+        <button class="btn-add" onclick="add('listaCap')">+ Añadir Curso</button>
     </div>
 
-    <button style="background: #28a745; color:white; border:none; padding:15px; width:100%; font-weight:bold; cursor:pointer; margin-top:20px;" onclick="window.print()">🖨️ IMPRIMIR CV</button>
+    <button class="btn-print" onclick="window.print()">📥 IMPRIMIR / PDF</button>
 </div>
 
-<div class="hoja-cont">
+<div class="hoja-espacio">
     <div class="hoja">
-        <h1 id="outNom" style="color:var(--p-color); text-align:center;">FRANKLIN HUICHO PARIONA</h1>
-        
-        <div class="cv-tit">Experiencia Laboral</div>
-        <div id="outExp"></div>
+        <div class="header-cv">
+            <h1 id="outNom">FRANKLIN HUICHO PARIONA</h1>
+            <p>Técnico en Producción Agropecuaria | Operario de Estructuras</p>
+        </div>
 
-        <div class="cv-tit">Capacitaciones y Cursos</div>
-        <div id="outCap"></div>
+        <div class="seccion-titulo">Experiencia Laboral</div>
+        <div id="outExp" class="dato-item"></div>
+
+        <div class="seccion-titulo">Capacitaciones y Certificaciones</div>
+        <div id="outCap" class="dato-item"></div>
+
+        <div class="seccion-titulo">Formación Académica</div>
+        <div class="dato-item">
+            <span class="bold">I.E.S.T.P. "COLCABAMBA"</span><br>
+            Título: Profesional Técnico en Producción Agropecuaria (2016)
+        </div>
     </div>
 </div>
 
 <script>
-    function addInput(divId) {
-        const div = document.getElementById(divId);
+    function add(id) {
         const input = document.createElement('input');
         input.type = 'text';
-        input.placeholder = "Añadir más...";
+        input.placeholder = "Escribe aquí...";
         input.oninput = upd;
-        div.appendChild(input);
+        document.getElementById(id).appendChild(input);
     }
 
     function upd() {
         document.getElementById('outNom').innerText = document.getElementById('inNom').value;
         
-        // Actualizar Experiencia
-        const expInputs = document.getElementById('listaExp').getElementsByTagName('input');
-        let expHtml = '';
-        for(let i of expInputs) {
-            if(i.value) expHtml += `<div class="cv-item"><strong>• ${i.value}</strong></div>`;
-        }
-        document.getElementById('outExp').innerHTML = expHtml;
+        // Actualizar lista de Experiencia
+        let exps = document.getElementById('listaExp').getElementsByTagName('input');
+        let h1 = "";
+        for(let x of exps) if(x.value) h1 += `<p>• <span class="bold">${x.value}</span></p>`;
+        document.getElementById('outExp').innerHTML = h1;
 
-        // Actualizar Capacitaciones
-        const capInputs = document.getElementById('listaCap').getElementsByTagName('input');
-        let capHtml = '';
-        for(let i of capInputs) {
-            if(i.value) capHtml += `<div class="cv-item">• ${i.value}</div>`;
-        }
-        document.getElementById('outCap').innerHTML = capHtml;
+        // Actualizar lista de Capacitación
+        let caps = document.getElementById('listaCap').getElementsByTagName('input');
+        let h2 = "";
+        for(let c of caps) if(c.value) h2 += `<p>• ${c.value}</p>`;
+        document.getElementById('outCap').innerHTML = h2;
     }
-    
-    // Ejecutar al cargar
-    upd();
+    upd(); // Carga inicial
 </script>
 
 </body>
