@@ -2,125 +2,106 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Generador de CV Profesional</title>
+    <title>CV Profesional - Franklin Huicho</title>
     <style>
-        :root { --main-color: #2c3e50; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; background: #f0f2f5; }
+        :root { --main-color: #2c3e50; --secondary-color: #1a73e8; }
+        body { font-family: 'Arial', sans-serif; margin: 0; display: flex; background: #f4f4f4; }
+        .panel-izq { width: 300px; background: #fff; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
+        .panel-der { margin-left: 320px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .hoja { width: 210mm; background: white; padding: 60px; box-sizing: border-box; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         
-        /* Panel de Control - No se imprime */
-        .panel-izq { width: 350px; background: #fff; padding: 20px; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+        .cv-header { display: flex; border-bottom: 4px solid var(--main-color); padding-bottom: 20px; margin-bottom: 30px; }
+        .foto { width: 130px; height: 160px; border: 2px solid #ddd; margin-right: 30px; background: #eee; }
+        .foto img { width: 100%; height: 100%; object-fit: cover; }
+        .info-h h1 { margin: 0; font-size: 28px; color: var(--main-color); }
         
-        /* Hoja de CV - Lo que se imprime */
-        .panel-der { flex-grow: 1; display: flex; justify-content: center; padding: 40px; }
-        .hoja-a4 { width: 210mm; min-height: 297mm; background: white; padding: 50px; box-sizing: border-box; box-shadow: 0 0 15px rgba(0,0,0,0.3); }
-
-        /* Estilos del CV */
-        .cv-header { display: flex; align-items: center; border-bottom: 3px solid var(--main-color); padding-bottom: 20px; margin-bottom: 25px; }
-        .foto-espacio { width: 120px; height: 140px; border: 1px solid #ddd; margin-right: 30px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fafafa; }
-        .foto-espacio img { width: 100%; height: 100%; object-fit: cover; }
-        .info-header h1 { margin: 0; color: var(--main-color); font-size: 26px; text-transform: uppercase; }
-        .info-header p { margin: 5px 0; color: #555; font-size: 14px; }
-
-        .seccion-titulo { background: var(--main-color); color: white; padding: 8px 15px; font-weight: bold; margin-top: 25px; border-radius: 2px; font-size: 16px; }
-        .item { margin: 15px 0; }
-        .item-tit { font-weight: bold; display: block; color: #333; }
-        .item-sub { color: #666; font-size: 13px; font-style: italic; }
-
-        input, textarea { width: 100%; margin-bottom: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
-        .btn-print { background: #28a745; color: white; border: none; padding: 15px; width: 100%; cursor: pointer; font-weight: bold; font-size: 16px; border-radius: 5px; }
-
+        .titulo-seccion { background: var(--main-color); color: white; padding: 10px; margin-top: 30px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .sub { font-weight: bold; color: var(--secondary-color); margin-top: 15px; display: block; }
+        p, li { font-size: 14px; line-height: 1.6; color: #444; }
+        
         @media print {
             .panel-izq { display: none; }
-            body { background: white; }
-            .panel-der { padding: 0; }
-            .hoja-a4 { box-shadow: none; width: 100%; margin: 0; }
+            .panel-der { margin-left: 0; padding: 0; }
+            .hoja { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
         }
     </style>
 </head>
 <body>
 
 <div class="panel-izq">
-    <h2 style="color: var(--main-color)">⚙️ Editor de CV</h2>
-    <label>Subir Fotografía:</label>
-    <input type="file" accept="image/*" onchange="subirFoto(event)">
-
-    <label>Nombre Completo:</label>
-    <input type="text" id="inNombre" value="FRANKLIN HUICHO PARIONA" oninput="actualizar()">
-    
-    <label>Teléfono:</label>
-    <input type="text" id="inTel" value="910457625" oninput="actualizar()">
-
-    <label>DNI:</label>
-    <input type="text" id="inDNI" value="72523903" oninput="actualizar()">
-
-    <label>Dirección:</label>
-    <input type="text" id="inDir" value="C.P. Independencia, Colcabamba" oninput="actualizar()">
-
-    <label>Perfil Profesional:</label>
-    <textarea id="inPerfil" rows="5" oninput="actualizar()">Profesional Técnico en Producción Agropecuaria con experiencia operativa en el sector construcción. Especialista en control de calidad en procesos constructivos y manejo de estructuras.</textarea>
-
-    <label>Experiencia Laboral:</label>
-    <textarea id="inExp" rows="4" oninput="actualizar()">CONSORCIO LEGION (2023) - Operario en Área de Estructura y Control de Calidad.</textarea>
-
-    <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR AHORA</button>
+    <h3>⚙️ Personalizar CV</h3>
+    <label>Subir Foto:</label>
+    <input type="file" onchange="document.getElementById('imgFoto').src = window.URL.createObjectURL(this.files[0])">
+    <br><br>
+    <button style="background: #28a745; color: white; padding: 15px; border: none; width: 100%; cursor: pointer; font-weight: bold;" onclick="window.print()">🖨️ IMPRIMIR / GUARDAR PDF</button>
 </div>
 
 <div class="panel-der">
-    <div class="hoja-a4">
+    <div class="hoja">
         <div class="cv-header">
-            <div class="foto-espacio">
-                <img id="outFoto" src="https://via.placeholder.com/120x140?text=FOTO" alt="Foto">
-            </div>
-            <div class="info-header">
-                <h1 id="outNombre">FRANKLIN HUICHO PARIONA</h1>
-                <p><strong>DNI:</strong> <span id="outDNI">72523903</span></p>
-                <p><strong>Tel:</strong> <span id="outTel">910457625</span></p>
-                <p><strong>Ubicación:</strong> <span id="outDir">C.P. Independencia, Colcabamba</span></p>
+            <div class="foto"><img id="imgFoto" src="https://via.placeholder.com/130x160" alt="Foto"></div>
+            <div class="info-h">
+                <h1>FRANKLIN HUICHO PARIONA</h1>
+                <p><strong>DNI:</strong> 72523903 | <strong>Tel:</strong> 910457625</p>
+                <p><strong>Ubicación:</strong> C.P. Independencia, Colcabamba, Tayacaja</p>
+                <p><strong>E-mail:</strong> franklin.huicho@email.com</p>
             </div>
         </div>
 
-        <div class="seccion-titulo">PERFIL PROFESIONAL</div>
-        <div class="item" id="outPerfil">Profesional Técnico en Producción Agropecuaria con experiencia operativa en el sector construcción. Especialista en control de calidad en procesos constructivos y manejo de estructuras.</div>
+        <div class="titulo-seccion">Perfil Profesional</div>
+        <p>Profesional Técnico en Producción Agropecuaria egresado del I.E.S.T.P. Colcabamba. Cuento con sólida experiencia operativa en el sector construcción, especializándome en el control de calidad de procesos constructivos y manejo de estructuras de acero. Capacidad demostrada para trabajar bajo normas de seguridad (SST) y en entornos de alta exigencia operativa.</p>
 
-        <div class="seccion-titulo">EXPERIENCIA LABORAL</div>
-        <div class="item">
-            <span class="item-tit" id="outExp">CONSORCIO LEGION - Operario de Estructura</span>
-            <span class="item-sub">Julio 2023 - Diciembre 2023</span>
-            <p style="font-size: 13px;">Proyecto: Creación del servicio de atención integral al adulto mayor en Colcabamba.</p>
+        <div class="titulo-seccion">Experiencia Laboral Detallada</div>
+        <span class="sub">CONSORCIO LEGION | Operario de Estructuras y Control de Calidad</span>
+        <p><em>Periodo: 17/07/2023 – 14/12/2023</em></p>
+        <ul>
+            <li>Supervisión técnica en el proyecto: "Atención integral al adulto mayor en Colcabamba".</li>
+            <li>Habilitación y montaje de estructuras metálicas siguiendo especificaciones de planos.</li>
+            <li>Control de calidad en el vaciado de concreto y verificación de plomos en columnas.</li>
+            <li>Reporte de avances diarios al ingeniero residente y cumplimiento de charlas de seguridad.</li>
+        </ul>
+
+        <div class="titulo-seccion">Formación Académica</div>
+        <span class="sub">I.E.S.T.P. "COLCABAMBA"</span>
+        <p><strong>Título:</strong> Profesional Técnico en Producción Agropecuaria (Egreso 2016).</p>
+        <p><strong>Especialidad Modular:</strong> Producción de Plantas en Viveros (145 Horas lectivas).</p>
+    </div>
+
+    <div class="hoja">
+        <div class="titulo-seccion">Habilidades y Competencias Técnicas</div>
+        <div style="display: flex; justify-content: space-between;">
+            <div style="width: 45%;">
+                <span class="sub">Construcción Civil</span>
+                <ul>
+                    <li>Lectura de planos estructurales.</li>
+                    <li>Control de mezclas y dosificación.</li>
+                    <li>Seguridad y salud en el trabajo (SST).</li>
+                </ul>
+            </div>
+            <div style="width: 45%;">
+                <span class="sub">Sector Agropecuario</span>
+                <ul>
+                    <li>Gestión de viveros y propagación.</li>
+                    <li>Manejo de sistemas de riego.</li>
+                    <li>Sanidad vegetal y control de plagas.</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="seccion-titulo">FORMACIÓN ACADÉMICA</div>
-        <div class="item">
-            <span class="item-tit">I.E.S.T.P. "COLCABAMBA"</span>
-            <span class="item-sub">Título: Profesional Técnico en Producción Agropecuaria (2016)</span>
-        </div>
+        <div class="titulo-seccion">Logros Clave</div>
+        <ul>
+            <li>Cumplimiento al 100% de los estándares de calidad en el proyecto del Adulto Mayor en Colcabamba sin reportes de fallas estructurales.</li>
+            <li>Certificación exitosa del módulo técnico N° 04 con calificación sobresaliente en el I.E.S.T.P. Colcabamba.</li>
+        </ul>
 
-        <div class="seccion-titulo">CERTIFICACIONES</div>
-        <div class="item">
-            <p>• Certificado Modular N° 04: Producción de Plantas en Viveros (145 horas).</p>
-        </div>
+        <div class="titulo-seccion">Referencias Profesionales</div>
+        <p><strong>Ing. Residente de Obra</strong><br>Consorcio Legion - Proyecto Adulto Mayor Colcabamba.<br><em>Contacto disponible previa entrevista.</em></p>
+        <p><strong>Dirección Académica</strong><br>Instituto de Educación Superior Tecnológico Público Colcabamba.<br><em>Tel: (Consultar en oficina central).</em></p>
+
+        <div class="titulo-seccion">Disponibilidad</div>
+        <p><strong>INMEDIATA</strong> para traslados y trabajos bajo régimen en cualquier zona del país.</p>
     </div>
 </div>
-
-<script>
-    function actualizar() {
-        document.getElementById('outNombre').innerText = document.getElementById('inNombre').value.toUpperCase();
-        document.getElementById('outDNI').innerText = document.getElementById('inDNI').value;
-        document.getElementById('outTel').innerText = document.getElementById('inTel').value;
-        document.getElementById('outDir').innerText = document.getElementById('inDir').value;
-        document.getElementById('outPerfil').innerText = document.getElementById('inPerfil').value;
-        document.getElementById('outExp').innerText = document.getElementById('inExp').value;
-    }
-
-    function subirFoto(event) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var output = document.getElementById('outFoto');
-            output.src = reader.result;
-        }
-        reader.readAsDataURL(event.target.files[0]);
-    }
-</script>
 
 </body>
 </html>
