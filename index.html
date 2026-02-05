@@ -2,113 +2,55 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Creador de CV Profesional - Julio</title>
+    <title>CV Profesional - Franklin Huicho</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; display: flex; background: #f0f2f5; margin: 0; }
+        :root { --sidebar-color: #6d6e71; --header-blue: #1b4b8a; }
+        body { font-family: 'Helvetica', Arial, sans-serif; margin: 0; display: flex; background: #e0e0e0; }
         
-        /* Panel de Control */
-        .controles { width: 350px; background: #ffffff; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 2px 0 15px rgba(0,0,0,0.1); z-index: 100; }
-        .seccion-input { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #2c3e50; }
-        input, textarea { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        
-        /* Botones */
-        .btn-add { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; }
-        .btn-print { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 20px; }
-        
-        /* Hoja de CV (Estilo Anterior) */
-        .hoja-espacio { margin-left: 370px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .hoja { width: 210mm; min-height: 297mm; background: white; padding: 50px; box-sizing: border-box; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-        
-        .header-cv { background: #2c3e50; color: white; padding: 30px; text-align: center; border-radius: 4px; margin-bottom: 30px; }
-        .header-cv h1 { margin: 0; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .seccion-titulo { border-bottom: 2px solid #2c3e50; color: #2c3e50; font-weight: bold; margin-top: 30px; padding-bottom: 5px; text-transform: uppercase; font-size: 18px; }
-        .dato-item { margin: 15px 0; line-height: 1.6; color: #333; }
-        .bold { font-weight: bold; color: #000; }
+        /* Controles - No se imprimen */
+        .controles { width: 320px; background: #fff; padding: 20px; height: 100vh; position: fixed; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+        .btn-add { background: var(--header-blue); color: white; border: none; padding: 8px; border-radius: 4px; width: 100%; cursor: pointer; margin-bottom: 10px; }
+        .btn-print { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+
+        /* Estructura del CV */
+        .preview { margin-left: 340px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .hoja { width: 210mm; min-height: 297mm; background: white; display: flex; box-shadow: 0 0 15px rgba(0,0,0,0.2); margin-bottom: 20px; position: relative; }
+
+        /* Columna Lateral (Gris) */
+        .col-gris { width: 33%; background: var(--sidebar-bg, var(--sidebar-color)); color: white; padding: 40px 30px; }
+        .foto-circulo { width: 160px; height: 160px; border-radius: 50%; border: 5px solid white; margin: 0 auto 30px; overflow: hidden; background: #ccc; }
+        .foto-circulo img { width: 100%; height: 100%; object-fit: cover; }
+        .side-sec { margin-top: 30px; }
+        .side-tit { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-bottom: 10px; font-size: 16px; }
+        .side-txt { font-size: 13px; line-height: 1.6; margin-bottom: 5px; }
+
+        /* Contenido Principal */
+        .col-principal { width: 67%; padding: 50px 40px; }
+        .nombre-top { color: #333; font-size: 45px; font-weight: bold; line-height: 1; margin-bottom: 40px; }
+        .sec-tit { color: var(--header-blue); border-bottom: 2px solid var(--header-blue); font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 35px; margin-bottom: 15px; font-size: 18px; }
+        .job-tit { font-weight: bold; font-size: 15px; margin-top: 10px; display: block; }
+        .job-date { font-size: 13px; color: #666; }
+        .job-list { padding-left: 20px; margin: 5px 0; font-size: 14px; line-height: 1.5; }
 
         @media print {
             .controles { display: none; }
-            .hoja-espacio { margin-left: 0; padding: 0; }
-            .hoja { box-shadow: none; margin: 0; width: 100%; }
+            .preview { margin-left: 0; padding: 0; }
+            .hoja { box-shadow: none; width: 100%; margin: 0; page-break-after: always; }
+            body { background: white; }
         }
     </style>
 </head>
 <body>
 
 <div class="controles">
-    <h2>📝 Editor de CV</h2>
+    <h3>⚙️ EDITOR ESTILO ROSAS</h3>
+    <label>Tu Foto:</label>
+    <input type="file" onchange="subirFoto(event)">
     
-    <div class="seccion-input">
-        <label>Nombre Completo:</label>
-        <input type="text" id="inNom" value="FRANKLIN HUICHO PARIONA" oninput="upd()">
-    </div>
-
-    <div class="seccion-input">
-        <label>💼 Experiencia Laboral</label>
-        <div id="listaExp">
-            <input type="text" placeholder="Empresa y Cargo" value="CONSORCIO LEGION - Operario de Estructuras" oninput="upd()">
+    <div style="background:#f9f9f9; padding:10px; margin-top:15px; border-radius:5px;">
+        <label><b>Historial Laboral</b></label>
+        <div id="editExp">
+            <input type="text" value="CONSORCIO LEGION" oninput="upd()">
+            <textarea placeholder="Tareas (una por línea)" oninput="upd()">Operario de Estructura&#10;Control de Calidad en Proceso Constructivo</textarea>
         </div>
-        <button class="btn-add" onclick="add('listaExp')">+ Añadir Trabajo</button>
-    </div>
-
-    <div class="seccion-input">
-        <label>📜 Capacitaciones</label>
-        <div id="listaCap">
-            <input type="text" placeholder="Curso o Certificado" value="Producción de Plantas en Viveros (145 horas)" oninput="upd()">
-        </div>
-        <button class="btn-add" onclick="add('listaCap')">+ Añadir Curso</button>
-    </div>
-
-    <button class="btn-print" onclick="window.print()">📥 IMPRIMIR / PDF</button>
-</div>
-
-<div class="hoja-espacio">
-    <div class="hoja">
-        <div class="header-cv">
-            <h1 id="outNom">FRANKLIN HUICHO PARIONA</h1>
-            <p>Técnico en Producción Agropecuaria | Operario de Estructuras</p>
-        </div>
-
-        <div class="seccion-titulo">Experiencia Laboral</div>
-        <div id="outExp" class="dato-item"></div>
-
-        <div class="seccion-titulo">Capacitaciones y Certificaciones</div>
-        <div id="outCap" class="dato-item"></div>
-
-        <div class="seccion-titulo">Formación Académica</div>
-        <div class="dato-item">
-            <span class="bold">I.E.S.T.P. "COLCABAMBA"</span><br>
-            Título: Profesional Técnico en Producción Agropecuaria (2016)
-        </div>
-    </div>
-</div>
-
-<script>
-    function add(id) {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = "Escribe aquí...";
-        input.oninput = upd;
-        document.getElementById(id).appendChild(input);
-    }
-
-    function upd() {
-        document.getElementById('outNom').innerText = document.getElementById('inNom').value;
-        
-        // Actualizar lista de Experiencia
-        let exps = document.getElementById('listaExp').getElementsByTagName('input');
-        let h1 = "";
-        for(let x of exps) if(x.value) h1 += `<p>• <span class="bold">${x.value}</span></p>`;
-        document.getElementById('outExp').innerHTML = h1;
-
-        // Actualizar lista de Capacitación
-        let caps = document.getElementById('listaCap').getElementsByTagName('input');
-        let h2 = "";
-        for(let c of caps) if(c.value) h2 += `<p>• ${c.value}</p>`;
-        document.getElementById('outCap').innerHTML = h2;
-    }
-    upd(); // Carga inicial
-</script>
-
-</body>
-</html>
+        <button class
