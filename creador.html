@@ -2,130 +2,82 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Creador de CV Fácil</title>
+    <title>Creador de CV Pro - Julio</title>
     <style>
         :root { --gris-cv: #6d6e71; --azul-cv: #1b4b8a; }
-        body { font-family: 'Helvetica', Arial, sans-serif; margin: 0; display: flex; background: #f0f2f5; }
+        body { font-family: 'Arial', sans-serif; margin: 0; display: flex; background: #f0f2f5; }
         
-        /* PANEL DE USUARIO (Izquierda) */
-        .panel-usuario { width: 380px; background: #fff; padding: 25px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 4px 0 10px rgba(0,0,0,0.1); z-index: 100; border-right: 2px solid #ddd; }
-        .instrucciones { background: #e8f4fd; padding: 10px; border-radius: 5px; font-size: 13px; color: #1b4b8a; margin-bottom: 20px; border: 1px solid #b3d7f2; }
-        h2 { color: #333; font-size: 1.2rem; }
-        label { font-weight: bold; font-size: 13px; display: block; margin-top: 15px; color: #555; }
-        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
-        .btn-accion { background: var(--azul-cv); color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .btn-imprimir { background: #27ae60; color: white; border: none; padding: 18px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        /* PANEL DE CONTROL (Izquierda) */
+        .panel-control { width: 380px; background: #fff; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 4px 0 10px rgba(0,0,0,0.1); z-index: 100; border-right: 2px solid #ddd; }
+        .instrucciones { background: #e8f4fd; padding: 10px; border-radius: 5px; font-size: 13px; color: #1b4b8a; margin-bottom: 15px; border: 1px solid #b3d7f2; }
+        label { font-weight: bold; font-size: 12px; display: block; margin-top: 10px; color: #333; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        .btn-add { background: var(--azul-cv); color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        .btn-print { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 25px; }
 
-        /* VISTA PREVIA DEL CV (Derecha) */
-        .vista-previa { margin-left: 400px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .hoja { width: 210mm; min-height: 297mm; background: white; display: flex; box-shadow: 0 0 20px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        /* VISTA PREVIA (Derecha) */
+        .preview { margin-left: 400px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .hoja { width: 210mm; min-height: 297mm; background: white; display: flex; box-shadow: 0 0 20px rgba(0,0,0,0.2); margin-bottom: 20px; }
 
-        /* Estilo Columna Gris (Inspirado en imagen_2e7e6a.png) */
+        /* Columna Gris */
         .col-gris { width: 35%; background: var(--gris-cv); color: white; padding: 40px 25px; box-sizing: border-box; }
-        .foto-perfil { width: 160px; height: 160px; border-radius: 50%; border: 4px solid white; margin: 0 auto 25px; overflow: hidden; background: #eee; }
-        .foto-perfil img { width: 100%; height: 100%; object-fit: cover; }
-        .side-title { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 30px; font-size: 15px; }
-        .side-text { font-size: 13px; margin-top: 10px; line-height: 1.5; }
+        .foto-espacio { width: 150px; height: 150px; border-radius: 50%; border: 4px solid white; margin: 0 auto 20px; overflow: hidden; background: #eee; }
+        .foto-espacio img { width: 100%; height: 100%; object-fit: cover; }
+        .side-titulo { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 25px; font-size: 14px; }
+        .side-info { font-size: 13px; margin-top: 8px; line-height: 1.4; word-wrap: break-word; }
 
-        /* Estilo Principal */
+        /* Columna Principal */
         .col-blanca { width: 65%; padding: 50px 40px; box-sizing: border-box; }
-        .nombre-cv { color: #333; font-size: 40px; font-weight: bold; line-height: 1.1; margin-bottom: 10px; }
-        .header-line { border-bottom: 3px solid var(--azul-cv); margin: 30px 0 15px; }
-        .main-title { color: var(--azul-cv); font-weight: bold; text-transform: uppercase; font-size: 18px; margin-bottom: 15px; }
-        .item-cv { margin-bottom: 20px; }
-        .item-cv b { font-size: 15px; color: #000; }
-        .item-cv p { font-size: 14px; margin: 5px 0; color: #444; }
+        .nombre-cv { color: #333; font-size: 38px; font-weight: bold; line-height: 1; margin-bottom: 5px; }
+        .linea-azul { border-bottom: 4px solid var(--azul-cv); margin: 20px 0; }
+        .seccion-tit { color: var(--azul-cv); font-weight: bold; text-transform: uppercase; font-size: 16px; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .texto-cuerpo { font-size: 14px; line-height: 1.5; color: #444; }
 
         @media print {
-            .panel-usuario { display: none; }
-            .vista-previa { margin-left: 0; padding: 0; }
+            .panel-control { display: none; }
+            .preview { margin-left: 0; padding: 0; }
             .hoja { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
-            body { background: white; }
         }
     </style>
 </head>
 <body>
 
-<div class="panel-usuario">
-    <h2>🚀 Creador de CV</h2>
-    <div class="instrucciones">Escribe tus datos y el CV se actualizará solo. Al terminar, dale a "Imprimir".</div>
+<div class="panel-control">
+    <h2>📝 Generador de CV</h2>
+    <div class="instrucciones">Llena los campos y el CV se actualizará al instante.</div>
     
-    <label>1. Sube tu foto:</label>
+    <label>Foto:</label>
     <input type="file" accept="image/*" onchange="subirFoto(event)">
 
-    <label>2. Nombre Completo:</label>
-    <input type="text" id="inNombre" value="FRANKLIN HUICHO PARIONA" oninput="actualizar()">
+    <label>Nombre Completo:</label>
+    <input type="text" id="inNombre" value="FRANKLIN HUICHO PARIONA" oninput="upd()">
 
-    <label>3. Teléfono de contacto:</label>
-    <input type="text" id="inTel" value="910457625" oninput="actualizar()">
+    <label>Teléfono:</label>
+    <input type="text" id="inTel" value="910457625" oninput="upd()">
 
-    <label>4. Aptitudes (Habilidades):</label>
-    <textarea id="inApt" rows="4" oninput="actualizar()">Responsabilidad&#10;Puntualidad&#10;Trabajo en Equipo</textarea>
+    <label>Correo Electrónico:</label>
+    <input type="text" id="inEmail" value="franklin.huicho@email.com" oninput="upd()">
 
-    <label>5. Experiencia (Historial Laboral):</label>
+    <label>Dirección:</label>
+    <input type="text" id="inDir" value="C.P. Independencia, Colcabamba" oninput="upd()">
+
+    <label>Perfil Profesional:</label>
+    <textarea id="inPerfil" rows="4" oninput="upd()">Profesional Técnico en Producción Agropecuaria con experiencia operativa en construcción. Especialista en control de calidad y manejo de estructuras.</textarea>
+
+    <label>Aptitudes (una por línea):</label>
+    <textarea id="inApt" rows="3" oninput="upd()">Responsabilidad&#10;Puntualidad&#10;Trabajo en equipo</textarea>
+
+    <label>Historial Laboral:</label>
     <div id="contenedorExp">
-        <input type="text" placeholder="Empresa y Fecha" value="CONSORCIO LEGION (2023)" oninput="actualizar()">
-        <textarea placeholder="Tareas realizadas" oninput="actualizar()">Operario de Estructura y Control de Calidad.</textarea>
+        <input type="text" placeholder="Empresa y Fecha" value="CONSORCIO LEGION (2023)" oninput="upd()">
+        <textarea placeholder="Descripción del puesto" oninput="upd()">Operario de Estructura y Control de Calidad.</textarea>
     </div>
-    <button class="btn-accion" onclick="agregarCampo()">+ Añadir otra experiencia</button>
+    <button class="btn-add" onclick="nuevoCampo()">+ Añadir Trabajo</button>
 
-    <button class="btn-imprimir" onclick="window.print()">📥 IMPRIMIR / GUARDAR PDF</button>
+    <button class="btn-print" onclick="window.print()">📥 GUARDAR COMO PDF</button>
 </div>
 
-<div class="vista-previa">
+<div class="preview">
     <div class="hoja">
         <div class="col-gris">
-            <div class="foto-perfil"><img id="outFoto" src="https://via.placeholder.com/160" alt="Foto"></div>
-            <div class="side-title">Contacto</div>
-            <p class="side-text" id="outTel">910457625</p>
-            <div class="side-title">Aptitudes</div>
-            <div class="side-text" id="outApt">• Responsabilidad<br>• Puntualidad</div>
-        </div>
-        <div class="col-blanca">
-            <div class="nombre-cv" id="outNombre">FRANKLIN<br>HUICHO PARIONA</div>
-            <div class="header-line"></div>
-            <div class="main-title">Resumen Profesional</div>
-            <p style="font-size: 14px; line-height: 1.6;">Especialista técnico con experiencia en el sector construcción y agropecuario.</p>
-            
-            <div class="main-title">Historial Laboral</div>
-            <div id="outHistorial"></div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function subirFoto(e) {
-        var reader = new FileReader();
-        reader.onload = function(){ document.getElementById('outFoto').src = reader.result; }
-        reader.readAsDataURL(e.target.files[0]);
-    }
-
-    function agregarCampo() {
-        const div = document.getElementById('contenedorExp');
-        div.innerHTML += '<input type="text" placeholder="Empresa" oninput="actualizar()"><textarea placeholder="Tareas" oninput="actualizar()"></textarea>';
-    }
-
-    function actualizar() {
-        document.getElementById('outNombre').innerText = document.getElementById('inNombre').value.toUpperCase();
-        document.getElementById('outTel').innerText = document.getElementById('inTel').value;
-        
-        // Aptitudes
-        let apts = document.getElementById('inApt').value.split('\n');
-        document.getElementById('outApt').innerHTML = apts.map(a => `• ${a}`).join('<br>');
-
-        // Experiencia
-        const inputs = document.querySelectorAll('#contenedorExp input');
-        const texts = document.querySelectorAll('#contenedorExp textarea');
-        let html = '';
-        for(let i=0; i<inputs.length; i++) {
-            if(inputs[i].value) {
-                html += `<div class="item-cv"><b>${inputs[i].value}</b><p>${texts[i].value.replace(/\n/g, '<br>')}</p></div>`;
-            }
-        }
-        document.getElementById('outHistorial').innerHTML = html;
-    }
-    actualizar();
-</script>
-
-</body>
-</html>
+            <div class="foto-espacio"><img id="outFoto" src="https://via.
