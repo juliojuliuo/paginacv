@@ -2,82 +2,173 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Creador de CV Pro - Julio</title>
+    <title>Creador de CV Inteligente</title>
     <style>
         :root { --gris-cv: #6d6e71; --azul-cv: #1b4b8a; }
         body { font-family: 'Arial', sans-serif; margin: 0; display: flex; background: #f0f2f5; }
         
-        /* PANEL DE CONTROL (Izquierda) */
+        /* PANEL DE CONTROL */
         .panel-control { width: 380px; background: #fff; padding: 20px; height: 100vh; overflow-y: auto; position: fixed; box-shadow: 4px 0 10px rgba(0,0,0,0.1); z-index: 100; border-right: 2px solid #ddd; }
-        .instrucciones { background: #e8f4fd; padding: 10px; border-radius: 5px; font-size: 13px; color: #1b4b8a; margin-bottom: 15px; border: 1px solid #b3d7f2; }
-        label { font-weight: bold; font-size: 12px; display: block; margin-top: 10px; color: #333; text-transform: uppercase; }
+        label { font-weight: bold; font-size: 11px; display: block; margin-top: 12px; color: #333; text-transform: uppercase; }
         input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
         .btn-add { background: var(--azul-cv); color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; margin-top: 10px; }
         .btn-print { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 25px; }
 
-        /* VISTA PREVIA (Derecha) */
+        /* VISTA PREVIA */
         .preview { margin-left: 400px; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
         .hoja { width: 210mm; min-height: 297mm; background: white; display: flex; box-shadow: 0 0 20px rgba(0,0,0,0.2); margin-bottom: 20px; }
 
         /* Columna Gris */
-        .col-gris { width: 35%; background: var(--gris-cv); color: white; padding: 40px 25px; box-sizing: border-box; }
-        .foto-espacio { width: 150px; height: 150px; border-radius: 50%; border: 4px solid white; margin: 0 auto 20px; overflow: hidden; background: #eee; }
-        .foto-espacio img { width: 100%; height: 100%; object-fit: cover; }
-        .side-titulo { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 25px; font-size: 14px; }
-        .side-info { font-size: 13px; margin-top: 8px; line-height: 1.4; word-wrap: break-word; }
+        .col-gris { width: 35%; background: var(--gris-cv); color: white; padding: 40px 20px; box-sizing: border-box; }
+        .foto-circulo { width: 140px; height: 140px; border-radius: 50%; border: 4px solid white; margin: 0 auto 20px; overflow: hidden; background: #eee; }
+        .foto-circulo img { width: 100%; height: 100%; object-fit: cover; }
+        .side-titulo { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 25px; font-size: 13px; letter-spacing: 1px; }
+        .side-info { font-size: 12.5px; margin-top: 8px; line-height: 1.4; word-wrap: break-word; }
 
-        /* Columna Principal */
-        .col-blanca { width: 65%; padding: 50px 40px; box-sizing: border-box; }
-        .nombre-cv { color: #333; font-size: 38px; font-weight: bold; line-height: 1; margin-bottom: 5px; }
-        .linea-azul { border-bottom: 4px solid var(--azul-cv); margin: 20px 0; }
-        .seccion-tit { color: var(--azul-cv); font-weight: bold; text-transform: uppercase; font-size: 16px; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-        .texto-cuerpo { font-size: 14px; line-height: 1.5; color: #444; }
+        /* Columna Blanca */
+        .col-blanca { width: 65%; padding: 50px 35px; box-sizing: border-box; overflow: hidden; }
+        
+        /* AJUSTE DEL NOMBRE */
+        .nombre-contenedor { 
+            width: 100%; 
+            min-height: 80px; 
+            display: flex; 
+            align-items: center;
+        }
+        .nombre-cv { 
+            color: #333; 
+            font-weight: bold; 
+            line-height: 1; 
+            text-transform: uppercase;
+            width: 100%;
+            /* Aquí está el truco: */
+            font-size: clamp(20px, 4vw, 36px); 
+            word-break: break-word;
+        }
+
+        .linea-azul { border-bottom: 5px solid var(--azul-cv); margin: 15px 0 25px; width: 100%; }
+        .seccion-tit { color: var(--azul-cv); font-weight: bold; text-transform: uppercase; font-size: 16px; margin-top: 25px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .texto-cuerpo { font-size: 14px; line-height: 1.5; color: #444; margin-top: 8px; }
 
         @media print {
             .panel-control { display: none; }
             .preview { margin-left: 0; padding: 0; }
-            .hoja { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
+            .hoja { box-shadow: none; margin: 0; width: 100%; }
         }
     </style>
 </head>
 <body>
 
 <div class="panel-control">
-    <h2>📝 Generador de CV</h2>
-    <div class="instrucciones">Llena los campos y el CV se actualizará al instante.</div>
+    <h2>🚀 Creador Pro</h2>
     
-    <label>Foto:</label>
+    <label>Fotografía:</label>
     <input type="file" accept="image/*" onchange="subirFoto(event)">
 
     <label>Nombre Completo:</label>
     <input type="text" id="inNombre" value="FRANKLIN HUICHO PARIONA" oninput="upd()">
 
-    <label>Teléfono:</label>
-    <input type="text" id="inTel" value="910457625" oninput="upd()">
-
-    <label>Correo Electrónico:</label>
-    <input type="text" id="inEmail" value="franklin.huicho@email.com" oninput="upd()">
-
     <label>Dirección:</label>
     <input type="text" id="inDir" value="C.P. Independencia, Colcabamba" oninput="upd()">
 
+    <label>Teléfono:</label>
+    <input type="text" id="inTel" value="910457625" oninput="upd()">
+
+    <label>Correo:</label>
+    <input type="text" id="inEmail" value="franklin.huicho@email.com" oninput="upd()">
+
     <label>Perfil Profesional:</label>
-    <textarea id="inPerfil" rows="4" oninput="upd()">Profesional Técnico en Producción Agropecuaria con experiencia operativa en construcción. Especialista en control de calidad y manejo de estructuras.</textarea>
+    <textarea id="inPerfil" rows="4" oninput="upd()">Profesional Técnico en Producción Agropecuaria con amplia experiencia operativa...</textarea>
 
     <label>Aptitudes (una por línea):</label>
     <textarea id="inApt" rows="3" oninput="upd()">Responsabilidad&#10;Puntualidad&#10;Trabajo en equipo</textarea>
 
-    <label>Historial Laboral:</label>
+    <label>Experiencia Laboral:</label>
     <div id="contenedorExp">
         <input type="text" placeholder="Empresa y Fecha" value="CONSORCIO LEGION (2023)" oninput="upd()">
-        <textarea placeholder="Descripción del puesto" oninput="upd()">Operario de Estructura y Control de Calidad.</textarea>
+        <textarea placeholder="Tareas realizadas" oninput="upd()">Operario de Estructura y Control de Calidad.</textarea>
     </div>
-    <button class="btn-add" onclick="nuevoCampo()">+ Añadir Trabajo</button>
+    <button class="btn-add" onclick="nuevoCampo()">+ Añadir Experiencia</button>
 
-    <button class="btn-print" onclick="window.print()">📥 GUARDAR COMO PDF</button>
+    <button class="btn-print" onclick="window.print()">📥 DESCARGAR CV (PDF)</button>
 </div>
 
 <div class="preview">
     <div class="hoja">
         <div class="col-gris">
-            <div class="foto-espacio"><img id="outFoto" src="https://via.
+            <div class="foto-circulo"><img id="outFoto" src="https://via.placeholder.com/150" alt="Foto"></div>
+            
+            <div class="side-titulo">Información</div>
+            <div class="side-info">
+                📍 <span id="outDir">C.P. Independencia, Colcabamba</span><br><br>
+                📞 <span id="outTel">910457625</span><br><br>
+                📧 <span id="outEmail">franklin.huicho@email.com</span>
+            </div>
+
+            <div class="side-titulo">Aptitudes</div>
+            <div class="side-info" id="outApt">• Responsabilidad<br>• Puntualidad</div>
+        </div>
+
+        <div class="col-blanca">
+            <div class="nombre-contenedor">
+                <div class="nombre-cv" id="outNombre">FRANKLIN HUICHO PARIONA</div>
+            </div>
+            <div class="linea-azul"></div>
+
+            <div class="seccion-tit">Perfil Profesional</div>
+            <div class="texto-cuerpo" id="outPerfil">Profesional técnico con experiencia...</div>
+
+            <div class="seccion-tit">Historial Laboral</div>
+            <div id="outHist"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function subirFoto(e) {
+        var reader = new FileReader();
+        reader.onload = function(){ document.getElementById('outFoto').src = reader.result; }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+    function nuevoCampo() {
+        const div = document.getElementById('contenedorExp');
+        const nInput = document.createElement('input');
+        nInput.placeholder = "Empresa y Fecha";
+        nInput.oninput = upd;
+        const nText = document.createElement('textarea');
+        nText.placeholder = "Tareas realizadas";
+        nText.oninput = upd;
+        div.appendChild(nInput);
+        div.appendChild(nText);
+    }
+
+    function upd() {
+        // Nombre con ajuste de tamaño automático
+        const nombre = document.getElementById('inNombre').value;
+        const outNom = document.getElementById('outNombre');
+        outNom.innerText = nombre.toUpperCase();
+
+        document.getElementById('outDir').innerText = document.getElementById('inDir').value;
+        document.getElementById('outTel').innerText = document.getElementById('inTel').value;
+        document.getElementById('outEmail').innerText = document.getElementById('inEmail').value;
+        document.getElementById('outPerfil').innerText = document.getElementById('inPerfil').value;
+
+        let apts = document.getElementById('inApt').value.split('\n');
+        document.getElementById('outApt').innerHTML = apts.filter(a => a.trim() !== "").map(a => `• ${a}`).join('<br>');
+
+        const inputs = document.querySelectorAll('#contenedorExp input');
+        const texts = document.querySelectorAll('#contenedorExp textarea');
+        let html = '';
+        for(let i=0; i<inputs.length; i++) {
+            if(inputs[i].value) {
+                html += `<div style="margin-bottom:15px"><b>${inputs[i].value}</b><p class="texto-cuerpo">${texts[i].value.replace(/\n/g, '<br>')}</p></div>`;
+            }
+        }
+        document.getElementById('outHist').innerHTML = html;
+    }
+    upd();
+</script>
+
+</body>
+</html>
