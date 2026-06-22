@@ -2,55 +2,298 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CV Profesional - Franklin Huicho</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Encanto Marino | Cevichería & Restaurant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --sidebar-color: #6d6e71; --header-blue: #1b4b8a; }
-        body { font-family: 'Helvetica', Arial, sans-serif; margin: 0; display: flex; background: #e0e0e0; }
+        :root {
+            --primary-color: #003366; /* Azul Marino Profundo */
+            --secondary-color: #00a8cc; /* Celeste Marino */
+            --accent-color: #ff6600; /* Naranja Cevichero */
+            --bg-color: #f4f7f6;
+            --text-dark: #333;
+            --text-light: #fff;
+            --card-bg: #fff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Controles - No se imprimen */
-        .controles { width: 320px; background: #fff; padding: 20px; height: 100vh; position: fixed; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
-        .btn-add { background: var(--header-blue); color: white; border: none; padding: 8px; border-radius: 4px; width: 100%; cursor: pointer; margin-bottom: 10px; }
-        .btn-print { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            scroll-behavior: smooth;
+        }
 
-        /* Estructura del CV */
-        .preview { margin-left: 340px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .hoja { width: 210mm; min-height: 297mm; background: white; display: flex; box-shadow: 0 0 15px rgba(0,0,0,0.2); margin-bottom: 20px; position: relative; }
+        /* --- NAVEGACIÓN --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(0, 51, 102, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: center; gap: 1.5rem;
+            flex-wrap: wrap; padding: 0 1rem;
+        }
+        .nav-container a {
+            color: var(--text-light); text-decoration: none;
+            font-weight: 600; font-size: 0.9rem;
+            padding: 0.5rem 1rem; border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .nav-container a:hover, .nav-container a.active {
+            background: var(--accent-color);
+            color: var(--text-light);
+        }
 
-        /* Columna Lateral (Gris) */
-        .col-gris { width: 33%; background: var(--sidebar-bg, var(--sidebar-color)); color: white; padding: 40px 30px; }
-        .foto-circulo { width: 160px; height: 160px; border-radius: 50%; border: 5px solid white; margin: 0 auto 30px; overflow: hidden; background: #ccc; }
-        .foto-circulo img { width: 100%; height: 100%; object-fit: cover; }
-        .side-sec { margin-top: 30px; }
-        .side-tit { border-bottom: 2px solid white; font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-bottom: 10px; font-size: 16px; }
-        .side-txt { font-size: 13px; line-height: 1.6; margin-bottom: 5px; }
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), 
+                        url('https://feyma.com/blog/wp-content/uploads/2024/07/claves-para-decoracion-de-restaurantes-peruanos-300x200.jpg') center/cover;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; color: var(--text-light);
+            padding: 0 1rem; margin-top: 60px;
+        }
+        .hero h1 { font-size: 3.5rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; font-weight: 300; max-width: 600px; margin-bottom: 20px; }
+        .btn-hero {
+            background: var(--accent-color); color: white;
+            padding: 10px 25px; border-radius: 30px;
+            text-decoration: none; font-weight: 600; font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+        .btn-hero:hover { transform: scale(1.05); }
 
-        /* Contenido Principal */
-        .col-principal { width: 67%; padding: 50px 40px; }
-        .nombre-top { color: #333; font-size: 45px; font-weight: bold; line-height: 1; margin-bottom: 40px; }
-        .sec-tit { color: var(--header-blue); border-bottom: 2px solid var(--header-blue); font-weight: bold; text-transform: uppercase; padding-bottom: 5px; margin-top: 35px; margin-bottom: 15px; font-size: 18px; }
-        .job-tit { font-weight: bold; font-size: 15px; margin-top: 10px; display: block; }
-        .job-date { font-size: 13px; color: #666; }
-        .job-list { padding-left: 20px; margin: 5px 0; font-size: 14px; line-height: 1.5; }
+        /* --- SECCIONES DEL MENÚ --- */
+        .menu-section { max-width: 1200px; margin: 4rem auto; padding: 0 1rem; }
+        .section-title {
+            text-align: center; font-size: 2.2rem; color: var(--primary-color);
+            margin-bottom: 2rem; position: relative;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 60px; height: 4px;
+            background: var(--accent-color); margin: 10px auto 0; border-radius: 2px;
+        }
 
-        @media print {
-            .controles { display: none; }
-            .preview { margin-left: 0; padding: 0; }
-            .hoja { box-shadow: none; width: 100%; margin: 0; page-break-after: always; }
-            body { background: white; }
+        /* --- GRID Y TARJETAS (CARDS) --- */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: var(--card-bg); border-radius: 15px;
+            overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex; flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .card-img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;}
+        .card-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 10px;
+        }
+        .card-title { font-size: 1.2rem; color: var(--primary-color); font-weight: 600; margin:0;}
+        .card-price { font-size: 1.3rem; color: var(--accent-color); font-weight: 700; }
+        .card-desc { font-size: 0.9rem; color: #666; margin-bottom: 15px; flex-grow: 1;}
+        .btn-add {
+            background: transparent; border: 2px solid var(--secondary-color);
+            color: var(--secondary-color); width: 100%; padding: 10px;
+            border-radius: 8px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; text-align: center; text-decoration: none;
+        }
+        .btn-add:hover { background: var(--secondary-color); color: white; }
+
+        /* --- WHATSAPP FLOTANTE --- */
+        .whatsapp-float {
+            position: fixed; bottom: 30px; right: 30px;
+            background-color: #25d366; color: #FFF;
+            border-radius: 50px; width: 60px; height: 60px;
+            text-align: center; font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s; text-decoration: none;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--primary-color); color: white;
+            text-align: center; padding: 3rem 1rem; margin-top: 4rem;
+        }
+        .footer-info h3 { margin-bottom: 1rem; color: var(--secondary-color); }
+        .footer-info p { margin-bottom: 0.5rem; font-size: 0.95rem; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-container { gap: 0.5rem; }
+            .nav-container a { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="controles">
-    <h3>⚙️ EDITOR ESTILO ROSAS</h3>
-    <label>Tu Foto:</label>
-    <input type="file" onchange="subirFoto(event)">
-    
-    <div style="background:#f9f9f9; padding:10px; margin-top:15px; border-radius:5px;">
-        <label><b>Historial Laboral</b></label>
-        <div id="editExp">
-            <input type="text" value="CONSORCIO LEGION" oninput="upd()">
-            <textarea placeholder="Tareas (una por línea)" oninput="upd()">Operario de Estructura&#10;Control de Calidad en Proceso Constructivo</textarea>
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav>
+        <div class="nav-container">
+            <a href="#ceviches">Ceviches</a>
+            <a href="#chaufas">Arroces y Chaufas</a>
+            <a href="#duos">Dúos y Tríos</a>
+            <a href="#bebidas">Bebidas</a>
         </div>
-        <button class
+    </nav>
+
+    <!-- HERO / PORTADA -->
+    <header class="hero">
+        <h1>El Encanto Marino</h1>
+        <p>Sabor criollo con el toque especial. Visítanos y disfruta del auténtico sabor marino.</p>
+        <a href="#ceviches" class="btn-hero">Ver Carta Digital</a>
+    </header>
+
+    <!-- SECCIÓN: CEVICHES -->
+    <section id="ceviches" class="menu-section">
+        <h2 class="section-title">Nuestros Ceviches</h2>
+        <div class="grid-menu">
+            <!-- Tarjeta 1 -->
+            <div class="card">
+                <img src="https://laperlatakeaway.com/wp-content/uploads/2025/06/ceviche-peruano-1024x576.jpg" alt="Ceviche Mixto" class="card-img">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">Ceviche Mixto</h3>
+                        <span class="card-price">S/ 25.00</span>
+                    </div>
+                    <p class="card-desc">Fresco pescado y selección de mariscos marinados en limón, ají limo y especias.</p>
+                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20Mixto" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+                </div>
+            </div>
+            <!-- Tarjeta 2 -->
+            <div class="card">
+                <img src="https://laperlatakeaway.com/wp-content/uploads/2025/06/ceviche-peruano-1024x576.jpg" alt="Ceviche de Trucha" class="card-img">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">Ceviche de Trucha</h3>
+                        <span class="card-price">S/ 25.00</span>
+                    </div>
+                    <p class="card-desc">Cortes frescos de trucha con nuestra clásica leche de tigre, acompañado de camote y choclo.</p>
+                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20de%20Trucha" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+                </div>
+            </div>
+            <!-- Tarjeta 3 -->
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">Ceviche de Pescado</h3>
+                        <span class="card-price">S/ 20.00</span>
+                    </div>
+                    <p class="card-desc">El clásico de la casa. Pescado fresco del día con el toque especial de Encanto Marino.</p>
+                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20de%20Pescado" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: ARROCES Y CHAUFAS -->
+    <section id="chaufas" class="menu-section">
+        <h2 class="section-title">Arroces y Chaufas</h2>
+        <div class="grid-menu">
+            <div class="card">
+                <img src="https://i.ytimg.com/vi/U0_BQ65s031/maxresdefault.jpg" alt="Chaufa de Mariscos" class="card-img">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">Chaufa de Mariscos</h3>
+                        <span class="card-price">S/ 20.00</span>
+                    </div>
+                    <p class="card-desc">Delicioso arroz saltado al wok con mariscos selectos, sillao, cebolla china y huevo.</p>
+                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Chaufa%20de%20Mariscos" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">Arroz con Mariscos</h3>
+                        <span class="card-price">S/ 20.00</span>
+                    </div>
+                    <p class="card-desc">Arroz graneadito con mariscos en salsa madre, arverjitas y pimientos.</p>
+                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Arroz%20con%20Mariscos" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: DÚOS Y TRÍOS -->
+    <section id="duos" class="menu-section">
+        <h2 class="section-title">Dúos e Irresistibles</h2>
+        <p style="text-align: center; margin-bottom: 2rem; color: #666;">¡La combinación perfecta para tu paladar!</p>
+        <div class="grid-menu">
+            <div class="card" style="border: 2px solid var(--secondary-color);">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">Dúo 1</h3>
+                        <span class="card-price">S/ 22.00</span>
+                    </div>
+                    <p class="card-desc"><strong>Incluye:</strong> Ceviche + Arroz con Mariscos + Chilcano + Cancha</p>
+                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20el%20Duo%201" class="btn-add" target="_blank" style="background: var(--secondary-color); color: white;"><i class="fab fa-whatsapp"></i> Pedir Promo</a>
+                </div>
+            </div>
+            <div class="card" style="border: 2px solid var(--accent-color);">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">Triple 1</h3>
+                        <span class="card-price">S/ 28.00</span>
+                    </div>
+                    <p class="card-desc"><strong>Incluye:</strong> Arroz con Mariscos + Chicharrón de Pota/Pescado + Ceviche + Chilcano</p>
+                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20el%20Triple%201" class="btn-add" target="_blank" style="background: var(--accent-color); color: white; border-color: var(--accent-color);"><i class="fab fa-whatsapp"></i> Pedir Promo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOTÓN WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20hacer%20una%20reserva%20o%20pedido" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-info">
+            <h3>EL ENCANTO MARINO</h3>
+            <p>Cevicheria & Restaurant</p>
+            <p><i class="fas fa-phone-alt"></i> Pedidos y Reservas: 913 725 556 - 983 289 919</p>
+            <p>&copy; 2026 Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JS simple para efecto activo en el menú al hacer scroll
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll("nav .nav-container a");
+
+        window.onscroll = () => {
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute("id");
+                }
+            });
+            navLinks.forEach((a) => {
+                a.classList.remove("active");
+                if (a.getAttribute("href").includes(current)) {
+                    a.classList.add("active");
+                }
+            });
+        };
+    </script>
+</body>
+</html>
