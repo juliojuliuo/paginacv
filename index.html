@@ -8,137 +8,340 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #003366; /* Azul Marino Profundo */
-            --secondary-color: #00a8cc; /* Celeste Marino */
-            --accent-color: #ff6600; /* Naranja Cevichero */
+            --primary-color: #003366; 
+            --secondary-color: #00a8cc; 
+            --accent-color: #ff6600; 
             --bg-color: #f4f7f6;
             --text-dark: #333;
             --text-light: #fff;
             --card-bg: #fff;
+            --nav-height: 70px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
         
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--nav-height); /* Evita que el menú tape los títulos al hacer clic */
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-dark);
-            scroll-behavior: smooth;
+            line-height: 1.6;
         }
 
         /* --- NAVEGACIÓN --- */
         nav {
             position: fixed;
-            top: 0; width: 100%;
+            top: 0; 
+            width: 100%;
+            height: var(--nav-height);
             background: rgba(0, 51, 102, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 1rem 0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
         }
+
         .nav-container {
-            max-width: 1200px; margin: 0 auto;
-            display: flex; justify-content: center; gap: 1.5rem;
-            flex-wrap: wrap; padding: 0 1rem;
+            max-width: 1200px; 
+            margin: 0 auto;
+            width: 100%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            padding: 0 1rem;
         }
-        .nav-container a {
-            color: var(--text-light); text-decoration: none;
-            font-weight: 600; font-size: 0.9rem;
-            padding: 0.5rem 1rem; border-radius: 20px;
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light); 
+            text-decoration: none;
+            font-weight: 600; 
+            font-size: 0.95rem;
+            padding: 0.5rem 1.2rem; 
+            border-radius: 20px;
             transition: all 0.3s ease;
         }
-        .nav-container a:hover, .nav-container a.active {
+
+        .nav-links a:hover, .nav-links a.active {
             background: var(--accent-color);
             color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
         }
 
         /* --- HERO SECTION --- */
         .hero {
-            height: 60vh;
-            background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), 
+            height: 70vh;
+            background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.8)), 
                         url('https://feyma.com/blog/wp-content/uploads/2024/07/claves-para-decoracion-de-restaurantes-peruanos-300x200.jpg') center/cover;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center; color: var(--text-light);
-            padding: 0 1rem; margin-top: 60px;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            text-align: center; 
+            color: var(--text-light);
+            padding: 0 1rem; 
+            margin-top: var(--nav-height);
         }
-        .hero h1 { font-size: 3.5rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; font-weight: 300; max-width: 600px; margin-bottom: 20px; }
+
+        .hero h1 { 
+            font-size: clamp(2.5rem, 5vw, 4rem); 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p { 
+            font-size: clamp(1rem, 2vw, 1.2rem); 
+            font-weight: 300; 
+            max-width: 600px; 
+            margin-bottom: 30px; 
+        }
+
         .btn-hero {
-            background: var(--accent-color); color: white;
-            padding: 10px 25px; border-radius: 30px;
-            text-decoration: none; font-weight: 600; font-size: 1.1rem;
-            transition: transform 0.3s;
+            background: var(--accent-color); 
+            color: white;
+            padding: 12px 30px; 
+            border-radius: 30px;
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.4);
         }
-        .btn-hero:hover { transform: scale(1.05); }
+
+        .btn-hero:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.6);
+        }
 
         /* --- SECCIONES DEL MENÚ --- */
-        .menu-section { max-width: 1200px; margin: 4rem auto; padding: 0 1rem; }
-        .section-title {
-            text-align: center; font-size: 2.2rem; color: var(--primary-color);
-            margin-bottom: 2rem; position: relative;
+        main {
+            padding-bottom: 4rem;
         }
+
+        .menu-section { 
+            max-width: 1200px; 
+            margin: 5rem auto 0; 
+            padding: 0 1.5rem; 
+        }
+
+        .section-title {
+            text-align: center; 
+            font-size: 2.2rem; 
+            color: var(--primary-color);
+            margin-bottom: 3rem; 
+            position: relative;
+        }
+
         .section-title::after {
-            content: ''; display: block; width: 60px; height: 4px;
-            background: var(--accent-color); margin: 10px auto 0; border-radius: 2px;
+            content: ''; 
+            display: block; 
+            width: 80px; 
+            height: 4px;
+            background: var(--accent-color); 
+            margin: 15px auto 0; 
+            border-radius: 2px;
         }
 
         /* --- GRID Y TARJETAS (CARDS) --- */
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
         }
+
         .card {
-            background: var(--card-bg); border-radius: 15px;
-            overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex; flex-direction: column;
+            background: var(--card-bg); 
+            border-radius: 15px;
+            overflow: hidden; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            display: flex; 
+            flex-direction: column;
+            border: 1px solid #eaeaea;
         }
+
         .card:hover {
-            transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
-        .card-img { width: 100%; height: 200px; object-fit: cover; }
-        .card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;}
+
+        .card-img { 
+            width: 100%; 
+            height: 220px; 
+            object-fit: cover;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        .card-content { 
+            padding: 1.8rem; 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column;
+        }
+
         .card-header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 10px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start;
+            margin-bottom: 12px; 
+            border-bottom: 1px dashed #ddd; 
+            padding-bottom: 12px;
         }
-        .card-title { font-size: 1.2rem; color: var(--primary-color); font-weight: 600; margin:0;}
-        .card-price { font-size: 1.3rem; color: var(--accent-color); font-weight: 700; }
-        .card-desc { font-size: 0.9rem; color: #666; margin-bottom: 15px; flex-grow: 1;}
+
+        .card-title { 
+            font-size: 1.25rem; 
+            color: var(--primary-color); 
+            font-weight: 700; 
+            margin: 0;
+        }
+
+        .card-price { 
+            font-size: 1.3rem; 
+            color: var(--accent-color); 
+            font-weight: 700; 
+            white-space: nowrap;
+        }
+
+        .card-desc { 
+            font-size: 0.95rem; 
+            color: #555; 
+            margin-bottom: 20px; 
+            flex-grow: 1;
+        }
+
         .btn-add {
-            background: transparent; border: 2px solid var(--secondary-color);
-            color: var(--secondary-color); width: 100%; padding: 10px;
-            border-radius: 8px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; text-align: center; text-decoration: none;
+            background: transparent; 
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color); 
+            width: 100%; 
+            padding: 12px;
+            border-radius: 8px; 
+            font-weight: 600; 
+            cursor: pointer;
+            transition: all 0.3s; 
+            text-align: center; 
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
-        .btn-add:hover { background: var(--secondary-color); color: white; }
+
+        .btn-add:hover { 
+            background: var(--secondary-color); 
+            color: white; 
+        }
 
         /* --- WHATSAPP FLOTANTE --- */
         .whatsapp-float {
-            position: fixed; bottom: 30px; right: 30px;
-            background-color: #25d366; color: #FFF;
-            border-radius: 50px; width: 60px; height: 60px;
-            text-align: center; font-size: 30px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 100; display: flex; align-items: center; justify-content: center;
-            transition: transform 0.3s; text-decoration: none;
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px;
+            background-color: #25d366; 
+            color: #FFF;
+            border-radius: 50px; 
+            width: 65px; 
+            height: 65px;
+            text-align: center; 
+            font-size: 35px;
+            box-shadow: 2px 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 100; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: all 0.3s ease; 
+            text-decoration: none;
         }
-        .whatsapp-float:hover { transform: scale(1.1); }
+
+        .whatsapp-float:hover { 
+            transform: scale(1.1) rotate(-5deg); 
+            box-shadow: 2px 6px 20px rgba(37, 211, 102, 0.6);
+        }
 
         /* --- FOOTER --- */
         footer {
-            background: var(--primary-color); color: white;
-            text-align: center; padding: 3rem 1rem; margin-top: 4rem;
+            background: var(--primary-color); 
+            color: white;
+            text-align: center; 
+            padding: 4rem 1rem 2rem; 
+            margin-top: 4rem;
         }
-        .footer-info h3 { margin-bottom: 1rem; color: var(--secondary-color); }
-        .footer-info p { margin-bottom: 0.5rem; font-size: 0.95rem; }
 
+        .footer-info h3 { 
+            margin-bottom: 1rem; 
+            color: var(--secondary-color); 
+            letter-spacing: 1px;
+        }
+
+        .footer-info p { 
+            margin-bottom: 0.8rem; 
+            font-size: 0.95rem; 
+            color: #ccc;
+        }
+
+        .footer-info i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        /* --- RESPONSIVE DESIGN (MÓVILES) --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-container { gap: 0.5rem; }
-            .nav-container a { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: var(--nav-height);
+                left: 0;
+                width: 100%;
+                background: rgba(0, 51, 102, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                gap: 1rem;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-in-out;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                width: 80%;
+                text-align: center;
+                padding: 10px;
+            }
+
+            .card-img {
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -147,10 +350,14 @@
     <!-- MENÚ DE NAVEGACIÓN -->
     <nav>
         <div class="nav-container">
-            <a href="#ceviches">Ceviches</a>
-            <a href="#chaufas">Arroces y Chaufas</a>
-            <a href="#duos">Dúos y Tríos</a>
-            <a href="#bebidas">Bebidas</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-links" id="nav-links">
+                <a href="#ceviches">Ceviches</a>
+                <a href="#chaufas">Arroces y Chaufas</a>
+                <a href="#duos">Dúos y Tríos</a>
+            </div>
         </div>
     </nav>
 
@@ -161,106 +368,113 @@
         <a href="#ceviches" class="btn-hero">Ver Carta Digital</a>
     </header>
 
-    <!-- SECCIÓN: CEVICHES -->
-    <section id="ceviches" class="menu-section">
-        <h2 class="section-title">Nuestros Ceviches</h2>
-        <div class="grid-menu">
-            <!-- Tarjeta 1 -->
-            <div class="card">
-                <img src="https://laperlatakeaway.com/wp-content/uploads/2025/06/ceviche-peruano-1024x576.jpg" alt="Ceviche Mixto" class="card-img">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h3 class="card-title">Ceviche Mixto</h3>
-                        <span class="card-price">S/ 25.00</span>
+    <main>
+        <!-- SECCIÓN: CEVICHES -->
+        <section id="ceviches" class="menu-section">
+            <h2 class="section-title">Nuestros Ceviches</h2>
+            <div class="grid-menu">
+                <div class="card">
+                    <img src="https://laperlatakeaway.com/wp-content/uploads/2025/06/ceviche-peruano-1024x576.jpg" alt="Ceviche Mixto" class="card-img">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">Ceviche Mixto</h3>
+                            <span class="card-price">S/ 25.00</span>
+                        </div>
+                        <p class="card-desc">Fresco pescado y selección de mariscos marinados en limón, ají limo y especias de la casa.</p>
+                        <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20Mixto" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
                     </div>
-                    <p class="card-desc">Fresco pescado y selección de mariscos marinados en limón, ají limo y especias.</p>
-                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20Mixto" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
                 </div>
-            </div>
-            <!-- Tarjeta 2 -->
-            <div class="card">
-                <img src="https://laperlatakeaway.com/wp-content/uploads/2025/06/ceviche-peruano-1024x576.jpg" alt="Ceviche de Trucha" class="card-img">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h3 class="card-title">Ceviche de Trucha</h3>
-                        <span class="card-price">S/ 25.00</span>
+                
+                <div class="card">
+                    <img src="https://laperlatakeaway.com/wp-content/uploads/2025/06/ceviche-peruano-1024x576.jpg" alt="Ceviche de Trucha" class="card-img">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">Ceviche de Trucha</h3>
+                            <span class="card-price">S/ 25.00</span>
+                        </div>
+                        <p class="card-desc">Cortes frescos de trucha con nuestra clásica leche de tigre, acompañado de camote glaseado y choclo.</p>
+                        <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20de%20Trucha" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
                     </div>
-                    <p class="card-desc">Cortes frescos de trucha con nuestra clásica leche de tigre, acompañado de camote y choclo.</p>
-                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20de%20Trucha" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
                 </div>
-            </div>
-            <!-- Tarjeta 3 -->
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h3 class="card-title">Ceviche de Pescado</h3>
-                        <span class="card-price">S/ 20.00</span>
-                    </div>
-                    <p class="card-desc">El clásico de la casa. Pescado fresco del día con el toque especial de Encanto Marino.</p>
-                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20de%20Pescado" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- SECCIÓN: ARROCES Y CHAUFAS -->
-    <section id="chaufas" class="menu-section">
-        <h2 class="section-title">Arroces y Chaufas</h2>
-        <div class="grid-menu">
-            <div class="card">
-                <img src="https://i.ytimg.com/vi/U0_BQ65s031/maxresdefault.jpg" alt="Chaufa de Mariscos" class="card-img">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h3 class="card-title">Chaufa de Mariscos</h3>
-                        <span class="card-price">S/ 20.00</span>
+                <div class="card">
+                    <!-- Imagen de respaldo por si no tienes la original a la mano -->
+                    <img src="https://laperlatakeaway.com/wp-content/uploads/2025/06/ceviche-peruano-1024x576.jpg" alt="Ceviche de Pescado" class="card-img" style="filter: brightness(0.9);">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">Ceviche de Pescado</h3>
+                            <span class="card-price">S/ 20.00</span>
+                        </div>
+                        <p class="card-desc">El clásico de la casa. Pescado fresco del día con el toque especial de Encanto Marino.</p>
+                        <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Ceviche%20de%20Pescado" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
                     </div>
-                    <p class="card-desc">Delicioso arroz saltado al wok con mariscos selectos, sillao, cebolla china y huevo.</p>
-                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Chaufa%20de%20Mariscos" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h3 class="card-title">Arroz con Mariscos</h3>
-                        <span class="card-price">S/ 20.00</span>
-                    </div>
-                    <p class="card-desc">Arroz graneadito con mariscos en salsa madre, arverjitas y pimientos.</p>
-                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Arroz%20con%20Mariscos" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- SECCIÓN: DÚOS Y TRÍOS -->
-    <section id="duos" class="menu-section">
-        <h2 class="section-title">Dúos e Irresistibles</h2>
-        <p style="text-align: center; margin-bottom: 2rem; color: #666;">¡La combinación perfecta para tu paladar!</p>
-        <div class="grid-menu">
-            <div class="card" style="border: 2px solid var(--secondary-color);">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h3 class="card-title">Dúo 1</h3>
-                        <span class="card-price">S/ 22.00</span>
+        <!-- SECCIÓN: ARROCES Y CHAUFAS -->
+        <section id="chaufas" class="menu-section">
+            <h2 class="section-title">Arroces y Chaufas</h2>
+            <div class="grid-menu">
+                <div class="card">
+                    <img src="https://i.ytimg.com/vi/U0_BQ65s031/maxresdefault.jpg" alt="Chaufa de Mariscos" class="card-img">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">Chaufa de Mariscos</h3>
+                            <span class="card-price">S/ 20.00</span>
+                        </div>
+                        <p class="card-desc">Delicioso arroz saltado al wok con mariscos selectos, sillao, cebolla china y trozos de huevo.</p>
+                        <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Chaufa%20de%20Mariscos" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
                     </div>
-                    <p class="card-desc"><strong>Incluye:</strong> Ceviche + Arroz con Mariscos + Chilcano + Cancha</p>
-                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20el%20Duo%201" class="btn-add" target="_blank" style="background: var(--secondary-color); color: white;"><i class="fab fa-whatsapp"></i> Pedir Promo</a>
+                </div>
+                
+                <div class="card">
+                    <!-- Imagen de respaldo -->
+                    <img src="https://i.ytimg.com/vi/U0_BQ65s031/maxresdefault.jpg" alt="Arroz con Mariscos" class="card-img" style="filter: sepia(0.3);">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">Arroz con Mariscos</h3>
+                            <span class="card-price">S/ 20.00</span>
+                        </div>
+                        <p class="card-desc">Arroz graneadito con abundante mixtura de mariscos en salsa madre, arverjitas y pimientos.</p>
+                        <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20un%20Arroz%20con%20Mariscos" class="btn-add" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+                    </div>
                 </div>
             </div>
-            <div class="card" style="border: 2px solid var(--accent-color);">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h3 class="card-title">Triple 1</h3>
-                        <span class="card-price">S/ 28.00</span>
+        </section>
+
+        <!-- SECCIÓN: DÚOS Y TRÍOS -->
+        <section id="duos" class="menu-section">
+            <h2 class="section-title">Dúos e Irresistibles</h2>
+            <p style="text-align: center; margin-bottom: 2.5rem; color: #666; font-size: 1.1rem;">¡La combinación perfecta para tu paladar!</p>
+            <div class="grid-menu">
+                <div class="card" style="border: 2px solid var(--secondary-color);">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">Dúo Marino 1</h3>
+                            <span class="card-price">S/ 22.00</span>
+                        </div>
+                        <p class="card-desc"><strong>Incluye:</strong><br><br>🐟 Ceviche Clásico<br>🍚 Arroz con Mariscos<br>🍹 Vaso de Chilcano<br>🌽 Porción de Cancha</p>
+                        <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20el%20Duo%20Marino%201" class="btn-add" target="_blank" style="background: var(--secondary-color); color: white;"><i class="fab fa-whatsapp"></i> Pedir Promo</a>
                     </div>
-                    <p class="card-desc"><strong>Incluye:</strong> Arroz con Mariscos + Chicharrón de Pota/Pescado + Ceviche + Chilcano</p>
-                    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20el%20Triple%201" class="btn-add" target="_blank" style="background: var(--accent-color); color: white; border-color: var(--accent-color);"><i class="fab fa-whatsapp"></i> Pedir Promo</a>
+                </div>
+                
+                <div class="card" style="border: 2px solid var(--accent-color);">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">Triple Poder 1</h3>
+                            <span class="card-price">S/ 28.00</span>
+                        </div>
+                        <p class="card-desc"><strong>Incluye:</strong><br><br>🍚 Arroz con Mariscos<br>🦑 Chicharrón de Pota/Pescado<br>🐟 Ceviche Fresco<br>🍹 Vaso de Chilcano</p>
+                        <a href="https://wa.me/51913725556?text=Hola,%20quiero%20pedir%20el%20Triple%20Poder%201" class="btn-add" target="_blank" style="background: var(--accent-color); color: white; border-color: var(--accent-color);"><i class="fab fa-whatsapp"></i> Pedir Promo</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- BOTÓN WHATSAPP FLOTANTE -->
-    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20hacer%20una%20reserva%20o%20pedido" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/51913725556?text=Hola,%20quiero%20hacer%20una%20reserva%20o%20pedido%20en%20El%20Encanto%20Marino" class="whatsapp-float" target="_blank" aria-label="Escribir por WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -268,32 +482,60 @@
     <footer>
         <div class="footer-info">
             <h3>EL ENCANTO MARINO</h3>
-            <p>Cevicheria & Restaurant</p>
+            <p>Cevichería & Restaurant</p>
             <p><i class="fas fa-phone-alt"></i> Pedidos y Reservas: 913 725 556 - 983 289 919</p>
-            <p>&copy; 2026 Todos los derechos reservados.</p>
+            <p style="margin-top: 1.5rem; font-size: 0.8rem;">&copy; 2026 Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <script>
-        // JS simple para efecto activo en el menú al hacer scroll
-        const sections = document.querySelectorAll("section");
-        const navLinks = document.querySelectorAll("nav .nav-container a");
+        // Lógica para el menú hamburguesa en móviles
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        const links = document.querySelectorAll('.nav-links a');
 
-        window.onscroll = () => {
-            let current = "";
-            sections.forEach((section) => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 100) {
-                    current = section.getAttribute("id");
-                }
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Cambiar el icono de hamburguesa a una "X"
+            if(navLinks.classList.contains('active')){
+                mobileMenu.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Cerrar el menú al hacer clic en un enlace (en versión móvil)
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
             });
-            navLinks.forEach((a) => {
-                a.classList.remove("active");
-                if (a.getAttribute("href").includes(current)) {
-                    a.classList.add("active");
-                }
-            });
+        });
+
+        // Observador para resaltar el enlace activo en el menú al hacer scroll
+        const sections = document.querySelectorAll("section");
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '-80px 0px -60% 0px',
+            threshold: 0
         };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    links.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
     </script>
 </body>
 </html>
