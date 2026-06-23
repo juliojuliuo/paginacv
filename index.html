@@ -35,52 +35,53 @@
         .logo-text { display: flex; flex-direction: column; }
         .logo-title { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.3rem; font-weight: 700; line-height: 1.1; }
         .logo-subtitle { color: var(--gold-accent); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
-        .nav-links { display: flex; gap: 0.5rem; }
-        .nav-links a { color: #ffffff; text-decoration: none; font-weight: 500; font-size: 0.85rem; padding: 0.5rem 0.8rem; border-radius: 50px; transition: all 0.3s; }
+        .nav-links { display: flex; gap: 0.3rem; }
+        .nav-links a { color: #ffffff; text-decoration: none; font-weight: 500; font-size: 0.8rem; padding: 0.4rem 0.7rem; border-radius: 50px; transition: all 0.3s; }
         .nav-links a:hover, .nav-links a.active { background: rgba(255, 159, 28, 0.2); color: var(--gold-accent); }
         .menu-toggle { display: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
 
         /* --- SECCIÓN DESTACADOS / CARRUSEL --- */
-        .featured-section { max-width: 1200px; margin: calc(var(--nav-height) + 2rem) auto 2rem; padding: 0 1.5rem; }
-        .swiper { width: 100%; padding: 2rem 0 3rem !important; }
+        .featured-section { max-width: 1200px; margin: calc(var(--nav-height) + 1.5rem) auto 1rem; padding: 0 1.5rem; }
+        .swiper { width: 100%; padding: 1.5rem 0 3rem !important; }
         .swiper-slide { height: auto; display: flex; justify-content: center; }
         
         /* Tarjeta del Combo Deslizante */
-        .combo-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); display: flex; flex-direction: column; width: 100%; max-width: 450px; border: 2px solid transparent; transition: all 0.3s ease; position: relative; }
+        .combo-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); display: flex; flex-direction: column; width: 100%; max-width: 420px; border: 2px solid transparent; transition: all 0.3s ease; position: relative; }
         .combo-card.selected { border-color: var(--gold-accent); background: #fffdf9; }
-        .combo-img-wrapper { width: 100%; height: 220px; position: relative; background: #0a192f; }
+        .combo-img-wrapper { width: 100%; height: 200px; position: relative; background: #0a192f; }
         .combo-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
-        .combo-badge { position: absolute; top: 15px; left: 15px; background: var(--gold-accent); color: #fff; padding: 4px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; }
-        .combo-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .combo-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--primary-dark); margin-bottom: 0.5rem; font-weight: 700; }
-        .combo-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; flex-grow: 1; }
-        .combo-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 1rem; }
-        .combo-price { font-size: 1.6rem; font-weight: 800; color: var(--gold-accent); }
+        .combo-badge { position: absolute; top: 15px; left: 15px; background: var(--gold-accent); color: #fff; padding: 4px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; z-index: 2; }
+        .combo-info { padding: 1.2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .combo-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--primary-dark); margin-bottom: 0.4rem; font-weight: 700; }
+        .combo-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.2rem; flex-grow: 1; min-height: 40px; }
+        .combo-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 0.8rem; }
+        .combo-price { font-size: 1.5rem; font-weight: 800; color: var(--gold-accent); }
         
         /* Controles de selección universales */
-        .order-controls { display: flex; align-items: center; gap: 12px; background: #f8fafc; padding: 6px 12px; border-radius: 50px; border: 1px solid #e2e8f0; }
-        .btn-qty { border: none; background: #fff; color: var(--primary-dark); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 1rem; transition: background 0.2s; }
+        .order-controls { display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 4px 10px; border-radius: 50px; border: 1px solid #e2e8f0; }
+        .btn-qty { border: none; background: #fff; color: var(--primary-dark); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 0.9rem; transition: background 0.2s; }
         .btn-qty:hover { background: var(--teal-marine); color: #fff; }
-        .qty-number { font-weight: 600; min-width: 20px; text-align: center; font-size: 1rem; }
+        .qty-number { font-weight: 600; min-width: 18px; text-align: center; font-size: 0.95rem; }
 
         /* --- ESTRUCTURA DE LA CARTA GENERAL --- */
-        .main-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
-        .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary-dark); margin: 3rem 0 1.5rem; position: relative; }
+        .main-container { max-width: 1200px; margin: 1rem auto; padding: 0 1.5rem; }
+        .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary-dark); margin: 3rem 0 1.5rem; position: relative; }
         .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--gold-accent); margin: 10px auto 0; border-radius: 10px; }
 
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
-        .menu-box { background: #fff; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow); border-top: 4px solid var(--teal-marine); height: fit-content; }
+        .menu-box { background: #fff; border-radius: 15px; padding: 1.8rem; box-shadow: var(--card-shadow); border-top: 4px solid var(--teal-marine); height: fit-content; }
         .menu-box.gold { border-top-color: var(--gold-accent); }
-        .menu-box h3 { color: var(--primary-dark); font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 1.5rem; border-bottom: 2px dashed #e2e8f0; padding-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+        .menu-box h3 { color: var(--primary-dark); font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 1.5rem; border-bottom: 2px dashed #e2e8f0; padding-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+        .menu-box h4 { font-size: 1rem; color: var(--text-main); margin: 1.5rem 0 1rem; padding-bottom: 0.2rem; border-bottom: 1px solid #e2e8f0; text-transform: uppercase; }
 
         /* ÍTEMS DE LA LISTA REGULAR */
-        .menu-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; position: relative; gap: 15px; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; position: relative; gap: 10px; }
         .menu-item-info { flex: 1; }
-        .item-name { font-weight: 600; color: var(--text-main); font-size: 1rem; }
+        .item-name { font-weight: 600; color: var(--text-main); font-size: 0.95rem; }
         .item-desc { display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-        .item-price { font-weight: 700; color: var(--gold-accent); font-size: 1.1rem; white-space: nowrap; margin-right: 5px; }
+        .item-price { font-weight: 700; color: var(--gold-accent); font-size: 1.05rem; white-space: nowrap; margin-right: 5px; }
 
-        /* --- BARRA FLOTANTE DE PEDIDO FIJA ABAJO --- */
+        /* --- BARRA FLOTANTE DE PEDIDO --- */
         .order-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a192f; color: #fff; padding: 1rem 1.5rem; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 999; display: flex; justify-content: space-between; align-items: center; transition: transform 0.3s ease; transform: translateY(100%); }
         .order-bar.show { transform: translateY(0); }
         .order-bar-info { display: flex; flex-direction: column; }
@@ -90,13 +91,12 @@
         .btn-whatsapp:hover { transform: scale(1.03); background: #20ba59; }
 
         /* --- FOOTER --- */
-        footer { background: var(--primary-dark); color: #fff; text-align: center; padding: 4rem 1.5rem 2rem; margin-top: 4rem; }
-        .footer-info h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
-        .footer-contacts { margin: 1.5rem 0; color: #cbd5e1; }
-        .footer-contacts p { margin-bottom: 8px; }
-        .footer-contacts i { color: var(--teal-marine); margin-right: 8px; }
+        footer { background: var(--primary-dark); color: #fff; text-align: center; padding: 3rem 1.5rem 2rem; margin-top: 4rem; }
+        .footer-info h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; }
+        .footer-contacts { margin: 1rem 0; color: #cbd5e1; font-size: 0.9rem; }
+        .footer-contacts p { margin-bottom: 5px; }
+        .footer-contacts i { color: var(--teal-marine); margin-right: 6px; }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             .nav-links { position: absolute; top: var(--nav-height); left: 0; width: 100%; background: rgba(10, 25, 47, 0.98); flex-direction: column; align-items: center; padding: 1.5rem 0; transform: translateY(-150%); transition: transform 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -130,204 +130,413 @@
             </a>
             <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
             <div class="nav-links" id="nav-links">
-                <a href="#destacados">Tríos y Dúos</a>
-                <a href="#marinos">Platos Marinos</a>
+                <a href="#destacados">Trios y Duos</a>
+                <a href="#marinos">Marinos</a>
                 <a href="#chaufas">Chaufas</a>
                 <a href="#bebidas">Bebidas</a>
             </div>
         </div>
     </nav>
 
-    <!-- SECCIÓN DESTACADOS DESLIZANTE (COMBOS) -->
+    <!-- SECCIÓN DESLIZANTE SUPERIOR: TRIOS Y DUOS -->
     <section id="destacados" class="featured-section">
-        <h2 class="section-title">Nuestras Promociones Estrellas</h2>
+        <h2 class="section-title">Nuestros Combos y Promociones</h2>
         
-        <!-- Carrusel Swiper -->
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                <!-- Triple 1 -->
+                <!-- Triples -->
                 <div class="swiper-slide">
-                    <div class="combo-card" data-name="Triple 1 (Arroz Mariscos + Chicharrón + Ceviche)" data-price="28.00">
-                        <span class="combo-badge">El Más Pedido 🔥</span>
-                        <div class="combo-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=500&q=80" alt="Triple 1" class="combo-img">
-                        </div>
+                    <div class="combo-card" data-name="Triple 1" data-price="28.00">
+                        <span class="combo-badge">Recomendado ⭐</span>
+                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
                         <div class="combo-info">
-                            <h4 class="combo-name">Combo Triple 1</h4>
-                            <p class="combo-desc">Arroz con Mariscos + Chicharrón de Pota y/o Pescado + Ceviche Peruano. ¡Incluye Chilcano de cortesía!</p>
-                            <div class="combo-footer">
-                                <span class="combo-price">S/ 28.00</span>
-                                <div class="order-controls">
-                                    <button class="btn-qty minus">-</button>
-                                    <span class="qty-number">0</span>
-                                    <button class="btn-qty plus">+</button>
-                                </div>
-                            </div>
+                            <h4 class="combo-name">Triple 1</h4>
+                            <p class="combo-desc">Arroz con Mariscos + Chicharrón de Pota y/o Pescado + Ceviche (Incluye Chilcano)</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 28.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Triple 2 -->
                 <div class="swiper-slide">
-                    <div class="combo-card" data-name="Triple 2 (Chaufa Pescado + Ceviche + Chicharrón)" data-price="25.00">
-                        <span class="combo-badge">Sabor Criollo</span>
-                        <div class="combo-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=500&q=80" alt="Triple 2" class="combo-img">
-                        </div>
+                    <div class="combo-card" data-name="Triple 2" data-price="25.00">
+                        <span class="combo-badge">Popular 🔥</span>
+                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
                         <div class="combo-info">
-                            <h4 class="combo-name">Combo Triple 2</h4>
-                            <p class="combo-desc">Chaufa de Pescado + Ceviche fresco + Chicharrón de Pota y/o Pescado. Con Chilcano y Cancha.</p>
-                            <div class="combo-footer">
-                                <span class="combo-price">S/ 25.00</span>
-                                <div class="order-controls">
-                                    <button class="btn-qty minus">-</button>
-                                    <span class="qty-number">0</span>
-                                    <button class="btn-qty plus">+</button>
-                                </div>
-                            </div>
+                            <h4 class="combo-name">Triple 2</h4>
+                            <p class="combo-desc">Chaufa de Pescado + Ceviche + Chicharrón de Pota y/o Pescado (Incluye Chilcano y Cancha)</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 25.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Dúo 1 -->
                 <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 1 (Ceviche + Arroz con Mariscos)" data-price="22.00">
-                        <span class="combo-badge">Dúo Perfecto</span>
-                        <div class="combo-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80" alt="Duo 1" class="combo-img">
-                        </div>
+                    <div class="combo-card" data-name="Triple 3" data-price="26.00">
+                        <span class="combo-badge">Marino Sabor</span>
+                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
                         <div class="combo-info">
-                            <h4 class="combo-name">Dúo Perfecto 1</h4>
-                            <p class="combo-desc">Ceviche Clásico + Arroz con Mariscos bien sazonado. Incluye Chilcano y Cancha crocante.</p>
-                            <div class="combo-footer">
-                                <span class="combo-price">S/ 22.00</span>
-                                <div class="order-controls">
-                                    <button class="btn-qty minus">-</button>
-                                    <span class="qty-number">0</span>
-                                    <button class="btn-qty plus">+</button>
-                                </div>
-                            </div>
+                            <h4 class="combo-name">Triple 3</h4>
+                            <p class="combo-desc">Chaufa de Mariscos + Ceviche + Chicharrón de Pota y/o Pescado (Incluye Chilcano y Cancha)</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 26.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Dúo 5 -->
                 <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 5 (Ceviche + Chicharrón)" data-price="25.00">
-                        <span class="combo-badge">Marino Marino</span>
-                        <div class="combo-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=500&q=80" alt="Duo 5" class="combo-img">
-                        </div>
+                    <div class="combo-card" data-name="Triple 4" data-price="30.00">
+                        <span class="combo-badge">El Supremo 👑</span>
+                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
                         <div class="combo-info">
-                            <h4 class="combo-name">Dúo Marino 5</h4>
-                            <p class="combo-desc">Ceviche + Chicharrón crujiente de Pota o Pescado. Acompañado de Chilcano y Cancha.</p>
-                            <div class="combo-footer">
-                                <span class="combo-price">S/ 25.00</span>
-                                <div class="order-controls">
-                                    <button class="btn-qty minus">-</button>
-                                    <span class="qty-number">0</span>
-                                    <button class="btn-qty plus">+</button>
-                                </div>
-                            </div>
+                            <h4 class="combo-name">Triple 4</h4>
+                            <p class="combo-desc">Ceviche + Chaufa de Pescado + Causa + Chicharrón (Incluye Cancha)</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 30.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dúos -->
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 1" data-price="22.00">
+                        <span class="combo-badge">Dúo</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 1</h4>
+                            <p class="combo-desc">Ceviche + Arroz con Mariscos + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 22.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 2" data-price="18.00">
+                        <span class="combo-badge">Dúo Económico</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 2</h4>
+                            <p class="combo-desc">Ceviche + Chaufa de pescado + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 18.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 3" data-price="22.00">
+                        <span class="combo-badge">Dúo</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 3</h4>
+                            <p class="combo-desc">Ceviche + Chaufa de Mariscos + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 22.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 4" data-price="20.00">
+                        <span class="combo-badge">Dúo</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 4</h4>
+                            <p class="combo-desc">Ceviche + Chaufa de Pota + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 20.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 5" data-price="25.00">
+                        <span class="combo-badge">Dúo</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 5</h4>
+                            <p class="combo-desc">Ceviche + Chicharron de Pota o pescado + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 25.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 6" data-price="20.00">
+                        <span class="combo-badge">Dúo</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 6</h4>
+                            <p class="combo-desc">Ceviche + Chicharron de Pota o Pescado + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 20.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 7" data-price="20.00">
+                        <span class="combo-badge">Dúo Causa</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 7</h4>
+                            <p class="combo-desc">Ceviche + Causa + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 20.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="combo-card" data-name="DUO 8" data-price="22.00">
+                        <span class="combo-badge">Dúo Fusión</span>
+                        <div class="combo-info">
+                            <h4 class="combo-name">DUO 8</h4>
+                            <p class="combo-desc">Chaufa de pescado/pota + Chicharron de pota/pescado + Chilcano + Cancha</p>
+                            <div class="combo-footer"><span class="combo-price">S/ 22.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Paginación y botones del carrusel -->
             <div class="swiper-pagination"></div>
         </div>
     </section>
 
-    <!-- MAIN CONTAINER PARA PLATOS REGULARES -->
+    <!-- LISTAS DE PLATOS COMPLETAS -->
     <main class="main-container">
         
-        <!-- SECCIÓN: MARINOS -->
+        <!-- SECCIÓN 1: MARINOS -->
         <h2 id="marinos" class="section-title">Nuestros Clásicos Marinos</h2>
         <div class="menu-grid">
+            <!-- Ceviches -->
             <div class="menu-box">
                 <h3><i class="fas fa-fish"></i> Ceviches</h3>
-                
                 <div class="menu-item" data-name="Ceviche Mixto" data-price="25.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche Mixto</span></div>
-                    <span class="item-price">S/ 25.00</span>
+                    <div class="menu-item-info"><span class="item-name">Ceviche Mixto</span></div><span class="item-price">S/ 25.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
                 <div class="menu-item" data-name="Ceviche de Trucha" data-price="25.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche de Trucha</span></div>
-                    <span class="item-price">S/ 25.00</span>
+                    <div class="menu-item-info"><span class="item-name">Ceviche de Trucha</span></div><span class="item-price">S/ 25.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
                 <div class="menu-item" data-name="Ceviche de Pescado" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche de Pescado</span></div>
-                    <span class="item-price">S/ 20.00</span>
+                    <div class="menu-item-info"><span class="item-name">Ceviche de Pescado</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Ceviche de Pota" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Ceviche de Pota</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Ceviche Simple" data-price="15.00">
+                    <div class="menu-item-info"><span class="item-name">Ceviche Simple</span></div><span class="item-price">S/ 15.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Ceviche de Tilapia" data-price="25.00">
+                    <div class="menu-item-info"><span class="item-name">Ceviche de Tilapia</span></div><span class="item-price">S/ 25.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
             </div>
 
+            <!-- Platos -->
             <div class="menu-box">
-                <h3><i class="fas fa-utensils"></i> Platos Fuertes</h3>
+                <h3><i class="fas fa-utensils"></i> Platos Criollos y Caldos</h3>
                 <div class="menu-item" data-name="Jalea Mixta" data-price="35.00">
-                    <div class="menu-item-info"><span class="item-name">Jalea Mixta</span></div>
-                    <span class="item-price">S/ 35.00</span>
+                    <div class="menu-item-info"><span class="item-name">Jalea Mixta</span></div><span class="item-price">S/ 35.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Sudado de Pescado" data-price="25.00">
+                    <div class="menu-item-info"><span class="item-name">Sudado de Pescado</span></div><span class="item-price">S/ 25.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Sudado de Trucha" data-price="25.00">
+                    <div class="menu-item-info"><span class="item-name">Sudado de Trucha</span></div><span class="item-price">S/ 25.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Parihuela" data-price="35.00">
+                    <div class="menu-item-info"><span class="item-name">Parihuela</span></div><span class="item-price">S/ 35.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
                 <div class="menu-item" data-name="Arroz con Mariscos" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Arroz con Mariscos</span></div>
-                    <span class="item-price">S/ 20.00</span>
+                    <div class="menu-item-info"><span class="item-name">Arroz con Mariscos</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+            </div>
+
+            <!-- Frituras y Guarniciones -->
+            <div class="menu-box">
+                <h3><i class="fas fa-fire"></i> Frituras</h3>
+                <div class="menu-item" data-name="Pescado Frito" data-price="15.00">
+                    <div class="menu-item-info"><span class="item-name">Pescado Frito</span></div><span class="item-price">S/ 15.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Trucha Frita" data-price="18.00">
+                    <div class="menu-item-info"><span class="item-name">Trucha Frita</span></div><span class="item-price">S/ 18.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Trucha Broaster" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Trucha Broaster</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                
+                <h4><i class="fas fa-leaf"></i> Guarniciones</h4>
+                <div class="menu-item" data-name="Porción de Camote" data-price="6.00">
+                    <div class="menu-item-info"><span class="item-name">Porción de Camote</span></div><span class="item-price">S/ 6.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Porción de Yuca" data-price="8.00">
+                    <div class="menu-item-info"><span class="item-name">Porción de Yuca</span></div><span class="item-price">S/ 8.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Porción de Chifles" data-price="5.00">
+                    <div class="menu-item-info"><span class="item-name">Porción de Chifles</span></div><span class="item-price">S/ 5.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
             </div>
         </div>
 
-        <!-- SECCIÓN: ARROCES Y CHAUFAS -->
+        <!-- SECCIÓN 2: ARROCES Y ESPECIALES -->
         <h2 id="chaufas" class="section-title">Chaufas y Especiales</h2>
         <div class="menu-grid">
+            <!-- Chaufas -->
             <div class="menu-box">
                 <h3><i class="fas fa-bowl-rice"></i> Chaufas</h3>
                 <div class="menu-item" data-name="Chaufa de Pescado" data-price="15.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa de Pescado</span></div>
-                    <span class="item-price">S/ 15.00</span>
+                    <div class="menu-item-info"><span class="item-name">Chaufa de Pescado</span></div><span class="item-price">S/ 15.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chaufa de Pota" data-price="18.00">
+                    <div class="menu-item-info"><span class="item-name">Chaufa de Pota</span></div><span class="item-price">S/ 18.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chaufa de Langostino" data-price="28.00">
+                    <div class="menu-item-info"><span class="item-name">Chaufa de Langostino</span></div><span class="item-price">S/ 28.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chaufa de Trucha" data-price="18.00">
+                    <div class="menu-item-info"><span class="item-name">Chaufa de Trucha</span></div><span class="item-price">S/ 18.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
                 <div class="menu-item" data-name="Chaufa de Mariscos" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa de Mariscos</span></div>
-                    <span class="item-price">S/ 20.00</span>
+                    <div class="menu-item-info"><span class="item-name">Chaufa de Mariscos</span></div><span class="item-price">S/ 20.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
             </div>
 
-            <!-- DOMINGOS -->
+            <!-- Especiales -->
+            <div class="menu-box">
+                <h3><i class="fas fa-star"></i> Especiales</h3>
+                <div class="menu-item" data-name="Chilcano Tradicional" data-price="9.00">
+                    <div class="menu-item-info"><span class="item-name">Chilcano Tradicional</span></div><span class="item-price">S/ 9.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chilcano Especial" data-price="15.00">
+                    <div class="menu-item-info"><span class="item-name">Chilcano Especial</span></div><span class="item-price">S/ 15.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Leche de Tigre" data-price="12.00">
+                    <div class="menu-item-info"><span class="item-name">Leche de Tigre</span></div><span class="item-price">S/ 12.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Leche de Tigre Especial" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Leche de Tigre Especial</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chicharrón de Pota" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Chicharrón de Pota</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chicharrón de Pescado" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Chicharrón de Pescado</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chicharrón de Trucha" data-price="22.00">
+                    <div class="menu-item-info"><span class="item-name">Chicharrón de Trucha</span></div><span class="item-price">S/ 22.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chilcano de Trucha" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Chilcano de Trucha</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chicharrón de Pota Acevichada" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Chicharrón de Pota acevichada</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+            </div>
+
+            <!-- Domingos -->
             <div class="menu-box gold">
                 <h3><i class="fas fa-calendar-day"></i> Sólo Domingos</h3>
+                <div class="menu-item" data-name="Chaufa con Alitas (Domingos)" data-price="18.00">
+                    <div class="menu-item-info"><span class="item-name">Chaufa con Alitas</span></div><span class="item-price">S/ 18.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chaufa con Broaster (Domingos)" data-price="15.00">
+                    <div class="menu-item-info"><span class="item-name">Chaufa con Broaster</span></div><span class="item-price">S/ 15.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Pollo Broaster (Domingos)" data-price="12.00">
+                    <div class="menu-item-info"><span class="item-name">Pollo Broaster</span></div><span class="item-price">S/ 12.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
                 <div class="menu-item" data-name="Alitas Acevichadas (Domingos)" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Alitas acevichadas</span></div>
-                    <span class="item-price">S/ 20.00</span>
+                    <div class="menu-item-info"><span class="item-name">Alitas acevichadas</span></div><span class="item-price">S/ 20.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Chaufa con Lomo (Domingos)" data-price="20.00">
+                    <div class="menu-item-info"><span class="item-name">Chaufa con Lomo</span></div><span class="item-price">S/ 20.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
             </div>
         </div>
 
-        <!-- SECCIÓN: BEBIDAS -->
+        <!-- SECCIÓN 3: BEBIDAS Y CERVEZAS -->
         <h2 id="bebidas" class="section-title">Bebidas y Cervezas</h2>
         <div class="menu-grid">
+            <!-- Sin alcohol -->
             <div class="menu-box">
-                <h3><i class="fas fa-glass-water"></i> Refrescos</h3>
+                <h3><i class="fas fa-glass-water"></i> Bebidas</h3>
                 <div class="menu-item" data-name="Chicha Morada 1L" data-price="9.00">
-                    <div class="menu-item-info"><span class="item-name">Chicha Morada 1L</span></div>
-                    <span class="item-price">S/ 9.00</span>
+                    <div class="menu-item-info"><span class="item-name">Chicha Morada 1L</span></div><span class="item-price">S/ 9.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
-                <div class="menu-item" data-name="Jarra Limonada Frozen" data-price="12.00">
-                    <div class="menu-item-info"><span class="item-name">Jarra Limonada Frozen</span></div>
-                    <span class="item-price">S/ 12.00</span>
+                <div class="menu-item" data-name="Jarra de Limonada Frozen" data-price="12.00">
+                    <div class="menu-item-info"><span class="item-name">Jarra de Limonada Frozen</span></div><span class="item-price">S/ 12.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Frozen de Maracuyá" data-price="12.00">
+                    <div class="menu-item-info"><span class="item-name">Frozen de Maracuyá</span></div><span class="item-price">S/ 12.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Inka Kola 1L" data-price="9.00">
+                    <div class="menu-item-info"><span class="item-name">Inka Kola 1L</span></div><span class="item-price">S/ 9.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Inka Kola 1.5L" data-price="12.00">
+                    <div class="menu-item-info"><span class="item-name">Inka Kola 1.5L</span></div><span class="item-price">S/ 12.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Inka Kola 3L" data-price="18.00">
+                    <div class="menu-item-info"><span class="item-name">Inka Kola 3L</span></div><span class="item-price">S/ 18.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Inka Kola Gordita" data-price="6.00">
+                    <div class="menu-item-info"><span class="item-name">Inka Kola Gordita</span></div><span class="item-price">S/ 6.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Inka Kola Personal" data-price="3.00">
+                    <div class="menu-item-info"><span class="item-name">Inka Kola Personal</span></div><span class="item-price">S/ 3.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Agua Personal (Cielo/San Luis)" data-price="2.00">
+                    <div class="menu-item-info"><span class="item-name">Agua Cielo / San Luis / San Carlos</span></div><span class="item-price">S/ 2.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+            </div>
+
+            <!-- Con alcohol -->
+            <div class="menu-box">
+                <h3><i class="fas fa-beer-mug-empty"></i> Cervezas</h3>
+                <div class="menu-item" data-name="Cerveza Pilsen" data-price="10.00">
+                    <div class="menu-item-info"><span class="item-name">Pilsen</span></div><span class="item-price">S/ 10.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Cusqueña Trigo" data-price="10.00">
+                    <div class="menu-item-info"><span class="item-name">Cusqueña Trigo</span></div><span class="item-price">S/ 10.00</span>
+                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                </div>
+                <div class="menu-item" data-name="Cusqueña Negra" data-price="10.00">
+                    <div class="menu-item-info"><span class="item-name">Cusqueña Negra</span></div><span class="item-price">S/ 10.00</span>
                     <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <!-- BARRA FIJA DE COMPRA (APARECE SOLO CUANDO HAY ELEMENTOS SELECCIONADOS) -->
+    <!-- BARRA DE COMPRA TOTAL -->
     <div class="order-bar" id="order-bar">
         <div class="order-bar-info">
             <span class="order-bar-qty" id="cart-qty">0 productos seleccionados</span>
@@ -341,42 +550,38 @@
     <footer>
         <div class="footer-info">
             <h3>EL ENCANTO MARINO</h3>
+            <p style="color: var(--gold-accent); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;">Cevichería & Restaurant</p>
             <div class="footer-contacts">
-                <p><i class="fas fa-phone-alt"></i> Pedidos Directos:</p>
+                <p><i class="fas fa-phone-alt"></i> Contacto / Pedidos:</p>
                 <p>943 713 612 / 983 289 919</p>
             </div>
-            <p style="font-size: 0.8rem; opacity: 0.5;">&copy; 2026 Todos los derechos reservados.</p>
+            <p style="font-size: 0.8rem; opacity: 0.4; padding-top: 1rem;">&copy; 2026 Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- Scripts de Swiper (Carrusel) y Lógica de Pedidos -->
+    <!-- LÓGICA JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Initialize Swiper (Carrusel Deslizante)
         const swiper = new Swiper(".mySwiper", {
             slidesPerView: 1,
-            spaceBetween: 20,
+            spaceBetween: 15,
             pagination: { el: ".swiper-pagination", clickable: true },
             breakpoints: {
-                768: { slidesPerView: 2, spaceBetween: 30 }
+                600: { slidesPerView: 2, spaceBetween: 20 },
+                1000: { slidesPerView: 3, spaceBetween: 25 }
             }
         });
 
-        // Toggle Menú Móvil
         const mobileMenu = document.getElementById('mobile-menu');
         const navLinks = document.getElementById('nav-links');
-        mobileMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+        mobileMenu.addEventListener('click', () => { navLinks.classList.toggle('active'); });
 
-        // --- SISTEMA DE CARRITO INTERACTIVO ---
         const cart = {};
 
         function updateCart() {
             let total = 0;
             let itemsCount = 0;
 
-            // Recorrer todos los elementos del menú interactivo
             document.querySelectorAll('[data-price]').forEach(element => {
                 const name = element.getAttribute('data-name');
                 const price = parseFloat(element.getAttribute('data-price'));
@@ -387,25 +592,23 @@
                     cart[name] = { price: price, qty: qty };
                     total += price * qty;
                     itemsCount += qty;
-                    element.classList.add('selected'); // Feedback visual para combos
+                    element.classList.add('selected');
                 } else {
                     delete cart[name];
                     element.classList.remove('selected');
                 }
             });
 
-            // Actualizar la barra inferior fija
             const orderBar = document.getElementById('order-bar');
             if (itemsCount > 0) {
                 orderBar.classList.add('show');
-                document.getElementById('cart-qty').textContent = `${itemsCount} producto(s) seleccionado(s)`;
+                document.getElementById('cart-qty').textContent = `${itemsCount} producto(s) asignado(s)`;
                 document.getElementById('cart-total').textContent = `Total: S/ ${total.toFixed(2)}`;
             } else {
                 orderBar.classList.remove('show');
             }
         }
 
-        // Listener Global para los botones + y -
         document.body.addEventListener('click', function(e) {
             if (e.target.classList.contains('plus')) {
                 const qtyCounter = e.target.parentElement.querySelector('.qty-number');
@@ -422,9 +625,8 @@
             }
         });
 
-        // Enviar consolidado final a WhatsApp
         document.getElementById('send-whatsapp').addEventListener('click', () => {
-            let message = "*¡Hola El Encanto Marino! Quisiera realizar el siguiente pedido:* \n\n";
+            let message = "*¡Hola El Encanto Marino! Quisiera hacer el siguiente pedido:* \n\n";
             let grandTotal = 0;
 
             for (const item in cart) {
@@ -433,13 +635,11 @@
                 grandTotal += subtotal;
             }
 
-            message += `\n💵 *Total a pagar: S/ ${grandTotal.toFixed(2)}*`;
-            message += "\n\n_Por favor, confírmenme el tiempo de entrega y método de pago._ 🙏✨";
+            message += `\n💵 *Total Neto: S/ ${grandTotal.toFixed(2)}*`;
+            message += "\n\n_Por favor, me confirman la recepción de la orden._ ✨";
 
-            // Enlace de WhatsApp estructurado con texto codificado
             const phone = "51943713612"; 
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
         });
     </script>
 </body>
