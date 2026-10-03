@@ -1,748 +1,605 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Venta y Consulta de Tickets</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Gran Sorteo Navideño | Inversiones Colka</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Custom Tailwind Configuration for theme colors -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f5f3ff',
-                            100: '#ede9fe',
-                            200: '#ddd6fe',
-                            300: '#c4b5fd',
-                            400: '#a78bfa',
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                            700: '#6d28d9',
-                            800: '#5b21b6',
-                            900: '#4c1d95',
+                            50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe',
+                            300: '#c4b5fd', 400: '#a78bfa', 500: '#8b5cf6',
+                            600: '#7c3aed', 700: '#6d28d9', 800: '#5b21b6', 900: '#4c1d95',
                         },
+                        colka: '#ff6b00', // Un color naranja de acento para la tienda
                         yape: '#77189b',
-                        yapelight: '#a123cc',
-                        success: '#10b981',
-                        successHover: '#059669'
+                        plin: '#00D1B2'
                     },
-                    borderRadius: {
-                        '4xl': '2rem',
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f4f3f8;
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #c4b5fd;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8b5cf6;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .text-glow { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 flex flex-col justify-between">
+<body class="min-h-screen flex flex-col text-slate-800">
 
-    <!-- Top Navigation Header -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-purple-100 shadow-sm">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
-                    <i data-lucide="ticket" class="w-6 h-6"></i>
+    <header class="glass-panel sticky top-0 z-50 border-b border-purple-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo Inversiones Colka -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchView('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-colka flex items-center justify-center text-white shadow-md">
+                    <i data-lucide="zap" class="w-6 h-6"></i>
                 </div>
-                <span class="font-extrabold text-xl tracking-tight text-slate-900">RifaSorteo<span class="text-brand-600">.pe</span></span>
+                <div class="leading-tight">
+                    <span class="block font-black text-xl tracking-tight text-slate-900">Inv. Colka</span>
+                    <span class="block text-[10px] font-bold text-brand-600 uppercase tracking-widest">Tienda & Sorteos</span>
+                </div>
             </div>
             
-            <!-- Navigation Tabs -->
-            <div class="flex bg-slate-100 p-1 rounded-2xl">
-                <button id="nav-buy" onclick="switchMainTab('buy')" class="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm">
-                    <i data-lucide="shopping-bag" class="w-4 h-4 inline-block mr-1"></i> Comprar
+            <!-- Nav Buttons -->
+            <div class="flex items-center space-x-2">
+                <button onclick="switchView('consult')" class="hidden md:flex items-center px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i data-lucide="search" class="w-4 h-4 mr-2"></i> Mis Tickets
                 </button>
-                <button id="nav-consult" onclick="switchMainTab('consult')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand-600 transition-all duration-200">
-                    <i data-lucide="search" class="w-4 h-4 inline-block mr-1"></i> Mis Tickets
+                <button onclick="switchView('buy')" class="flex items-center px-5 py-2.5 rounded-xl text-sm font-black text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-500/30 transition-all active:scale-95">
+                    <i data-lucide="ticket" class="w-4 h-4 mr-2"></i> Comprar
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow flex flex-col justify-center">
+    <main class="flex-grow w-full flex flex-col items-center">
 
         <!-- ========================================== -->
-        <!-- MODULE 1: COMPRAR TICKETS (FLOW 3 STEPS) -->
+        <!-- VIEW: HOME / LANDING PAGE                  -->
         <!-- ========================================== -->
-        <div id="module-buy" class="w-full">
+        <div id="view-home" class="w-full flex flex-col items-center animate-fade-in">
             
-            <!-- Back button & Step Indicator Header -->
-            <div class="mb-6 max-w-2xl mx-auto">
-                <div class="flex items-center justify-between mb-3">
-                    <button id="btn-back-step" onclick="handlePrevStep()" class="inline-flex items-center text-slate-700 hover:text-brand-700 font-bold text-sm transition-colors cursor-pointer">
-                        <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> Volver
-                    </button>
-                    <span id="step-counter-text" class="text-xs font-semibold text-slate-500 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
-                        Paso 1 de 3 — <span id="step-title-text" class="text-slate-800 font-bold">Tus datos</span>
-                    </span>
+            <!-- Hero Banner -->
+            <section class="w-full bg-gradient-to-br from-brand-900 via-brand-800 to-indigo-900 text-white pt-16 pb-24 px-4 relative overflow-hidden">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                    <div class="absolute -top-20 -right-20 w-96 h-96 bg-brand-500 rounded-full blur-3xl opacity-20"></div>
+                    <div class="absolute bottom-0 left-10 w-72 h-72 bg-colka rounded-full blur-3xl opacity-20"></div>
                 </div>
 
-                <!-- Step Progress Bars -->
-                <div class="grid grid-cols-3 gap-2">
-                    <div id="progress-bar-1" class="h-2 rounded-full bg-brand-600 transition-all duration-300"></div>
-                    <div id="progress-bar-2" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
-                    <div id="progress-bar-3" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
-                </div>
-            </div>
-
-            <!-- STEP 1: TUS DATOS -->
-            <div id="step-1-container" class="max-w-md mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-purple-50/50">
-                <form onsubmit="handleStep1Submit(event)" class="space-y-6">
-                    <!-- Tipo de Documento -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Tipo de documento</label>
-                        <div class="grid grid-cols-2 gap-3 p-1 bg-slate-50 rounded-2xl border border-slate-200">
-                            <button type="button" id="doc-type-dni" onclick="selectDocType('DNI')" class="py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm border border-brand-200">
-                                DNI
-                            </button>
-                            <button type="button" id="doc-type-ce" onclick="selectDocType('Carnet Ext.')" class="py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200">
-                                Carnet ext.
-                            </button>
-                        </div>
+                <div class="max-w-4xl mx-auto text-center relative z-10 space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full border border-white/20 backdrop-blur-md mb-2">
+                        <i data-lucide="calendar" class="w-4 h-4 text-brand-300"></i>
+                        <span class="text-sm font-bold tracking-widest uppercase text-brand-100">24 de Diciembre 2026</span>
                     </div>
-
-                    <!-- Número de DNI -->
-                    <div>
-                        <label id="lbl-doc-number" for="input-doc-number" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Número de DNI</label>
-                        <input type="text" id="input-doc-number" required placeholder="Ingresa tus 8 dígitos" maxlength="12" pattern="[0-9]*" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white text-slate-800 font-semibold tracking-wider text-center text-lg transition-all">
-                    </div>
-
-                    <!-- WhatsApp -->
-                    <div>
-                        <label for="input-phone" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">WhatsApp (9 dígitos)</label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">+51</span>
-                            <input type="tel" id="input-phone" required placeholder="9XX XXX XXX" maxlength="9" pattern="[0-9]{9}" class="w-full pl-14 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white text-slate-800 font-semibold text-lg tracking-wider transition-all">
-                        </div>
-                    </div>
-
-                    <p class="text-xs text-slate-500 leading-relaxed text-center">
-                        Al darle en “Continuar” acepta que es mayor de edad y acepta los siguientes 
-                        <a href="#" class="text-brand-600 font-bold underline hover:text-brand-700">términos y condiciones</a>.
+                    
+                    <h1 class="text-5xl md:text-7xl font-black tracking-tight text-glow leading-tight">
+                        Gran Sorteo <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-colka">Navideño</span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-brand-100 max-w-2xl mx-auto font-medium">
+                        Participa y llévate una increíble moto 0 kilómetros. Transmisión en vivo por nuestras redes sociales. ¡Asegura tu número!
                     </p>
 
-                    <!-- Submit Button -->
-                    <button type="submit" class="w-full py-4 bg-brand-300 hover:bg-brand-600 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/20 transition-all duration-300 flex items-center justify-center text-base space-x-2 group">
-                        <span>Continuar</span>
-                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                </form>
-            </div>
-
-            <!-- STEP 2: SUBE TU COMPROBANTE -->
-            <div id="step-2-container" class="hidden grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-                
-                <!-- Columna Izquierda: Cantidad y Subir -->
-                <div class="md:col-span-6 space-y-6">
-                    <!-- Box Cantidad -->
-                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-purple-50/50">
-                        <label class="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-4">¿Cuántos tickets quieres?</label>
-                        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-2xl border border-slate-200">
-                            <!-- Quantifier Buttons -->
-                            <div class="flex items-center space-x-3 bg-slate-200/60 p-1.5 rounded-xl">
-                                <button type="button" onclick="updateTicketCount(-1)" class="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-bold text-slate-700 shadow-sm hover:bg-slate-100 active:scale-95 transition-all">
-                                    <i data-lucide="minus" class="w-5 h-5"></i>
-                                </button>
-                                <span id="ticket-count-display" class="font-extrabold text-xl w-8 text-center text-slate-800">1</span>
-                                <button type="button" onclick="updateTicketCount(1)" class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center font-bold text-white shadow-sm hover:bg-brand-700 active:scale-95 transition-all">
-                                    <i data-lucide="plus" class="w-5 h-5"></i>
-                                </button>
-                            </div>
-
-                            <div class="text-right">
-                                <span class="block text-xs font-semibold text-slate-500 uppercase">Total a pagar</span>
-                                <span class="text-2xl font-black text-slate-900">S/ <span id="ticket-price-display">60</span></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Box Subir Comprobante -->
-                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-purple-50/50">
-                        <label class="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-3">¿Ya realizaste el pago?</label>
-                        
-                        <!-- Upload File Area -->
-                        <div id="drop-zone" onclick="document.getElementById('file-receipt').click()" class="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/40 hover:bg-emerald-50 transition-all rounded-2xl p-6 text-center cursor-pointer group">
-                            <input type="file" id="file-receipt" accept="image/*" class="hidden" onchange="handleFileSelected(event)">
-                            
-                            <div id="upload-idle-state" class="space-y-2">
-                                <div class="w-12 h-12 bg-emerald-500 text-white rounded-xl flex items-center justify-center mx-auto shadow-md shadow-emerald-500/20 group-hover:scale-110 transition-transform">
-                                    <i data-lucide="upload-cloud" class="w-6 h-6"></i>
-                                </div>
-                                <span class="block font-bold text-emerald-700 text-base">Subir comprobante</span>
-                                <span class="block text-xs text-slate-500">Formato JPG, PNG o captura de pantalla</span>
-                            </div>
-
-                            <div id="upload-success-state" class="hidden space-y-2">
-                                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mx-auto">
-                                    <i data-lucide="check-circle-2" class="w-7 h-7"></i>
-                                </div>
-                                <span id="uploaded-file-name" class="block font-bold text-emerald-800 text-sm truncate max-w-[200px] mx-auto">comprobante.jpg</span>
-                                <span class="inline-block text-xs bg-emerald-200 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Archivo listo</span>
-                            </div>
-                        </div>
-
-                        <button id="btn-submit-payment" onclick="processPayment()" disabled class="w-full mt-4 py-4 bg-slate-300 text-slate-500 font-extrabold rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 text-base cursor-not-allowed">
-                            <i data-lucide="send" class="w-5 h-5"></i>
-                            <span>Enviar comprobante</span>
+                    <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button onclick="switchView('buy')" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-colka to-yellow-500 hover:from-yellow-500 hover:to-colka text-white font-black text-lg rounded-2xl shadow-xl shadow-colka/30 transform transition hover:-translate-y-1">
+                            Comprar Ticket — S/ 10.00
+                        </button>
+                        <button onclick="switchView('consult')" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold text-lg rounded-2xl backdrop-blur-md transition-colors border border-white/20">
+                            Ver mis tickets
                         </button>
                     </div>
                 </div>
+            </section>
 
-                <!-- Columna Derecha: Métodos de Pago (Estilo Yape / Plin) -->
-                <div class="md:col-span-6">
-                    <div class="bg-gradient-to-b from-brand-600 to-yape rounded-3xl p-6 text-white shadow-xl shadow-brand-500/20 relative overflow-hidden">
-                        
-                        <!-- Background Accent Spheres -->
-                        <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
-                        <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-purple-900/30 rounded-full blur-xl pointer-events-none"></div>
-
-                        <span class="block text-xs font-extrabold uppercase tracking-widest text-purple-200 mb-1">¿Aún no has realizado el pago?</span>
-                        <p class="text-sm font-medium text-white/90 mb-4">
-                            Paga <strong class="text-yellow-300 font-extrabold">S/ <span id="payment-box-price">60</span></strong> al número o escanea el QR, y luego sube tu comprobante aquí arriba.
-                        </p>
-
-                        <!-- Method Tabs -->
-                        <div class="grid grid-cols-3 gap-1 bg-black/20 p-1 rounded-xl mb-5 backdrop-blur-sm">
-                            <button id="tab-yape" onclick="selectPaymentMethod('Yape')" class="py-2 text-xs font-extrabold rounded-lg bg-white text-yape shadow-sm transition-all">Yape</button>
-                            <button id="tab-yape2" onclick="selectPaymentMethod('Yape 2')" class="py-2 text-xs font-bold text-white/80 hover:text-white transition-all">YAPE 2</button>
-                            <button id="tab-plin" onclick="selectPaymentMethod('Plin')" class="py-2 text-xs font-bold text-white/80 hover:text-white transition-all">Plin</button>
-                        </div>
-
-                        <!-- Payment Details Card -->
-                        <div class="bg-white text-slate-800 rounded-2xl p-5 text-center space-y-4 shadow-inner">
-                            <span id="payment-method-title" class="block text-xs font-extrabold tracking-wider text-brand-700 uppercase">PAGA CON YAPE</span>
-                            
-                            <!-- Phone Number Display -->
-                            <div>
-                                <span id="payment-phone-display" class="block text-3xl font-black text-slate-900 tracking-wider">924972268</span>
-                                <span id="payment-holder-display" class="block text-xs font-bold text-slate-500 mt-1">Grupo Constructor Morales S.A.C</span>
+            <!-- Prizes Section -->
+            <section class="max-w-6xl mx-auto px-4 -mt-12 relative z-20 w-full mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Prize 1 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-2xl shadow-slate-200/50 border border-slate-100 flex flex-col group overflow-hidden">
+                        <div class="relative h-64 rounded-2xl overflow-hidden bg-slate-100 mb-6">
+                            <img src="https://placehold.co/800x600/1e293b/ffffff?text=Moto+190+Xplorer" alt="Moto 190 Xplorer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 left-4 bg-slate-900 text-white text-xs font-black px-3 py-1.5 rounded-lg uppercase tracking-wider">
+                                1er Premio
                             </div>
-
-                            <!-- QR Code Container -->
-                            <div class="bg-purple-50 p-3 rounded-2xl inline-block border border-purple-100 shadow-sm relative group">
-                                <img id="payment-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=YAPE:924972268" alt="Código QR Yape" class="w-40 h-40 mx-auto rounded-xl object-contain">
-                                <div class="absolute inset-0 bg-yape/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span class="bg-white text-yape font-bold text-xs px-2.5 py-1 rounded-full shadow-md">Escanear</span>
-                                </div>
-                            </div>
-
-                            <!-- Copy Number Button -->
-                            <button onclick="copyPaymentNumber()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 active:scale-98 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm">
-                                <i data-lucide="copy" class="w-4 h-4"></i>
-                                <span id="copy-btn-text">Copiar número</span>
-                            </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- STEP 3: CONFIRMACIÓN Y ASIGNACIÓN DE TICKETS -->
-            <div id="step-3-container" class="hidden max-w-md mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-purple-50/50 text-center space-y-6">
-                
-                <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-bounce">
-                    <i data-lucide="check" class="w-10 h-10 stroke-[3]"></i>
-                </div>
-
-                <div>
-                    <h2 class="text-2xl font-black text-slate-900">¡Comprobante Recibido!</h2>
-                    <p class="text-sm text-slate-600 mt-1">Tus tickets han sido registrados correctamente en el sistema.</p>
-                </div>
-
-                <!-- Ticket Summary Box -->
-                <div class="bg-purple-50 rounded-2xl p-4 border border-purple-100 text-left space-y-3">
-                    <div class="flex justify-between items-center text-xs text-slate-500 font-semibold border-b border-purple-200/60 pb-2">
-                        <span>Titular: <strong id="summary-doc" class="text-slate-800">DNI 72839401</strong></span>
-                        <span id="summary-date" class="text-purple-700 font-bold">Hoy</span>
+                        <h3 class="text-2xl font-black text-slate-900 mb-2">Moto 190 Xplorer</h3>
+                        <p class="text-slate-500 font-medium mb-4 flex-grow">Potencia, diseño y aventura en dos ruedas. Totalmente nueva y lista para rodar.</p>
                     </div>
 
-                    <span class="block text-xs font-bold uppercase text-brand-700 tracking-wider">Tus números asignados:</span>
+                    <!-- Prize 2 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-2xl shadow-slate-200/50 border border-slate-100 flex flex-col group overflow-hidden">
+                        <div class="relative h-64 rounded-2xl overflow-hidden bg-slate-100 mb-6">
+                            <img src="https://placehold.co/800x600/d946ef/ffffff?text=Moto+para+Dama" alt="Moto para Dama" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 left-4 bg-fuchsia-600 text-white text-xs font-black px-3 py-1.5 rounded-lg uppercase tracking-wider">
+                                2do Premio
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900 mb-2">Moto Scooter para Dama</h3>
+                        <p class="text-slate-500 font-medium mb-4 flex-grow">Elegante, automática y perfecta para la ciudad. Comodidad garantizada.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Info & Location Section -->
+            <section class="max-w-4xl mx-auto px-4 w-full mb-16">
+                <div class="bg-brand-50 rounded-3xl p-8 md:p-12 border border-brand-100 text-center space-y-8">
+                    <h2 class="text-3xl font-black text-brand-900">¿Dónde y cómo será el sorteo?</h2>
                     
-                    <!-- Chips Container for Assigned Ticket Numbers -->
-                    <div id="summary-tickets-chips" class="flex flex-wrap gap-2 pt-1">
-                        <!-- Generated dynamically -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-100/50">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="map-pin"></i></div>
+                            <h4 class="font-bold text-slate-900 mb-1">Ubicación</h4>
+                            <p class="text-sm text-slate-500">Colcabamba, primer piso Hotel del Pino. ¡Visítanos!</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-100/50">
+                            <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="smartphone"></i></div>
+                            <h4 class="font-bold text-slate-900 mb-1">Transmisión en Vivo</h4>
+                            <p class="text-sm text-slate-500">Facebook y TikTok: <br><strong class="text-brand-600">@colka</strong></p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-100/50">
+                            <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="message-circle"></i></div>
+                            <h4 class="font-bold text-slate-900 mb-1">Contacto WhatsApp</h4>
+                            <p class="text-sm text-slate-500">983 200 830 <br>Julio Valladolid Acevedo</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="space-y-3 pt-2">
-                    <button onclick="switchMainTab('consult')" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center space-x-2">
-                        <i data-lucide="ticket" class="w-5 h-5"></i>
-                        <span>Ver todos mis tickets</span>
-                    </button>
-
-                    <button onclick="resetFlow()" class="w-full py-3 text-slate-600 font-bold hover:text-brand-700 text-sm transition-colors">
-                        Comprar más tickets
-                    </button>
-                </div>
-            </div>
-
+            </section>
         </div>
 
 
         <!-- ========================================== -->
-        <!-- MODULE 2: MIS TICKETS (CONSULTA)           -->
+        <!-- VIEW: BUY FLOW (3 STEPS)                   -->
         <!-- ========================================== -->
-        <div id="module-consult" class="hidden w-full max-w-lg mx-auto">
+        <div id="view-buy" class="hidden w-full max-w-4xl mx-auto px-4 py-8 animate-fade-in">
             
-            <div class="text-center mb-8 space-y-2">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-100 rounded-full text-brand-700 font-bold text-xs uppercase tracking-wider mb-2">
-                    <span>CONSULTA</span>
-                </div>
-                <h1 class="text-4xl font-black text-slate-900 tracking-tight flex items-center justify-center gap-2">
-                    <span>🎫</span> Mis Tickets
-                </h1>
-                <p class="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                    Ingresa tu DNI o Carnet de extranjería para ver los tickets vigentes que tienes registrados en el sorteo.
-                </p>
+            <div class="mb-8 text-center">
+                <h2 class="text-3xl font-black text-slate-900">Comprar Tickets</h2>
+                <p class="text-slate-500 mt-2">Sorteo Navideño Inversiones Colka — S/ 10.00 c/u</p>
             </div>
 
-            <!-- Search Form Card -->
-            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-purple-50/50 space-y-6">
-                <form onsubmit="handleConsultTickets(event)" class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <label for="consult-doc-number" class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Número de DNI / Documento</label>
-                        <button type="button" onclick="toggleConsultDocType()" id="btn-toggle-consult-type" class="text-xs font-bold text-brand-600 hover:text-brand-800 underline">
-                            Tengo carnet de extranjería
+            <!-- Steps Header -->
+            <div class="mb-6 max-w-2xl mx-auto">
+                <div class="flex items-center justify-between mb-3">
+                    <button onclick="handlePrevStep()" class="inline-flex items-center text-slate-600 hover:text-brand-700 font-bold text-sm transition-colors">
+                        <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> Volver
+                    </button>
+                    <span class="text-xs font-bold text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm">
+                        Paso <span id="step-num">1</span> — <span id="step-title" class="text-brand-700">Tus datos</span>
+                    </span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div id="pb-1" class="h-2 rounded-full bg-brand-600 transition-all duration-300"></div>
+                    <div id="pb-2" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
+                    <div id="pb-3" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- STEP 1: Datos -->
+            <div id="step-1" class="max-w-md mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
+                <form onsubmit="handleStep1(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-widest mb-2">Tipo de documento</label>
+                        <div class="grid grid-cols-2 gap-2 p-1 bg-slate-50 rounded-2xl border border-slate-200">
+                            <button type="button" id="doc-dni" onclick="setDocType('DNI')" class="py-3 px-4 rounded-xl text-sm font-bold bg-white text-brand-700 shadow-sm border border-slate-200">DNI</button>
+                            <button type="button" id="doc-ce" onclick="setDocType('CE')" class="py-3 px-4 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-800">Carnet Ext.</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label id="lbl-doc" class="block text-xs font-black text-slate-600 uppercase tracking-widest mb-2">Número de DNI</label>
+                        <input type="text" id="inp-doc" required placeholder="Ingresa tu documento" maxlength="12" pattern="[0-9]*" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-lg font-bold text-center tracking-widest">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-widest mb-2">WhatsApp de contacto</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">+51</span>
+                            <input type="tel" id="inp-phone" required placeholder="9XX XXX XXX" maxlength="9" pattern="[0-9]{9}" class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-lg font-bold">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-brand-600 hover:bg-brand-700 text-white font-black rounded-2xl shadow-lg transition-all flex items-center justify-center space-x-2">
+                        <span>Continuar al Pago</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 2: Pago -->
+            <div id="step-2" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                
+                <!-- Cantidad y Subida -->
+                <div class="space-y-6">
+                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100">
+                        <label class="block text-xs font-black text-brand-700 uppercase tracking-widest mb-4">¿Cuántos tickets deseas?</label>
+                        <div class="flex items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <div class="flex items-center space-x-4 bg-slate-200 p-1.5 rounded-xl">
+                                <button type="button" onclick="updateQty(-1)" class="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-bold text-slate-700 hover:bg-slate-100 shadow-sm"><i data-lucide="minus" class="w-5 h-5"></i></button>
+                                <span id="display-qty" class="font-black text-2xl w-8 text-center text-slate-900">1</span>
+                                <button type="button" onclick="updateQty(1)" class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center font-bold text-white hover:bg-brand-700 shadow-sm"><i data-lucide="plus" class="w-5 h-5"></i></button>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-xs font-bold text-slate-500 uppercase">Total (S/ 10 c/u)</span>
+                                <span class="text-3xl font-black text-slate-900">S/ <span id="display-price">10</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100">
+                        <label class="block text-xs font-black text-brand-700 uppercase tracking-widest mb-3">Adjunta tu captura de pago</label>
+                        <div onclick="document.getElementById('file-upload').click()" class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50 transition-colors rounded-2xl p-8 text-center cursor-pointer group">
+                            <input type="file" id="file-upload" accept="image/*" class="hidden" onchange="handleFile(event)">
+                            
+                            <div id="upload-idle">
+                                <i data-lucide="camera" class="w-10 h-10 text-slate-400 mx-auto mb-2 group-hover:text-brand-500 transition-colors"></i>
+                                <span class="block font-bold text-slate-700 text-sm">Toca para subir foto o captura</span>
+                            </div>
+                            <div id="upload-done" class="hidden">
+                                <i data-lucide="check-circle-2" class="w-10 h-10 text-green-500 mx-auto mb-2"></i>
+                                <span id="file-name" class="block font-bold text-green-700 text-sm truncate">archivo.jpg</span>
+                            </div>
+                        </div>
+                        <button id="btn-submit-pay" onclick="processPayment()" disabled class="w-full mt-4 py-4 bg-slate-200 text-slate-400 font-black rounded-2xl transition-all cursor-not-allowed">
+                            Enviar y Generar Tickets
                         </button>
                     </div>
+                </div>
 
-                    <div class="relative">
-                        <input type="text" id="consult-doc-number" required placeholder="Ingresa tu número" maxlength="12" class="w-full px-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white text-slate-800 font-semibold tracking-wider text-center text-xl transition-all">
-                        <i data-lucide="search" class="w-5 h-5 absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <!-- Info Yape -->
+                <div class="bg-gradient-to-b from-brand-600 to-yape rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+                    <!-- Decoración -->
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+                    
+                    <span class="block text-xs font-black uppercase tracking-widest text-brand-200 mb-2">Datos para el pago</span>
+                    <p class="text-sm font-medium text-white/90 mb-6">
+                        Transfiere <strong class="text-yellow-300 font-black text-lg">S/ <span id="yape-price">10</span></strong> al siguiente número.
+                    </p>
+
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-inner relative z-10 text-slate-800">
+                        <div class="flex justify-center gap-2 mb-4">
+                            <span class="px-3 py-1 bg-yape text-white text-xs font-black rounded-lg">YAPE</span>
+                            <span class="px-3 py-1 bg-plin text-white text-xs font-black rounded-lg">PLIN</span>
+                        </div>
+
+                        <span class="block text-4xl font-black tracking-widest text-slate-900 mb-1">983200830</span>
+                        <span class="block text-sm font-bold text-slate-500 uppercase">Julio Valladolid Acevedo</span>
+
+                        <div class="mt-6 mb-4 p-2 bg-slate-50 rounded-2xl inline-block border border-slate-100">
+                            <!-- QR con el número real de Julio -->
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=983200830" alt="QR de Pago" class="w-32 h-32 rounded-xl">
+                        </div>
+
+                        <button onclick="copyPhone()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-brand-700 font-black rounded-xl transition-colors flex items-center justify-center space-x-2 text-sm">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                            <span id="copy-text">Copiar número</span>
+                        </button>
                     </div>
+                </div>
+            </div>
 
-                    <button type="submit" class="w-full py-4 bg-brand-600 hover:bg-brand-700 text-white font-extrabold rounded-2xl shadow-lg shadow-brand-500/25 transition-all text-base flex items-center justify-center space-x-2">
-                        <span>Consultar tickets</span>
+            <!-- STEP 3: Éxito -->
+            <div id="step-3" class="hidden max-w-md mx-auto bg-white rounded-3xl p-8 shadow-xl text-center space-y-6">
+                <div class="w-24 h-24 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto animate-bounce">
+                    <i data-lucide="check" class="w-12 h-12 stroke-[3]"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">¡Recibimos tu voucher!</h2>
+                    <p class="text-sm text-slate-500 mt-2">Tus tickets han sido generados y vinculados a tu documento.</p>
+                </div>
+                
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 text-left">
+                    <span class="block text-xs font-black text-slate-400 uppercase mb-3">Tus Números de Sorteo:</span>
+                    <div id="generated-tickets" class="flex flex-wrap gap-2">
+                        <!-- Chips -->
+                    </div>
+                </div>
+
+                <button onclick="switchView('consult')" class="w-full py-4 bg-brand-600 text-white font-black rounded-2xl hover:bg-brand-700 transition-colors">
+                    Ver en "Mis Tickets"
+                </button>
+            </div>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW: CONSULTAR TICKETS                    -->
+        <!-- ========================================== -->
+        <div id="view-consult" class="hidden w-full max-w-lg mx-auto px-4 py-12 animate-fade-in">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-black text-slate-900 flex items-center justify-center gap-2">
+                    <i data-lucide="search" class="w-8 h-8 text-brand-600"></i> Mis Tickets
+                </h2>
+                <p class="text-slate-500 mt-2">Ingresa tu DNI para verificar tus números comprados.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-100">
+                <form onsubmit="handleConsult(event)" class="space-y-4">
+                    <div class="relative">
+                        <input type="text" id="inp-search" required placeholder="Número de Documento" maxlength="12" class="w-full px-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-xl font-bold text-center tracking-widest">
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-slate-900 text-white font-black rounded-2xl hover:bg-slate-800 transition-colors">
+                        Buscar mis números
                     </button>
                 </form>
 
-                <!-- Results Section -->
-                <div id="consult-results-container" class="hidden pt-4 border-t border-slate-100">
-                    <!-- Dynamic Result Header -->
-                    <div id="consult-header-info" class="flex justify-between items-center mb-4">
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tickets encontrados</span>
-                        <span id="consult-count-badge" class="bg-brand-100 text-brand-700 text-xs font-extrabold px-3 py-1 rounded-full">0 tickets</span>
+                <div id="consult-results" class="hidden mt-6 pt-6 border-t border-slate-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-bold text-slate-500">Resultados</span>
+                        <span id="res-count" class="bg-brand-100 text-brand-700 text-xs font-black px-3 py-1 rounded-full">0 tickets</span>
+                    </div>
+                    
+                    <div id="res-list" class="space-y-3 max-h-64 overflow-y-auto pr-2">
+                        <!-- Listado dinámico -->
                     </div>
 
-                    <!-- Tickets List Grid -->
-                    <div id="consult-tickets-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-                        <!-- Items appended dynamically -->
-                    </div>
-
-                    <!-- Empty State -->
-                    <div id="consult-empty-state" class="hidden text-center py-8 space-y-3">
-                        <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
-                            <i data-lucide="ticket-x" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-sm font-semibold text-slate-600">No se encontraron tickets registrados con este documento.</p>
-                        <button onclick="switchMainTab('buy')" class="text-xs font-bold text-brand-600 hover:text-brand-700 underline">¿Deseas comprar tickets ahora?</button>
+                    <div id="res-empty" class="hidden text-center py-6">
+                        <i data-lucide="frown" class="w-12 h-12 text-slate-300 mx-auto mb-2"></i>
+                        <p class="text-sm font-bold text-slate-500">No tienes tickets registrados aún.</p>
+                        <button onclick="switchView('buy')" class="text-brand-600 font-bold text-sm mt-2 underline">Comprar ahora</button>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="text-center py-6 text-xs font-semibold text-slate-400 border-t border-slate-200/60 bg-white/50">
-        <p>© 2026 RifaSorteo.pe — Sistema Seguro de Compra de Tickets</p>
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm border-t border-slate-800 mt-12">
+        <div class="flex justify-center space-x-6 mb-4">
+            <a href="#" class="hover:text-white transition-colors flex items-center gap-1"><i data-lucide="facebook" class="w-4 h-4"></i> @colka</a>
+            <a href="#" class="hover:text-white transition-colors flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> @colka</a>
+            <a href="https://wa.me/51983200830" class="hover:text-white transition-colors flex items-center gap-1"><i data-lucide="phone" class="w-4 h-4"></i> WhatsApp</a>
+        </div>
+        <p class="font-bold">Inversiones Colka © 2026</p>
+        <p class="text-xs mt-1">Colcabamba, Hotel del Pino</p>
     </footer>
 
-    <!-- Application Logic -->
     <script>
-        // State Store
+        // Inicializar Iconos
+        lucide.createIcons();
+
+        // ESTADO GLOBAL DE LA APP
         const STATE = {
-            currentTab: 'buy', // 'buy' | 'consult'
-            currentStep: 1,    // 1 | 2 | 3
-            docType: 'DNI',    // 'DNI' | 'Carnet Ext.'
-            docNumber: '',
+            view: 'home', // home | buy | consult
+            step: 1,      // 1 | 2 | 3
+            priceUnit: 10,
+            docType: 'DNI',
+            docNum: '',
             phone: '',
-            ticketQuantity: 1,
-            ticketPriceUnit: 60,
-            selectedPaymentMethod: 'Yape',
-            uploadedFile: null,
-            consultDocType: 'DNI',
-            // Simulated Database for persistency during current session
-            database: [
-                {
-                    docType: 'DNI',
-                    docNumber: '72839401',
-                    phone: '987654321',
-                    tickets: ['0482', '1294', '3029'],
-                    date: '02/10/2026'
-                }
-            ]
+            qty: 1,
+            file: null,
+            // Base de datos simulada
+            db: [] 
         };
 
-        // Payment Details Mapping
-        const PAYMENT_METHODS = {
-            'Yape': {
-                title: 'PAGA CON YAPE',
-                phone: '924972268',
-                holder: 'Grupo Constructor Morales S.A.C',
-                qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=YAPE:924972268'
-            },
-            'Yape 2': {
-                title: 'PAGA CON YAPE 2',
-                phone: '912345678',
-                holder: 'Sorteos & Eventos Perú S.A.C',
-                qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=YAPE2:912345678'
-            },
-            'Plin': {
-                title: 'PAGA CON PLIN',
-                phone: '924972268',
-                holder: 'Grupo Constructor Morales S.A.C',
-                qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PLIN:924972268'
-            }
-        };
+        // Cambiar Vistas Principales
+        function switchView(viewName) {
+            STATE.view = viewName;
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-buy').classList.add('hidden');
+            document.getElementById('view-consult').classList.add('hidden');
+            
+            document.getElementById('view-' + viewName).classList.remove('hidden');
+            window.scrollTo(0,0);
 
-        // Initialize Lucide Icons
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            updateStepUI();
-        });
-
-        // Main Tab Switcher
-        function switchMainTab(tab) {
-            STATE.currentTab = tab;
-            const buyMod = document.getElementById('module-buy');
-            const consultMod = document.getElementById('module-consult');
-            const navBuy = document.getElementById('nav-buy');
-            const navConsult = document.getElementById('nav-consult');
-
-            if (tab === 'buy') {
-                buyMod.classList.remove('hidden');
-                consultMod.classList.add('hidden');
-                
-                navBuy.className = "px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm";
-                navConsult.className = "px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand-600 transition-all duration-200";
-            } else {
-                buyMod.classList.add('hidden');
-                consultMod.classList.remove('hidden');
-
-                navConsult.className = "px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm";
-                navBuy.className = "px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand-600 transition-all duration-200";
-
-                // Auto-fill consult field if user just bought
-                if (STATE.docNumber) {
-                    document.getElementById('consult-doc-number').value = STATE.docNumber;
-                    handleConsultTickets(new Event('submit'));
-                }
-            }
+            if(viewName === 'buy') resetBuyFlow();
         }
 
-        // Doc Type Selection (Step 1)
-        function selectDocType(type) {
+        // FLUJO DE COMPRA ===================================
+        function setDocType(type) {
             STATE.docType = type;
-            const btnDni = document.getElementById('doc-type-dni');
-            const btnCe = document.getElementById('doc-type-ce');
-            const lblDoc = document.getElementById('lbl-doc-number');
-            const inputDoc = document.getElementById('input-doc-number');
+            const bDni = document.getElementById('doc-dni');
+            const bCe = document.getElementById('doc-ce');
+            const lbl = document.getElementById('lbl-doc');
+            const inp = document.getElementById('inp-doc');
 
-            if (type === 'DNI') {
-                btnDni.className = "py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm border border-brand-200";
-                btnCe.className = "py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200";
-                lblDoc.textContent = "Número de DNI";
-                inputDoc.placeholder = "Ingresa tus 8 dígitos";
-                inputDoc.maxLength = 8;
+            if(type === 'DNI') {
+                bDni.className = "py-3 px-4 rounded-xl text-sm font-bold bg-white text-brand-700 shadow-sm border border-slate-200";
+                bCe.className = "py-3 px-4 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-800";
+                lbl.textContent = "Número de DNI";
+                inp.maxLength = 8;
             } else {
-                btnCe.className = "py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm border border-brand-200";
-                btnDni.className = "py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200";
-                lblDoc.textContent = "Número de Carnet Ext.";
-                inputDoc.placeholder = "Ingresa tu Carnet Ext.";
-                inputDoc.maxLength = 12;
+                bCe.className = "py-3 px-4 rounded-xl text-sm font-bold bg-white text-brand-700 shadow-sm border border-slate-200";
+                bDni.className = "py-3 px-4 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-800";
+                lbl.textContent = "Carnet de Extranjería";
+                inp.maxLength = 12;
             }
         }
 
-        // Step 1 Form Handler
-        function handleStep1Submit(e) {
+        function handleStep1(e) {
             e.preventDefault();
-            const docInput = document.getElementById('input-doc-number').value.trim();
-            const phoneInput = document.getElementById('input-phone').value.trim();
-
-            if (!docInput || !phoneInput) return;
-
-            STATE.docNumber = docInput;
-            STATE.phone = phoneInput;
-            STATE.currentStep = 2;
+            STATE.docNum = document.getElementById('inp-doc').value.trim();
+            STATE.phone = document.getElementById('inp-phone').value.trim();
+            if(!STATE.docNum || !STATE.phone) return;
+            
+            STATE.step = 2;
             updateStepUI();
         }
 
-        // Step Navigation Controls
         function handlePrevStep() {
-            if (STATE.currentStep > 1) {
-                STATE.currentStep--;
+            if(STATE.step === 2) {
+                STATE.step = 1;
                 updateStepUI();
-            } else {
-                switchMainTab('consult');
+            } else if(STATE.step === 1) {
+                switchView('home');
             }
         }
 
         function updateStepUI() {
-            const s1 = document.getElementById('step-1-container');
-            const s2 = document.getElementById('step-2-container');
-            const s3 = document.getElementById('step-3-container');
-
-            const bar1 = document.getElementById('progress-bar-1');
-            const bar2 = document.getElementById('progress-bar-2');
-            const bar3 = document.getElementById('progress-bar-3');
-
-            const stepCounter = document.getElementById('step-counter-text');
-            const stepTitle = document.getElementById('step-title-text');
-
-            // Hide all
-            s1.classList.add('hidden');
-            s2.classList.add('hidden');
-            s3.classList.add('hidden');
-
-            if (STATE.currentStep === 1) {
-                s1.classList.remove('hidden');
-                stepCounter.childNodes[0].textContent = "Paso 1 de 3 — ";
-                stepTitle.textContent = "Tus datos";
-
-                bar1.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
-                bar2.className = "h-2 rounded-full bg-slate-200 transition-all duration-300";
-                bar3.className = "h-2 rounded-full bg-slate-200 transition-all duration-300";
-            } else if (STATE.currentStep === 2) {
-                s2.classList.remove('hidden');
-                stepCounter.childNodes[0].textContent = "Paso 2 de 3 — ";
-                stepTitle.textContent = "Sube tu comprobante";
-
-                bar1.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
-                bar2.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
-                bar3.className = "h-2 rounded-full bg-slate-200 transition-all duration-300";
-            } else if (STATE.currentStep === 3) {
-                s3.classList.remove('hidden');
-                stepCounter.childNodes[0].textContent = "Paso 3 de 3 — ";
-                stepTitle.textContent = "Confirmación";
-
-                bar1.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
-                bar2.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
-                bar3.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
-            }
-        }
-
-        // Quantity Controls
-        function updateTicketCount(delta) {
-            let newQty = STATE.ticketQuantity + delta;
-            if (newQty < 1) newQty = 1;
-            if (newQty > 100) newQty = 100;
-
-            STATE.ticketQuantity = newQty;
-            const totalPrice = newQty * STATE.ticketPriceUnit;
-
-            document.getElementById('ticket-count-display').textContent = newQty;
-            document.getElementById('ticket-price-display').textContent = totalPrice;
-            document.getElementById('payment-box-price').textContent = totalPrice;
-        }
-
-        // Select Payment Method Tab
-        function selectPaymentMethod(methodKey) {
-            STATE.selectedPaymentMethod = methodKey;
-            const info = PAYMENT_METHODS[methodKey];
-
-            document.getElementById('payment-method-title').textContent = info.title;
-            document.getElementById('payment-phone-display').textContent = info.phone;
-            document.getElementById('payment-holder-display').textContent = info.holder;
-            document.getElementById('payment-qr-img').src = info.qrUrl;
-
-            // Tabs styling
-            const tabs = ['Yape', 'Yape 2', 'Plin'];
-            tabs.forEach(t => {
-                const tabId = 'tab-' + t.toLowerCase().replace(/\s+/g, '');
-                const el = document.getElementById(tabId);
-                if (t === methodKey) {
-                    el.className = "py-2 text-xs font-extrabold rounded-lg bg-white text-yape shadow-sm transition-all";
-                } else {
-                    el.className = "py-2 text-xs font-bold text-white/80 hover:text-white transition-all";
-                }
-            });
-        }
-
-        // Copy Number to Clipboard
-        function copyPaymentNumber() {
-            const number = PAYMENT_METHODS[STATE.selectedPaymentMethod].phone;
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.add('hidden');
             
-            // Clipboard execCommand fallback safe
-            const tempInput = document.createElement('input');
-            tempInput.value = number;
-            document.body.appendChild(tempInput);
-            tempInput.select();
+            const p1 = document.getElementById('pb-1');
+            const p2 = document.getElementById('pb-2');
+            const p3 = document.getElementById('pb-3');
+            
+            document.getElementById('step-num').textContent = STATE.step;
+
+            if(STATE.step === 1) {
+                document.getElementById('step-1').classList.remove('hidden');
+                document.getElementById('step-title').textContent = "Tus datos";
+                p1.className = "h-2 rounded-full bg-brand-600 transition-all";
+                p2.className = "h-2 rounded-full bg-slate-200 transition-all";
+                p3.className = "h-2 rounded-full bg-slate-200 transition-all";
+            } else if(STATE.step === 2) {
+                document.getElementById('step-2').classList.remove('hidden');
+                document.getElementById('step-title').textContent = "Pago y Comprobante";
+                p1.className = "h-2 rounded-full bg-brand-600 transition-all";
+                p2.className = "h-2 rounded-full bg-brand-600 transition-all";
+                p3.className = "h-2 rounded-full bg-slate-200 transition-all";
+            } else if(STATE.step === 3) {
+                document.getElementById('step-3').classList.remove('hidden');
+                document.getElementById('step-title').textContent = "Tickets Generados";
+                p1.className = "h-2 rounded-full bg-brand-600 transition-all";
+                p2.className = "h-2 rounded-full bg-brand-600 transition-all";
+                p3.className = "h-2 rounded-full bg-brand-600 transition-all";
+            }
+        }
+
+        function updateQty(delta) {
+            STATE.qty += delta;
+            if(STATE.qty < 1) STATE.qty = 1;
+            if(STATE.qty > 50) STATE.qty = 50;
+
+            const total = STATE.qty * STATE.priceUnit;
+            document.getElementById('display-qty').textContent = STATE.qty;
+            document.getElementById('display-price').textContent = total;
+            document.getElementById('yape-price').textContent = total;
+        }
+
+        function copyPhone() {
+            const temp = document.createElement('input');
+            temp.value = '983200830';
+            document.body.appendChild(temp);
+            temp.select();
             document.execCommand('copy');
-            document.body.removeChild(tempInput);
-
-            const btnText = document.getElementById('copy-btn-text');
-            const originalText = btnText.textContent;
-            btnText.textContent = "¡Copiado!";
-            setTimeout(() => {
-                btnText.textContent = originalText;
-            }, 2000);
+            document.body.removeChild(temp);
+            
+            const btn = document.getElementById('copy-text');
+            btn.textContent = "¡Copiado!";
+            setTimeout(() => btn.textContent = "Copiar número", 2000);
         }
 
-        // File Selection Handler
-        function handleFileSelected(e) {
+        function handleFile(e) {
             const file = e.target.files[0];
-            if (!file) return;
+            if(!file) return;
+            STATE.file = file;
 
-            STATE.uploadedFile = file;
-            document.getElementById('upload-idle-state').classList.add('hidden');
-            document.getElementById('upload-success-state').classList.remove('hidden');
-            document.getElementById('uploaded-file-name').textContent = file.name;
+            document.getElementById('upload-idle').classList.add('hidden');
+            document.getElementById('upload-done').classList.remove('hidden');
+            document.getElementById('file-name').textContent = file.name;
 
-            // Enable submit button
-            const btn = document.getElementById('btn-submit-payment');
+            const btn = document.getElementById('btn-submit-pay');
             btn.disabled = false;
-            btn.className = "w-full mt-4 py-4 bg-emerald-500 hover:bg-emerald-600 active:scale-98 text-white font-extrabold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all duration-300 flex items-center justify-center space-x-2 text-base cursor-pointer";
+            btn.className = "w-full mt-4 py-4 bg-green-500 hover:bg-green-600 text-white font-black rounded-2xl shadow-lg transition-all";
         }
 
-        // Submit Payment & Generate Tickets
         function processPayment() {
-            if (!STATE.uploadedFile) return;
+            if(!STATE.file) return;
 
-            // Generate Random 4-digit Tickets
-            const generatedTickets = [];
-            for (let i = 0; i < STATE.ticketQuantity; i++) {
-                const randomNum = Math.floor(1000 + Math.random() * 9000).toString();
-                generatedTickets.push(randomNum);
+            // Generar tickets aleatorios de 4 dígitos
+            const newTickets = [];
+            for(let i = 0; i < STATE.qty; i++){
+                newTickets.push(Math.floor(1000 + Math.random() * 9000).toString());
             }
 
-            // Save to Local Database Store
-            const existingUser = STATE.database.find(u => u.docNumber === STATE.docNumber);
-            const todayStr = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-            if (existingUser) {
-                existingUser.tickets.push(...generatedTickets);
+            // Guardar en DB simulada
+            let userRecord = STATE.db.find(u => u.doc === STATE.docNum);
+            if(userRecord) {
+                userRecord.tickets.push(...newTickets);
             } else {
-                STATE.database.push({
-                    docType: STATE.docType,
-                    docNumber: STATE.docNumber,
-                    phone: STATE.phone,
-                    tickets: generatedTickets,
-                    date: todayStr
+                STATE.db.push({
+                    doc: STATE.docNum,
+                    tickets: newTickets
                 });
             }
 
-            // Render Summary Step 3
-            document.getElementById('summary-doc').textContent = `${STATE.docType} ${STATE.docNumber}`;
-            document.getElementById('summary-date').textContent = todayStr;
-
-            const chipsContainer = document.getElementById('summary-tickets-chips');
-            chipsContainer.innerHTML = '';
-            generatedTickets.forEach(t => {
-                const chip = document.createElement('span');
-                chip.className = "px-3 py-1.5 bg-white border border-purple-200 rounded-xl font-black text-brand-700 text-sm shadow-sm flex items-center gap-1";
-                chip.innerHTML = `<i data-lucide="ticket" class="w-3.5 h-3.5 text-brand-500"></i> #${t}`;
-                chipsContainer.appendChild(chip);
+            // Mostrar en paso 3
+            const container = document.getElementById('generated-tickets');
+            container.innerHTML = '';
+            newTickets.forEach(t => {
+                const span = document.createElement('span');
+                span.className = "px-3 py-1.5 bg-brand-100 text-brand-800 font-black rounded-lg text-lg tracking-widest border border-brand-200";
+                span.textContent = `#${t}`;
+                container.appendChild(span);
             });
 
-            lucide.createIcons();
-            STATE.currentStep = 3;
+            STATE.step = 3;
             updateStepUI();
+            
+            // Auto llenar consulta
+            document.getElementById('inp-search').value = STATE.docNum;
         }
 
-        // Reset Flow for new purchase
-        function resetFlow() {
-            STATE.currentStep = 1;
-            STATE.uploadedFile = null;
-            STATE.ticketQuantity = 1;
-
-            document.getElementById('input-doc-number').value = '';
-            document.getElementById('input-phone').value = '';
-            document.getElementById('ticket-count-display').textContent = '1';
-            document.getElementById('ticket-price-display').textContent = STATE.ticketPriceUnit;
-            document.getElementById('payment-box-price').textContent = STATE.ticketPriceUnit;
+        function resetBuyFlow() {
+            STATE.step = 1;
+            STATE.qty = 1;
+            STATE.file = null;
+            document.getElementById('inp-doc').value = '';
+            document.getElementById('inp-phone').value = '';
+            updateQty(0);
             
-            document.getElementById('upload-idle-state').classList.remove('hidden');
-            document.getElementById('upload-success-state').classList.add('hidden');
+            document.getElementById('upload-idle').classList.remove('hidden');
+            document.getElementById('upload-done').classList.add('hidden');
+            document.getElementById('file-upload').value = '';
             
-            const btn = document.getElementById('btn-submit-payment');
+            const btn = document.getElementById('btn-submit-pay');
             btn.disabled = true;
-            btn.className = "w-full mt-4 py-4 bg-slate-300 text-slate-500 font-extrabold rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 text-base cursor-not-allowed";
-
+            btn.className = "w-full mt-4 py-4 bg-slate-200 text-slate-400 font-black rounded-2xl transition-all cursor-not-allowed";
+            
             updateStepUI();
         }
 
-        // Consult Module Logic
-        function toggleConsultDocType() {
-            const btn = document.getElementById('btn-toggle-consult-type');
-            if (STATE.consultDocType === 'DNI') {
-                STATE.consultDocType = 'Carnet Ext.';
-                btn.textContent = "Tengo DNI";
-            } else {
-                STATE.consultDocType = 'DNI';
-                btn.textContent = "Tengo carnet de extranjería";
-            }
-        }
+        // FLUJO DE CONSULTA =================================
+        function handleConsult(e) {
+            e.preventDefault();
+            const searchDoc = document.getElementById('inp-search').value.trim();
+            const resContainer = document.getElementById('consult-results');
+            const list = document.getElementById('res-list');
+            const empty = document.getElementById('res-empty');
+            const count = document.getElementById('res-count');
 
-        function handleConsultTickets(e) {
-            if (e && e.preventDefault) e.preventDefault();
-            
-            const docNum = document.getElementById('consult-doc-number').value.trim();
-            const resultsContainer = document.getElementById('consult-results-container');
-            const emptyState = document.getElementById('consult-empty-state');
-            const ticketsList = document.getElementById('consult-tickets-list');
-            const countBadge = document.getElementById('consult-count-badge');
+            resContainer.classList.remove('hidden');
+            list.innerHTML = '';
 
-            if (!docNum) return;
+            const user = STATE.db.find(u => u.doc === searchDoc);
 
-            resultsContainer.classList.remove('hidden');
-            ticketsList.innerHTML = '';
+            if(user && user.tickets.length > 0) {
+                empty.classList.add('hidden');
+                list.classList.remove('hidden');
+                count.textContent = `${user.tickets.length} tickets`;
 
-            const match = STATE.database.find(u => u.docNumber === docNum);
-
-            if (match && match.tickets.length > 0) {
-                emptyState.classList.add('hidden');
-                countBadge.textContent = `${match.tickets.length} ticket${match.tickets.length > 1 ? 's' : ''}`;
-
-                match.tickets.forEach((tNum, idx) => {
-                    const ticketCard = document.createElement('div');
-                    ticketCard.className = "bg-gradient-to-r from-purple-50 to-white p-4 rounded-2xl border border-purple-100 flex items-center justify-between shadow-sm hover:border-purple-300 transition-all";
-                    ticketCard.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
-                                ${idx + 1}
-                            </div>
+                user.tickets.forEach(t => {
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-50 border border-slate-200 p-4 rounded-xl flex justify-between items-center";
+                    card.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-brand-600 text-white rounded-lg flex items-center justify-center"><i data-lucide="ticket"></i></div>
                             <div>
-                                <span class="block text-xs font-semibold text-slate-500">Sorteo Vigente 2026</span>
-                                <span class="block font-black text-slate-900 text-lg tracking-wider">N° ${tNum}</span>
+                                <span class="block text-xs font-bold text-slate-400 uppercase">Sorteo Navideño</span>
+                                <span class="block text-xl font-black text-slate-800 tracking-widest">N° ${t}</span>
                             </div>
                         </div>
-                        <span class="inline-flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                            <i data-lucide="check-circle" class="w-3 h-3 mr-1"></i> Activo
-                        </span>
+                        <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md">Vigente</span>
                     `;
-                    ticketsList.appendChild(ticketCard);
+                    list.appendChild(card);
                 });
                 lucide.createIcons();
             } else {
-                countBadge.textContent = "0 tickets";
-                emptyState.classList.remove('hidden');
+                list.classList.add('hidden');
+                empty.classList.remove('hidden');
+                count.textContent = "0 tickets";
             }
         }
     </script>
