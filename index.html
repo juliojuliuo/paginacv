@@ -3,644 +3,748 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Encanto Marino | Carta Interactiva</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Swiper CSS para el carrusel de combos -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
-    <style>
-        :root {
-            --primary-dark: #0a192f; 
-            --primary-blue: #003366; 
-            --gold-accent: #ff9f1c; 
-            --teal-marine: #00a8cc; 
-            --bg-light: #f4f7f6;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            --nav-height: 80px;
+    <title>Sistema de Venta y Consulta de Tickets</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Tailwind Configuration for theme colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        },
+                        yape: '#77189b',
+                        yapelight: '#a123cc',
+                        success: '#10b981',
+                        successHover: '#059669'
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
+                    }
+                }
+            }
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
-
-        /* --- BARRA DE NAVEGACIÓN --- */
-        nav { position: fixed; top: 0; width: 100%; height: var(--nav-height); background: rgba(10, 25, 47, 0.98); z-index: 1000; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); display: flex; align-items: center; }
-        .nav-container { max-width: 1200px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; }
-        .brand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .logo-icon { color: var(--teal-marine); }
-        .logo-text { display: flex; flex-direction: column; }
-        .logo-title { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.3rem; font-weight: 700; line-height: 1.1; }
-        .logo-subtitle { color: var(--gold-accent); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
-        .nav-links { display: flex; gap: 0.3rem; }
-        .nav-links a { color: #ffffff; text-decoration: none; font-weight: 500; font-size: 0.8rem; padding: 0.4rem 0.7rem; border-radius: 50px; transition: all 0.3s; }
-        .nav-links a:hover, .nav-links a.active { background: rgba(255, 159, 28, 0.2); color: var(--gold-accent); }
-        .menu-toggle { display: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
-
-        /* --- SECCIÓN DESTACADOS / CARRUSEL --- */
-        .featured-section { max-width: 1200px; margin: calc(var(--nav-height) + 1.5rem) auto 1rem; padding: 0 1.5rem; }
-        .swiper { width: 100%; padding: 1.5rem 0 3rem !important; }
-        .swiper-slide { height: auto; display: flex; justify-content: center; }
-        
-        /* Tarjeta del Combo Deslizante */
-        .combo-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); display: flex; flex-direction: column; width: 100%; max-width: 420px; border: 2px solid transparent; transition: all 0.3s ease; position: relative; }
-        .combo-card.selected { border-color: var(--gold-accent); background: #fffdf9; }
-        .combo-img-wrapper { width: 100%; height: 200px; position: relative; background: #0a192f; }
-        .combo-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
-        .combo-badge { position: absolute; top: 15px; left: 15px; background: var(--gold-accent); color: #fff; padding: 4px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; z-index: 2; }
-        .combo-info { padding: 1.2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .combo-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--primary-dark); margin-bottom: 0.4rem; font-weight: 700; }
-        .combo-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.2rem; flex-grow: 1; min-height: 40px; }
-        .combo-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 0.8rem; }
-        .combo-price { font-size: 1.5rem; font-weight: 800; color: var(--gold-accent); }
-        
-        /* Controles de selección universales */
-        .order-controls { display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 4px 10px; border-radius: 50px; border: 1px solid #e2e8f0; }
-        .btn-qty { border: none; background: #fff; color: var(--primary-dark); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 0.9rem; transition: background 0.2s; }
-        .btn-qty:hover { background: var(--teal-marine); color: #fff; }
-        .qty-number { font-weight: 600; min-width: 18px; text-align: center; font-size: 0.95rem; }
-
-        /* --- ESTRUCTURA DE LA CARTA GENERAL --- */
-        .main-container { max-width: 1200px; margin: 1rem auto; padding: 0 1.5rem; }
-        .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary-dark); margin: 3rem 0 1.5rem; position: relative; }
-        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--gold-accent); margin: 10px auto 0; border-radius: 10px; }
-
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
-        .menu-box { background: #fff; border-radius: 15px; padding: 1.8rem; box-shadow: var(--card-shadow); border-top: 4px solid var(--teal-marine); height: fit-content; }
-        .menu-box.gold { border-top-color: var(--gold-accent); }
-        .menu-box h3 { color: var(--primary-dark); font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 1.5rem; border-bottom: 2px dashed #e2e8f0; padding-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-        .menu-box h4 { font-size: 1rem; color: var(--text-main); margin: 1.5rem 0 1rem; padding-bottom: 0.2rem; border-bottom: 1px solid #e2e8f0; text-transform: uppercase; }
-
-        /* ÍTEMS DE LA LISTA REGULAR */
-        .menu-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; position: relative; gap: 10px; }
-        .menu-item-info { flex: 1; }
-        .item-name { font-weight: 600; color: var(--text-main); font-size: 0.95rem; }
-        .item-desc { display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-        .item-price { font-weight: 700; color: var(--gold-accent); font-size: 1.05rem; white-space: nowrap; margin-right: 5px; }
-
-        /* --- BARRA FLOTANTE DE PEDIDO --- */
-        .order-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a192f; color: #fff; padding: 1rem 1.5rem; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 999; display: flex; justify-content: space-between; align-items: center; transition: transform 0.3s ease; transform: translateY(100%); }
-        .order-bar.show { transform: translateY(0); }
-        .order-bar-info { display: flex; flex-direction: column; }
-        .order-bar-qty { font-size: 0.85rem; color: var(--teal-marine); font-weight: 500; }
-        .order-bar-total { font-size: 1.4rem; font-weight: 700; color: #fff; }
-        .btn-whatsapp { background: #25d366; color: #fff; border: none; padding: 0.8rem 1.8rem; border-radius: 50px; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: transform 0.2s; }
-        .btn-whatsapp:hover { transform: scale(1.03); background: #20ba59; }
-
-        /* --- FOOTER --- */
-        footer { background: var(--primary-dark); color: #fff; text-align: center; padding: 3rem 1.5rem 2rem; margin-top: 4rem; }
-        .footer-info h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; }
-        .footer-contacts { margin: 1rem 0; color: #cbd5e1; font-size: 0.9rem; }
-        .footer-contacts p { margin-bottom: 5px; }
-        .footer-contacts i { color: var(--teal-marine); margin-right: 6px; }
-
-        @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            .nav-links { position: absolute; top: var(--nav-height); left: 0; width: 100%; background: rgba(10, 25, 47, 0.98); flex-direction: column; align-items: center; padding: 1.5rem 0; transform: translateY(-150%); transition: transform 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-            .nav-links.active { transform: translateY(0); }
-            .menu-grid { grid-template-columns: 1fr; }
-            .order-bar { padding: 1rem; }
-            .order-bar-total { font-size: 1.2rem; }
-            .btn-whatsapp { padding: 0.7rem 1.2rem; font-size: 0.9rem; }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f4f3f8;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c4b5fd;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="brand-logo">
-                <div class="logo-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="35" height="35" fill="none" stroke="currentColor" stroke-width="3">
-                        <circle cx="50" cy="50" r="26" stroke-width="4"/>
-                        <circle cx="50" cy="50" r="9" stroke-width="3"/>
-                        <circle cx="50" cy="50" r="3" fill="currentColor"/>
-                        <line x1="50" y1="8" x2="50" y2="92" stroke-width="4"/>
-                        <line x1="8" y1="50" x2="92" y2="50" stroke-width="4"/>
-                    </svg>
+    <!-- Top Navigation Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-purple-100 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                    <i data-lucide="ticket" class="w-6 h-6"></i>
                 </div>
-                <div class="logo-text">
-                    <span class="logo-title">El Encanto</span>
-                    <span class="logo-subtitle">Marino</span>
-                </div>
-            </a>
-            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
-            <div class="nav-links" id="nav-links">
-                <a href="#destacados">Trios y Duos</a>
-                <a href="#marinos">Marinos</a>
-                <a href="#chaufas">Chaufas</a>
-                <a href="#bebidas">Bebidas</a>
+                <span class="font-extrabold text-xl tracking-tight text-slate-900">RifaSorteo<span class="text-brand-600">.pe</span></span>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="flex bg-slate-100 p-1 rounded-2xl">
+                <button id="nav-buy" onclick="switchMainTab('buy')" class="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 inline-block mr-1"></i> Comprar
+                </button>
+                <button id="nav-consult" onclick="switchMainTab('consult')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand-600 transition-all duration-200">
+                    <i data-lucide="search" class="w-4 h-4 inline-block mr-1"></i> Mis Tickets
+                </button>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- SECCIÓN DESLIZANTE SUPERIOR: TRIOS Y DUOS -->
-    <section id="destacados" class="featured-section">
-        <h2 class="section-title">Nuestros Combos y Promociones</h2>
-        
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <!-- Triples -->
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="Triple 1" data-price="28.00">
-                        <span class="combo-badge">Recomendado ⭐</span>
-                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
-                        <div class="combo-info">
-                            <h4 class="combo-name">Triple 1</h4>
-                            <p class="combo-desc">Arroz con Mariscos + Chicharrón de Pota y/o Pescado + Ceviche (Incluye Chilcano)</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 28.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow flex flex-col justify-center">
 
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="Triple 2" data-price="25.00">
-                        <span class="combo-badge">Popular 🔥</span>
-                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
-                        <div class="combo-info">
-                            <h4 class="combo-name">Triple 2</h4>
-                            <p class="combo-desc">Chaufa de Pescado + Ceviche + Chicharrón de Pota y/o Pescado (Incluye Chilcano y Cancha)</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 25.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
+        <!-- ========================================== -->
+        <!-- MODULE 1: COMPRAR TICKETS (FLOW 3 STEPS) -->
+        <!-- ========================================== -->
+        <div id="module-buy" class="w-full">
+            
+            <!-- Back button & Step Indicator Header -->
+            <div class="mb-6 max-w-2xl mx-auto">
+                <div class="flex items-center justify-between mb-3">
+                    <button id="btn-back-step" onclick="handlePrevStep()" class="inline-flex items-center text-slate-700 hover:text-brand-700 font-bold text-sm transition-colors cursor-pointer">
+                        <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> Volver
+                    </button>
+                    <span id="step-counter-text" class="text-xs font-semibold text-slate-500 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
+                        Paso 1 de 3 — <span id="step-title-text" class="text-slate-800 font-bold">Tus datos</span>
+                    </span>
                 </div>
 
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="Triple 3" data-price="26.00">
-                        <span class="combo-badge">Marino Sabor</span>
-                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
-                        <div class="combo-info">
-                            <h4 class="combo-name">Triple 3</h4>
-                            <p class="combo-desc">Chaufa de Mariscos + Ceviche + Chicharrón de Pota y/o Pescado (Incluye Chilcano y Cancha)</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 26.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="Triple 4" data-price="30.00">
-                        <span class="combo-badge">El Supremo 👑</span>
-                        <div class="combo-img-wrapper"><img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=500&q=80" class="combo-img"></div>
-                        <div class="combo-info">
-                            <h4 class="combo-name">Triple 4</h4>
-                            <p class="combo-desc">Ceviche + Chaufa de Pescado + Causa + Chicharrón (Incluye Cancha)</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 30.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dúos -->
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 1" data-price="22.00">
-                        <span class="combo-badge">Dúo</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 1</h4>
-                            <p class="combo-desc">Ceviche + Arroz con Mariscos + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 22.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 2" data-price="18.00">
-                        <span class="combo-badge">Dúo Económico</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 2</h4>
-                            <p class="combo-desc">Ceviche + Chaufa de pescado + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 18.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 3" data-price="22.00">
-                        <span class="combo-badge">Dúo</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 3</h4>
-                            <p class="combo-desc">Ceviche + Chaufa de Mariscos + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 22.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 4" data-price="20.00">
-                        <span class="combo-badge">Dúo</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 4</h4>
-                            <p class="combo-desc">Ceviche + Chaufa de Pota + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 20.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 5" data-price="25.00">
-                        <span class="combo-badge">Dúo</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 5</h4>
-                            <p class="combo-desc">Ceviche + Chicharron de Pota o pescado + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 25.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 6" data-price="20.00">
-                        <span class="combo-badge">Dúo</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 6</h4>
-                            <p class="combo-desc">Ceviche + Chicharron de Pota o Pescado + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 20.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 7" data-price="20.00">
-                        <span class="combo-badge">Dúo Causa</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 7</h4>
-                            <p class="combo-desc">Ceviche + Causa + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 20.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="combo-card" data-name="DUO 8" data-price="22.00">
-                        <span class="combo-badge">Dúo Fusión</span>
-                        <div class="combo-info">
-                            <h4 class="combo-name">DUO 8</h4>
-                            <p class="combo-desc">Chaufa de pescado/pota + Chicharron de pota/pescado + Chilcano + Cancha</p>
-                            <div class="combo-footer"><span class="combo-price">S/ 22.00</span><div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
-    </section>
-
-    <!-- LISTAS DE PLATOS COMPLETAS -->
-    <main class="main-container">
-        
-        <!-- SECCIÓN 1: MARINOS -->
-        <h2 id="marinos" class="section-title">Nuestros Clásicos Marinos</h2>
-        <div class="menu-grid">
-            <!-- Ceviches -->
-            <div class="menu-box">
-                <h3><i class="fas fa-fish"></i> Ceviches</h3>
-                <div class="menu-item" data-name="Ceviche Mixto" data-price="25.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche Mixto</span></div><span class="item-price">S/ 25.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Ceviche de Trucha" data-price="25.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche de Trucha</span></div><span class="item-price">S/ 25.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Ceviche de Pescado" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche de Pescado</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Ceviche de Pota" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche de Pota</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Ceviche Simple" data-price="15.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche Simple</span></div><span class="item-price">S/ 15.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Ceviche de Tilapia" data-price="25.00">
-                    <div class="menu-item-info"><span class="item-name">Ceviche de Tilapia</span></div><span class="item-price">S/ 25.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                <!-- Step Progress Bars -->
+                <div class="grid grid-cols-3 gap-2">
+                    <div id="progress-bar-1" class="h-2 rounded-full bg-brand-600 transition-all duration-300"></div>
+                    <div id="progress-bar-2" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
+                    <div id="progress-bar-3" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
                 </div>
             </div>
 
-            <!-- Platos -->
-            <div class="menu-box">
-                <h3><i class="fas fa-utensils"></i> Platos Criollos y Caldos</h3>
-                <div class="menu-item" data-name="Jalea Mixta" data-price="35.00">
-                    <div class="menu-item-info"><span class="item-name">Jalea Mixta</span></div><span class="item-price">S/ 35.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Sudado de Pescado" data-price="25.00">
-                    <div class="menu-item-info"><span class="item-name">Sudado de Pescado</span></div><span class="item-price">S/ 25.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Sudado de Trucha" data-price="25.00">
-                    <div class="menu-item-info"><span class="item-name">Sudado de Trucha</span></div><span class="item-price">S/ 25.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Parihuela" data-price="35.00">
-                    <div class="menu-item-info"><span class="item-name">Parihuela</span></div><span class="item-price">S/ 35.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Arroz con Mariscos" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Arroz con Mariscos</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
+            <!-- STEP 1: TUS DATOS -->
+            <div id="step-1-container" class="max-w-md mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-purple-50/50">
+                <form onsubmit="handleStep1Submit(event)" class="space-y-6">
+                    <!-- Tipo de Documento -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Tipo de documento</label>
+                        <div class="grid grid-cols-2 gap-3 p-1 bg-slate-50 rounded-2xl border border-slate-200">
+                            <button type="button" id="doc-type-dni" onclick="selectDocType('DNI')" class="py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm border border-brand-200">
+                                DNI
+                            </button>
+                            <button type="button" id="doc-type-ce" onclick="selectDocType('Carnet Ext.')" class="py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200">
+                                Carnet ext.
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Número de DNI -->
+                    <div>
+                        <label id="lbl-doc-number" for="input-doc-number" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Número de DNI</label>
+                        <input type="text" id="input-doc-number" required placeholder="Ingresa tus 8 dígitos" maxlength="12" pattern="[0-9]*" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white text-slate-800 font-semibold tracking-wider text-center text-lg transition-all">
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div>
+                        <label for="input-phone" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">WhatsApp (9 dígitos)</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">+51</span>
+                            <input type="tel" id="input-phone" required placeholder="9XX XXX XXX" maxlength="9" pattern="[0-9]{9}" class="w-full pl-14 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white text-slate-800 font-semibold text-lg tracking-wider transition-all">
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-slate-500 leading-relaxed text-center">
+                        Al darle en “Continuar” acepta que es mayor de edad y acepta los siguientes 
+                        <a href="#" class="text-brand-600 font-bold underline hover:text-brand-700">términos y condiciones</a>.
+                    </p>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 bg-brand-300 hover:bg-brand-600 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/20 transition-all duration-300 flex items-center justify-center text-base space-x-2 group">
+                        <span>Continuar</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </form>
             </div>
 
-            <!-- Frituras y Guarniciones -->
-            <div class="menu-box">
-                <h3><i class="fas fa-fire"></i> Frituras</h3>
-                <div class="menu-item" data-name="Pescado Frito" data-price="15.00">
-                    <div class="menu-item-info"><span class="item-name">Pescado Frito</span></div><span class="item-price">S/ 15.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Trucha Frita" data-price="18.00">
-                    <div class="menu-item-info"><span class="item-name">Trucha Frita</span></div><span class="item-price">S/ 18.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Trucha Broaster" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Trucha Broaster</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
+            <!-- STEP 2: SUBE TU COMPROBANTE -->
+            <div id="step-2-container" class="hidden grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                 
-                <h4><i class="fas fa-leaf"></i> Guarniciones</h4>
-                <div class="menu-item" data-name="Porción de Camote" data-price="6.00">
-                    <div class="menu-item-info"><span class="item-name">Porción de Camote</span></div><span class="item-price">S/ 6.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                <!-- Columna Izquierda: Cantidad y Subir -->
+                <div class="md:col-span-6 space-y-6">
+                    <!-- Box Cantidad -->
+                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-purple-50/50">
+                        <label class="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-4">¿Cuántos tickets quieres?</label>
+                        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                            <!-- Quantifier Buttons -->
+                            <div class="flex items-center space-x-3 bg-slate-200/60 p-1.5 rounded-xl">
+                                <button type="button" onclick="updateTicketCount(-1)" class="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-bold text-slate-700 shadow-sm hover:bg-slate-100 active:scale-95 transition-all">
+                                    <i data-lucide="minus" class="w-5 h-5"></i>
+                                </button>
+                                <span id="ticket-count-display" class="font-extrabold text-xl w-8 text-center text-slate-800">1</span>
+                                <button type="button" onclick="updateTicketCount(1)" class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center font-bold text-white shadow-sm hover:bg-brand-700 active:scale-95 transition-all">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+
+                            <div class="text-right">
+                                <span class="block text-xs font-semibold text-slate-500 uppercase">Total a pagar</span>
+                                <span class="text-2xl font-black text-slate-900">S/ <span id="ticket-price-display">60</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Box Subir Comprobante -->
+                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-purple-50/50">
+                        <label class="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-3">¿Ya realizaste el pago?</label>
+                        
+                        <!-- Upload File Area -->
+                        <div id="drop-zone" onclick="document.getElementById('file-receipt').click()" class="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/40 hover:bg-emerald-50 transition-all rounded-2xl p-6 text-center cursor-pointer group">
+                            <input type="file" id="file-receipt" accept="image/*" class="hidden" onchange="handleFileSelected(event)">
+                            
+                            <div id="upload-idle-state" class="space-y-2">
+                                <div class="w-12 h-12 bg-emerald-500 text-white rounded-xl flex items-center justify-center mx-auto shadow-md shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                                </div>
+                                <span class="block font-bold text-emerald-700 text-base">Subir comprobante</span>
+                                <span class="block text-xs text-slate-500">Formato JPG, PNG o captura de pantalla</span>
+                            </div>
+
+                            <div id="upload-success-state" class="hidden space-y-2">
+                                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mx-auto">
+                                    <i data-lucide="check-circle-2" class="w-7 h-7"></i>
+                                </div>
+                                <span id="uploaded-file-name" class="block font-bold text-emerald-800 text-sm truncate max-w-[200px] mx-auto">comprobante.jpg</span>
+                                <span class="inline-block text-xs bg-emerald-200 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Archivo listo</span>
+                            </div>
+                        </div>
+
+                        <button id="btn-submit-payment" onclick="processPayment()" disabled class="w-full mt-4 py-4 bg-slate-300 text-slate-500 font-extrabold rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 text-base cursor-not-allowed">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                            <span>Enviar comprobante</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="menu-item" data-name="Porción de Yuca" data-price="8.00">
-                    <div class="menu-item-info"><span class="item-name">Porción de Yuca</span></div><span class="item-price">S/ 8.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Porción de Chifles" data-price="5.00">
-                    <div class="menu-item-info"><span class="item-name">Porción de Chifles</span></div><span class="item-price">S/ 5.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+
+                <!-- Columna Derecha: Métodos de Pago (Estilo Yape / Plin) -->
+                <div class="md:col-span-6">
+                    <div class="bg-gradient-to-b from-brand-600 to-yape rounded-3xl p-6 text-white shadow-xl shadow-brand-500/20 relative overflow-hidden">
+                        
+                        <!-- Background Accent Spheres -->
+                        <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+                        <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-purple-900/30 rounded-full blur-xl pointer-events-none"></div>
+
+                        <span class="block text-xs font-extrabold uppercase tracking-widest text-purple-200 mb-1">¿Aún no has realizado el pago?</span>
+                        <p class="text-sm font-medium text-white/90 mb-4">
+                            Paga <strong class="text-yellow-300 font-extrabold">S/ <span id="payment-box-price">60</span></strong> al número o escanea el QR, y luego sube tu comprobante aquí arriba.
+                        </p>
+
+                        <!-- Method Tabs -->
+                        <div class="grid grid-cols-3 gap-1 bg-black/20 p-1 rounded-xl mb-5 backdrop-blur-sm">
+                            <button id="tab-yape" onclick="selectPaymentMethod('Yape')" class="py-2 text-xs font-extrabold rounded-lg bg-white text-yape shadow-sm transition-all">Yape</button>
+                            <button id="tab-yape2" onclick="selectPaymentMethod('Yape 2')" class="py-2 text-xs font-bold text-white/80 hover:text-white transition-all">YAPE 2</button>
+                            <button id="tab-plin" onclick="selectPaymentMethod('Plin')" class="py-2 text-xs font-bold text-white/80 hover:text-white transition-all">Plin</button>
+                        </div>
+
+                        <!-- Payment Details Card -->
+                        <div class="bg-white text-slate-800 rounded-2xl p-5 text-center space-y-4 shadow-inner">
+                            <span id="payment-method-title" class="block text-xs font-extrabold tracking-wider text-brand-700 uppercase">PAGA CON YAPE</span>
+                            
+                            <!-- Phone Number Display -->
+                            <div>
+                                <span id="payment-phone-display" class="block text-3xl font-black text-slate-900 tracking-wider">924972268</span>
+                                <span id="payment-holder-display" class="block text-xs font-bold text-slate-500 mt-1">Grupo Constructor Morales S.A.C</span>
+                            </div>
+
+                            <!-- QR Code Container -->
+                            <div class="bg-purple-50 p-3 rounded-2xl inline-block border border-purple-100 shadow-sm relative group">
+                                <img id="payment-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=YAPE:924972268" alt="Código QR Yape" class="w-40 h-40 mx-auto rounded-xl object-contain">
+                                <div class="absolute inset-0 bg-yape/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span class="bg-white text-yape font-bold text-xs px-2.5 py-1 rounded-full shadow-md">Escanear</span>
+                                </div>
+                            </div>
+
+                            <!-- Copy Number Button -->
+                            <button onclick="copyPaymentNumber()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 active:scale-98 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                                <span id="copy-btn-text">Copiar número</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- STEP 3: CONFIRMACIÓN Y ASIGNACIÓN DE TICKETS -->
+            <div id="step-3-container" class="hidden max-w-md mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-purple-50/50 text-center space-y-6">
+                
+                <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-bounce">
+                    <i data-lucide="check" class="w-10 h-10 stroke-[3]"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">¡Comprobante Recibido!</h2>
+                    <p class="text-sm text-slate-600 mt-1">Tus tickets han sido registrados correctamente en el sistema.</p>
+                </div>
+
+                <!-- Ticket Summary Box -->
+                <div class="bg-purple-50 rounded-2xl p-4 border border-purple-100 text-left space-y-3">
+                    <div class="flex justify-between items-center text-xs text-slate-500 font-semibold border-b border-purple-200/60 pb-2">
+                        <span>Titular: <strong id="summary-doc" class="text-slate-800">DNI 72839401</strong></span>
+                        <span id="summary-date" class="text-purple-700 font-bold">Hoy</span>
+                    </div>
+
+                    <span class="block text-xs font-bold uppercase text-brand-700 tracking-wider">Tus números asignados:</span>
+                    
+                    <!-- Chips Container for Assigned Ticket Numbers -->
+                    <div id="summary-tickets-chips" class="flex flex-wrap gap-2 pt-1">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <button onclick="switchMainTab('consult')" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center space-x-2">
+                        <i data-lucide="ticket" class="w-5 h-5"></i>
+                        <span>Ver todos mis tickets</span>
+                    </button>
+
+                    <button onclick="resetFlow()" class="w-full py-3 text-slate-600 font-bold hover:text-brand-700 text-sm transition-colors">
+                        Comprar más tickets
+                    </button>
+                </div>
+            </div>
+
         </div>
 
-        <!-- SECCIÓN 2: ARROCES Y ESPECIALES -->
-        <h2 id="chaufas" class="section-title">Chaufas y Especiales</h2>
-        <div class="menu-grid">
-            <!-- Chaufas -->
-            <div class="menu-box">
-                <h3><i class="fas fa-bowl-rice"></i> Chaufas</h3>
-                <div class="menu-item" data-name="Chaufa de Pescado" data-price="15.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa de Pescado</span></div><span class="item-price">S/ 15.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+
+        <!-- ========================================== -->
+        <!-- MODULE 2: MIS TICKETS (CONSULTA)           -->
+        <!-- ========================================== -->
+        <div id="module-consult" class="hidden w-full max-w-lg mx-auto">
+            
+            <div class="text-center mb-8 space-y-2">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-100 rounded-full text-brand-700 font-bold text-xs uppercase tracking-wider mb-2">
+                    <span>CONSULTA</span>
                 </div>
-                <div class="menu-item" data-name="Chaufa de Pota" data-price="18.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa de Pota</span></div><span class="item-price">S/ 18.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chaufa de Langostino" data-price="28.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa de Langostino</span></div><span class="item-price">S/ 28.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chaufa de Trucha" data-price="18.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa de Trucha</span></div><span class="item-price">S/ 18.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chaufa de Mariscos" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa de Mariscos</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
+                <h1 class="text-4xl font-black text-slate-900 tracking-tight flex items-center justify-center gap-2">
+                    <span>🎫</span> Mis Tickets
+                </h1>
+                <p class="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                    Ingresa tu DNI o Carnet de extranjería para ver los tickets vigentes que tienes registrados en el sorteo.
+                </p>
+            </div>
+
+            <!-- Search Form Card -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-purple-50/50 space-y-6">
+                <form onsubmit="handleConsultTickets(event)" class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <label for="consult-doc-number" class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Número de DNI / Documento</label>
+                        <button type="button" onclick="toggleConsultDocType()" id="btn-toggle-consult-type" class="text-xs font-bold text-brand-600 hover:text-brand-800 underline">
+                            Tengo carnet de extranjería
+                        </button>
+                    </div>
+
+                    <div class="relative">
+                        <input type="text" id="consult-doc-number" required placeholder="Ingresa tu número" maxlength="12" class="w-full px-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white text-slate-800 font-semibold tracking-wider text-center text-xl transition-all">
+                        <i data-lucide="search" class="w-5 h-5 absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-brand-600 hover:bg-brand-700 text-white font-extrabold rounded-2xl shadow-lg shadow-brand-500/25 transition-all text-base flex items-center justify-center space-x-2">
+                        <span>Consultar tickets</span>
+                    </button>
+                </form>
+
+                <!-- Results Section -->
+                <div id="consult-results-container" class="hidden pt-4 border-t border-slate-100">
+                    <!-- Dynamic Result Header -->
+                    <div id="consult-header-info" class="flex justify-between items-center mb-4">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tickets encontrados</span>
+                        <span id="consult-count-badge" class="bg-brand-100 text-brand-700 text-xs font-extrabold px-3 py-1 rounded-full">0 tickets</span>
+                    </div>
+
+                    <!-- Tickets List Grid -->
+                    <div id="consult-tickets-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                        <!-- Items appended dynamically -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="consult-empty-state" class="hidden text-center py-8 space-y-3">
+                        <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+                            <i data-lucide="ticket-x" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-600">No se encontraron tickets registrados con este documento.</p>
+                        <button onclick="switchMainTab('buy')" class="text-xs font-bold text-brand-600 hover:text-brand-700 underline">¿Deseas comprar tickets ahora?</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Especiales -->
-            <div class="menu-box">
-                <h3><i class="fas fa-star"></i> Especiales</h3>
-                <div class="menu-item" data-name="Chilcano Tradicional" data-price="9.00">
-                    <div class="menu-item-info"><span class="item-name">Chilcano Tradicional</span></div><span class="item-price">S/ 9.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chilcano Especial" data-price="15.00">
-                    <div class="menu-item-info"><span class="item-name">Chilcano Especial</span></div><span class="item-price">S/ 15.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Leche de Tigre" data-price="12.00">
-                    <div class="menu-item-info"><span class="item-name">Leche de Tigre</span></div><span class="item-price">S/ 12.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Leche de Tigre Especial" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Leche de Tigre Especial</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chicharrón de Pota" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Chicharrón de Pota</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chicharrón de Pescado" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Chicharrón de Pescado</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chicharrón de Trucha" data-price="22.00">
-                    <div class="menu-item-info"><span class="item-name">Chicharrón de Trucha</span></div><span class="item-price">S/ 22.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chilcano de Trucha" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Chilcano de Trucha</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chicharrón de Pota Acevichada" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Chicharrón de Pota acevichada</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-            </div>
-
-            <!-- Domingos -->
-            <div class="menu-box gold">
-                <h3><i class="fas fa-calendar-day"></i> Sólo Domingos</h3>
-                <div class="menu-item" data-name="Chaufa con Alitas (Domingos)" data-price="18.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa con Alitas</span></div><span class="item-price">S/ 18.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chaufa con Broaster (Domingos)" data-price="15.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa con Broaster</span></div><span class="item-price">S/ 15.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Pollo Broaster (Domingos)" data-price="12.00">
-                    <div class="menu-item-info"><span class="item-name">Pollo Broaster</span></div><span class="item-price">S/ 12.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Alitas Acevichadas (Domingos)" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Alitas acevichadas</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Chaufa con Lomo (Domingos)" data-price="20.00">
-                    <div class="menu-item-info"><span class="item-name">Chaufa con Lomo</span></div><span class="item-price">S/ 20.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-            </div>
         </div>
 
-        <!-- SECCIÓN 3: BEBIDAS Y CERVEZAS -->
-        <h2 id="bebidas" class="section-title">Bebidas y Cervezas</h2>
-        <div class="menu-grid">
-            <!-- Sin alcohol -->
-            <div class="menu-box">
-                <h3><i class="fas fa-glass-water"></i> Bebidas</h3>
-                <div class="menu-item" data-name="Chicha Morada 1L" data-price="9.00">
-                    <div class="menu-item-info"><span class="item-name">Chicha Morada 1L</span></div><span class="item-price">S/ 9.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Jarra de Limonada Frozen" data-price="12.00">
-                    <div class="menu-item-info"><span class="item-name">Jarra de Limonada Frozen</span></div><span class="item-price">S/ 12.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Frozen de Maracuyá" data-price="12.00">
-                    <div class="menu-item-info"><span class="item-name">Frozen de Maracuyá</span></div><span class="item-price">S/ 12.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Inka Kola 1L" data-price="9.00">
-                    <div class="menu-item-info"><span class="item-name">Inka Kola 1L</span></div><span class="item-price">S/ 9.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Inka Kola 1.5L" data-price="12.00">
-                    <div class="menu-item-info"><span class="item-name">Inka Kola 1.5L</span></div><span class="item-price">S/ 12.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Inka Kola 3L" data-price="18.00">
-                    <div class="menu-item-info"><span class="item-name">Inka Kola 3L</span></div><span class="item-price">S/ 18.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Inka Kola Gordita" data-price="6.00">
-                    <div class="menu-item-info"><span class="item-name">Inka Kola Gordita</span></div><span class="item-price">S/ 6.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Inka Kola Personal" data-price="3.00">
-                    <div class="menu-item-info"><span class="item-name">Inka Kola Personal</span></div><span class="item-price">S/ 3.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Agua Personal (Cielo/San Luis)" data-price="2.00">
-                    <div class="menu-item-info"><span class="item-name">Agua Cielo / San Luis / San Carlos</span></div><span class="item-price">S/ 2.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-            </div>
-
-            <!-- Con alcohol -->
-            <div class="menu-box">
-                <h3><i class="fas fa-beer-mug-empty"></i> Cervezas</h3>
-                <div class="menu-item" data-name="Cerveza Pilsen" data-price="10.00">
-                    <div class="menu-item-info"><span class="item-name">Pilsen</span></div><span class="item-price">S/ 10.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Cusqueña Trigo" data-price="10.00">
-                    <div class="menu-item-info"><span class="item-name">Cusqueña Trigo</span></div><span class="item-price">S/ 10.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-                <div class="menu-item" data-name="Cusqueña Negra" data-price="10.00">
-                    <div class="menu-item-info"><span class="item-name">Cusqueña Negra</span></div><span class="item-price">S/ 10.00</span>
-                    <div class="order-controls"><button class="btn-qty minus">-</button><span class="qty-number">0</span><button class="btn-qty plus">+</button></div>
-                </div>
-            </div>
-        </div>
     </main>
 
-    <!-- BARRA DE COMPRA TOTAL -->
-    <div class="order-bar" id="order-bar">
-        <div class="order-bar-info">
-            <span class="order-bar-qty" id="cart-qty">0 productos seleccionados</span>
-            <span class="order-bar-total" id="cart-total">Total: S/ 0.00</span>
-        </div>
-        <button class="btn-whatsapp" id="send-whatsapp">
-            <i class="fab fa-whatsapp"></i> Enviar Pedido
-        </button>
-    </div>
-
-    <footer>
-        <div class="footer-info">
-            <h3>EL ENCANTO MARINO</h3>
-            <p style="color: var(--gold-accent); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;">Cevichería & Restaurant</p>
-            <div class="footer-contacts">
-                <p><i class="fas fa-phone-alt"></i> Contacto / Pedidos:</p>
-                <p>943 713 612 / 983 289 919</p>
-            </div>
-            <p style="font-size: 0.8rem; opacity: 0.4; padding-top: 1rem;">&copy; 2026 Todos los derechos reservados.</p>
-        </div>
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs font-semibold text-slate-400 border-t border-slate-200/60 bg-white/50">
+        <p>© 2026 RifaSorteo.pe — Sistema Seguro de Compra de Tickets</p>
     </footer>
 
-    <!-- LÓGICA JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Application Logic -->
     <script>
-        const swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1,
-            spaceBetween: 15,
-            pagination: { el: ".swiper-pagination", clickable: true },
-            breakpoints: {
-                600: { slidesPerView: 2, spaceBetween: 20 },
-                1000: { slidesPerView: 3, spaceBetween: 25 }
+        // State Store
+        const STATE = {
+            currentTab: 'buy', // 'buy' | 'consult'
+            currentStep: 1,    // 1 | 2 | 3
+            docType: 'DNI',    // 'DNI' | 'Carnet Ext.'
+            docNumber: '',
+            phone: '',
+            ticketQuantity: 1,
+            ticketPriceUnit: 60,
+            selectedPaymentMethod: 'Yape',
+            uploadedFile: null,
+            consultDocType: 'DNI',
+            // Simulated Database for persistency during current session
+            database: [
+                {
+                    docType: 'DNI',
+                    docNumber: '72839401',
+                    phone: '987654321',
+                    tickets: ['0482', '1294', '3029'],
+                    date: '02/10/2026'
+                }
+            ]
+        };
+
+        // Payment Details Mapping
+        const PAYMENT_METHODS = {
+            'Yape': {
+                title: 'PAGA CON YAPE',
+                phone: '924972268',
+                holder: 'Grupo Constructor Morales S.A.C',
+                qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=YAPE:924972268'
+            },
+            'Yape 2': {
+                title: 'PAGA CON YAPE 2',
+                phone: '912345678',
+                holder: 'Sorteos & Eventos Perú S.A.C',
+                qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=YAPE2:912345678'
+            },
+            'Plin': {
+                title: 'PAGA CON PLIN',
+                phone: '924972268',
+                holder: 'Grupo Constructor Morales S.A.C',
+                qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PLIN:924972268'
             }
+        };
+
+        // Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateStepUI();
         });
 
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
-        mobileMenu.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+        // Main Tab Switcher
+        function switchMainTab(tab) {
+            STATE.currentTab = tab;
+            const buyMod = document.getElementById('module-buy');
+            const consultMod = document.getElementById('module-consult');
+            const navBuy = document.getElementById('nav-buy');
+            const navConsult = document.getElementById('nav-consult');
 
-        const cart = {};
-
-        function updateCart() {
-            let total = 0;
-            let itemsCount = 0;
-
-            document.querySelectorAll('[data-price]').forEach(element => {
-                const name = element.getAttribute('data-name');
-                const price = parseFloat(element.getAttribute('data-price'));
-                const qtyElement = element.querySelector('.qty-number');
-                const qty = parseInt(qtyElement.textContent);
-
-                if (qty > 0) {
-                    cart[name] = { price: price, qty: qty };
-                    total += price * qty;
-                    itemsCount += qty;
-                    element.classList.add('selected');
-                } else {
-                    delete cart[name];
-                    element.classList.remove('selected');
-                }
-            });
-
-            const orderBar = document.getElementById('order-bar');
-            if (itemsCount > 0) {
-                orderBar.classList.add('show');
-                document.getElementById('cart-qty').textContent = `${itemsCount} producto(s) asignado(s)`;
-                document.getElementById('cart-total').textContent = `Total: S/ ${total.toFixed(2)}`;
+            if (tab === 'buy') {
+                buyMod.classList.remove('hidden');
+                consultMod.classList.add('hidden');
+                
+                navBuy.className = "px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm";
+                navConsult.className = "px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand-600 transition-all duration-200";
             } else {
-                orderBar.classList.remove('show');
+                buyMod.classList.add('hidden');
+                consultMod.classList.remove('hidden');
+
+                navConsult.className = "px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm";
+                navBuy.className = "px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand-600 transition-all duration-200";
+
+                // Auto-fill consult field if user just bought
+                if (STATE.docNumber) {
+                    document.getElementById('consult-doc-number').value = STATE.docNumber;
+                    handleConsultTickets(new Event('submit'));
+                }
             }
         }
 
-        document.body.addEventListener('click', function(e) {
-            if (e.target.classList.contains('plus')) {
-                const qtyCounter = e.target.parentElement.querySelector('.qty-number');
-                qtyCounter.textContent = parseInt(qtyCounter.textContent) + 1;
-                updateCart();
+        // Doc Type Selection (Step 1)
+        function selectDocType(type) {
+            STATE.docType = type;
+            const btnDni = document.getElementById('doc-type-dni');
+            const btnCe = document.getElementById('doc-type-ce');
+            const lblDoc = document.getElementById('lbl-doc-number');
+            const inputDoc = document.getElementById('input-doc-number');
+
+            if (type === 'DNI') {
+                btnDni.className = "py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm border border-brand-200";
+                btnCe.className = "py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200";
+                lblDoc.textContent = "Número de DNI";
+                inputDoc.placeholder = "Ingresa tus 8 dígitos";
+                inputDoc.maxLength = 8;
+            } else {
+                btnCe.className = "py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-brand-700 shadow-sm border border-brand-200";
+                btnDni.className = "py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200";
+                lblDoc.textContent = "Número de Carnet Ext.";
+                inputDoc.placeholder = "Ingresa tu Carnet Ext.";
+                inputDoc.maxLength = 12;
             }
-            if (e.target.classList.contains('minus')) {
-                const qtyCounter = e.target.parentElement.querySelector('.qty-number');
-                const currentQty = parseInt(qtyCounter.textContent);
-                if (currentQty > 0) {
-                    qtyCounter.textContent = currentQty - 1;
-                    updateCart();
+        }
+
+        // Step 1 Form Handler
+        function handleStep1Submit(e) {
+            e.preventDefault();
+            const docInput = document.getElementById('input-doc-number').value.trim();
+            const phoneInput = document.getElementById('input-phone').value.trim();
+
+            if (!docInput || !phoneInput) return;
+
+            STATE.docNumber = docInput;
+            STATE.phone = phoneInput;
+            STATE.currentStep = 2;
+            updateStepUI();
+        }
+
+        // Step Navigation Controls
+        function handlePrevStep() {
+            if (STATE.currentStep > 1) {
+                STATE.currentStep--;
+                updateStepUI();
+            } else {
+                switchMainTab('consult');
+            }
+        }
+
+        function updateStepUI() {
+            const s1 = document.getElementById('step-1-container');
+            const s2 = document.getElementById('step-2-container');
+            const s3 = document.getElementById('step-3-container');
+
+            const bar1 = document.getElementById('progress-bar-1');
+            const bar2 = document.getElementById('progress-bar-2');
+            const bar3 = document.getElementById('progress-bar-3');
+
+            const stepCounter = document.getElementById('step-counter-text');
+            const stepTitle = document.getElementById('step-title-text');
+
+            // Hide all
+            s1.classList.add('hidden');
+            s2.classList.add('hidden');
+            s3.classList.add('hidden');
+
+            if (STATE.currentStep === 1) {
+                s1.classList.remove('hidden');
+                stepCounter.childNodes[0].textContent = "Paso 1 de 3 — ";
+                stepTitle.textContent = "Tus datos";
+
+                bar1.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
+                bar2.className = "h-2 rounded-full bg-slate-200 transition-all duration-300";
+                bar3.className = "h-2 rounded-full bg-slate-200 transition-all duration-300";
+            } else if (STATE.currentStep === 2) {
+                s2.classList.remove('hidden');
+                stepCounter.childNodes[0].textContent = "Paso 2 de 3 — ";
+                stepTitle.textContent = "Sube tu comprobante";
+
+                bar1.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
+                bar2.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
+                bar3.className = "h-2 rounded-full bg-slate-200 transition-all duration-300";
+            } else if (STATE.currentStep === 3) {
+                s3.classList.remove('hidden');
+                stepCounter.childNodes[0].textContent = "Paso 3 de 3 — ";
+                stepTitle.textContent = "Confirmación";
+
+                bar1.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
+                bar2.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
+                bar3.className = "h-2 rounded-full bg-brand-600 transition-all duration-300";
+            }
+        }
+
+        // Quantity Controls
+        function updateTicketCount(delta) {
+            let newQty = STATE.ticketQuantity + delta;
+            if (newQty < 1) newQty = 1;
+            if (newQty > 100) newQty = 100;
+
+            STATE.ticketQuantity = newQty;
+            const totalPrice = newQty * STATE.ticketPriceUnit;
+
+            document.getElementById('ticket-count-display').textContent = newQty;
+            document.getElementById('ticket-price-display').textContent = totalPrice;
+            document.getElementById('payment-box-price').textContent = totalPrice;
+        }
+
+        // Select Payment Method Tab
+        function selectPaymentMethod(methodKey) {
+            STATE.selectedPaymentMethod = methodKey;
+            const info = PAYMENT_METHODS[methodKey];
+
+            document.getElementById('payment-method-title').textContent = info.title;
+            document.getElementById('payment-phone-display').textContent = info.phone;
+            document.getElementById('payment-holder-display').textContent = info.holder;
+            document.getElementById('payment-qr-img').src = info.qrUrl;
+
+            // Tabs styling
+            const tabs = ['Yape', 'Yape 2', 'Plin'];
+            tabs.forEach(t => {
+                const tabId = 'tab-' + t.toLowerCase().replace(/\s+/g, '');
+                const el = document.getElementById(tabId);
+                if (t === methodKey) {
+                    el.className = "py-2 text-xs font-extrabold rounded-lg bg-white text-yape shadow-sm transition-all";
+                } else {
+                    el.className = "py-2 text-xs font-bold text-white/80 hover:text-white transition-all";
                 }
+            });
+        }
+
+        // Copy Number to Clipboard
+        function copyPaymentNumber() {
+            const number = PAYMENT_METHODS[STATE.selectedPaymentMethod].phone;
+            
+            // Clipboard execCommand fallback safe
+            const tempInput = document.createElement('input');
+            tempInput.value = number;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btnText = document.getElementById('copy-btn-text');
+            const originalText = btnText.textContent;
+            btnText.textContent = "¡Copiado!";
+            setTimeout(() => {
+                btnText.textContent = originalText;
+            }, 2000);
+        }
+
+        // File Selection Handler
+        function handleFileSelected(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            STATE.uploadedFile = file;
+            document.getElementById('upload-idle-state').classList.add('hidden');
+            document.getElementById('upload-success-state').classList.remove('hidden');
+            document.getElementById('uploaded-file-name').textContent = file.name;
+
+            // Enable submit button
+            const btn = document.getElementById('btn-submit-payment');
+            btn.disabled = false;
+            btn.className = "w-full mt-4 py-4 bg-emerald-500 hover:bg-emerald-600 active:scale-98 text-white font-extrabold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all duration-300 flex items-center justify-center space-x-2 text-base cursor-pointer";
+        }
+
+        // Submit Payment & Generate Tickets
+        function processPayment() {
+            if (!STATE.uploadedFile) return;
+
+            // Generate Random 4-digit Tickets
+            const generatedTickets = [];
+            for (let i = 0; i < STATE.ticketQuantity; i++) {
+                const randomNum = Math.floor(1000 + Math.random() * 9000).toString();
+                generatedTickets.push(randomNum);
             }
-        });
 
-        document.getElementById('send-whatsapp').addEventListener('click', () => {
-            let message = "*¡Hola El Encanto Marino! Quisiera hacer el siguiente pedido:* \n\n";
-            let grandTotal = 0;
+            // Save to Local Database Store
+            const existingUser = STATE.database.find(u => u.docNumber === STATE.docNumber);
+            const todayStr = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-            for (const item in cart) {
-                const subtotal = cart[item].price * cart[item].qty;
-                message += `▪️ *${cart[item].qty}x* ${item} - S/ ${subtotal.toFixed(2)}\n`;
-                grandTotal += subtotal;
+            if (existingUser) {
+                existingUser.tickets.push(...generatedTickets);
+            } else {
+                STATE.database.push({
+                    docType: STATE.docType,
+                    docNumber: STATE.docNumber,
+                    phone: STATE.phone,
+                    tickets: generatedTickets,
+                    date: todayStr
+                });
             }
 
-            message += `\n💵 *Total Neto: S/ ${grandTotal.toFixed(2)}*`;
-            message += "\n\n_Por favor, me confirman la recepción de la orden._ ✨";
+            // Render Summary Step 3
+            document.getElementById('summary-doc').textContent = `${STATE.docType} ${STATE.docNumber}`;
+            document.getElementById('summary-date').textContent = todayStr;
 
-            const phone = "51943713612"; 
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
-        });
+            const chipsContainer = document.getElementById('summary-tickets-chips');
+            chipsContainer.innerHTML = '';
+            generatedTickets.forEach(t => {
+                const chip = document.createElement('span');
+                chip.className = "px-3 py-1.5 bg-white border border-purple-200 rounded-xl font-black text-brand-700 text-sm shadow-sm flex items-center gap-1";
+                chip.innerHTML = `<i data-lucide="ticket" class="w-3.5 h-3.5 text-brand-500"></i> #${t}`;
+                chipsContainer.appendChild(chip);
+            });
+
+            lucide.createIcons();
+            STATE.currentStep = 3;
+            updateStepUI();
+        }
+
+        // Reset Flow for new purchase
+        function resetFlow() {
+            STATE.currentStep = 1;
+            STATE.uploadedFile = null;
+            STATE.ticketQuantity = 1;
+
+            document.getElementById('input-doc-number').value = '';
+            document.getElementById('input-phone').value = '';
+            document.getElementById('ticket-count-display').textContent = '1';
+            document.getElementById('ticket-price-display').textContent = STATE.ticketPriceUnit;
+            document.getElementById('payment-box-price').textContent = STATE.ticketPriceUnit;
+            
+            document.getElementById('upload-idle-state').classList.remove('hidden');
+            document.getElementById('upload-success-state').classList.add('hidden');
+            
+            const btn = document.getElementById('btn-submit-payment');
+            btn.disabled = true;
+            btn.className = "w-full mt-4 py-4 bg-slate-300 text-slate-500 font-extrabold rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 text-base cursor-not-allowed";
+
+            updateStepUI();
+        }
+
+        // Consult Module Logic
+        function toggleConsultDocType() {
+            const btn = document.getElementById('btn-toggle-consult-type');
+            if (STATE.consultDocType === 'DNI') {
+                STATE.consultDocType = 'Carnet Ext.';
+                btn.textContent = "Tengo DNI";
+            } else {
+                STATE.consultDocType = 'DNI';
+                btn.textContent = "Tengo carnet de extranjería";
+            }
+        }
+
+        function handleConsultTickets(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            
+            const docNum = document.getElementById('consult-doc-number').value.trim();
+            const resultsContainer = document.getElementById('consult-results-container');
+            const emptyState = document.getElementById('consult-empty-state');
+            const ticketsList = document.getElementById('consult-tickets-list');
+            const countBadge = document.getElementById('consult-count-badge');
+
+            if (!docNum) return;
+
+            resultsContainer.classList.remove('hidden');
+            ticketsList.innerHTML = '';
+
+            const match = STATE.database.find(u => u.docNumber === docNum);
+
+            if (match && match.tickets.length > 0) {
+                emptyState.classList.add('hidden');
+                countBadge.textContent = `${match.tickets.length} ticket${match.tickets.length > 1 ? 's' : ''}`;
+
+                match.tickets.forEach((tNum, idx) => {
+                    const ticketCard = document.createElement('div');
+                    ticketCard.className = "bg-gradient-to-r from-purple-50 to-white p-4 rounded-2xl border border-purple-100 flex items-center justify-between shadow-sm hover:border-purple-300 transition-all";
+                    ticketCard.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
+                                ${idx + 1}
+                            </div>
+                            <div>
+                                <span class="block text-xs font-semibold text-slate-500">Sorteo Vigente 2026</span>
+                                <span class="block font-black text-slate-900 text-lg tracking-wider">N° ${tNum}</span>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                            <i data-lucide="check-circle" class="w-3 h-3 mr-1"></i> Activo
+                        </span>
+                    `;
+                    ticketsList.appendChild(ticketCard);
+                });
+                lucide.createIcons();
+            } else {
+                countBadge.textContent = "0 tickets";
+                emptyState.classList.remove('hidden');
+            }
+        }
     </script>
 </body>
 </html>
